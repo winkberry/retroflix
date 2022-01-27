@@ -4,13 +4,15 @@ A class movie streaming service cloning Netflix with a recommedation filtering a
 
 ## 기획
 
----
+
 # 프로젝트 개요
 
 <aside>
 💡 레트로플릭스는 레트로 컨셉의 넷플릭스입니다.
 ’레트로’는 모든 세대에 각기 다른 매력을 선사합니다.
-Young에게는 신선함과 유니크한 감각을, Old에게는 그 시대의 향수를 재건합니다.
+  
+Young에게는 신선함과 유니크한 감각을, 
+Old에게는 그 시대의 향수를 재건합니다.
 
 </aside>
 
