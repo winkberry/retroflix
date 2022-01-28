@@ -1,5 +1,5 @@
 # retroflix
-A class movie streaming service cloning Netflix with a recommedation filtering algorithm applied.
+A classic movie streaming service cloning Netflix with a recommedation filtering algorithm applied.
 
 
 # Project WIKI
