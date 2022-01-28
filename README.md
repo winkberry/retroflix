@@ -1,4 +1,4 @@
-# retroflix
+# RetroFlix
 A classic movie streaming service cloning Netflix with a recommedation filtering algorithm applied.
 
 
@@ -24,20 +24,3 @@ A classic movie streaming service cloning Netflix with a recommedation filtering
 
 ---
 
-[QA 방법](https://www.notion.so/QA-b70d39ea7cd846d091aedcec7367ff9e)
-
-## 코드베이스(임시)
-
----
-
-[코드 검토](https://www.notion.so/25e5fa199b2f4e2d96c8572fd6b77ca6)
-
-[백엔드](https://www.notion.so/bb63aa59f1584e9fb9a496173111d448)
-
-[엔지니어링 디렉토리](https://www.notion.so/a4b1363e10aa4d35b9192c1e1f4ec682)
-
-## 프로젝트 관련 자료
-
----
-
-[프로젝트 관련 자료](https://www.notion.so/6e01739796154bafa0e907939600e4a8)
