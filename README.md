@@ -3,11 +3,6 @@ A classic movie streaming service cloning Netflix with a recommedation filtering
 
 
 # Project WIKI
-
-프로젝트의 전반적인 워크플로우와 기획 및 내용
-
-## 기획
-
 ---
 
 [Project Kickoff](https://www.notion.so/Project-Kickoff-228942fc6112461b9d220f61714822aa)
