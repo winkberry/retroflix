@@ -1,8 +1,9 @@
 # RetroFlix
+
 A classic movie streaming service cloning Netflix with a recommedation filtering algorithm applied.
 
-
 # Project WIKI
+
 ---
 
 [Project Kickoff](https://www.notion.so/Project-Kickoff-228942fc6112461b9d220f61714822aa)
@@ -18,4 +19,3 @@ A classic movie streaming service cloning Netflix with a recommedation filtering
 [API 설정](https://www.notion.so/API-cb099a507afb4c45bab4569f2a3248a0)
 
 ---
-
