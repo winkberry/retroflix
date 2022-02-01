@@ -48,7 +48,12 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'storages',
+    'sass_processor',
 ]
+
+SASS_OUTPUT_STYLE = 'compact'
+SASS_PROCESSOR_ENABLED = True
+SASS_PROCESSOR_ROOT = os.path.join(BASE_DIR, 'static')
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -121,7 +126,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
 ]
@@ -136,9 +141,11 @@ DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
 with open(os.path.join(BASE_DIR, 'retroflix/config/aws.json')) as f:
-    secrets = json.loads(f.read())
+    secret = json.loads(f.read())
 
-AWS_ACCESS_KEY_ID = secrets['AWS']['ACCESS_KEY_ID']
-AWS_SECRET_ACCESS_KEY = secrets['AWS']['SECRET_ACCESS_KEY']
-AWS_STORAGE_BUCKET_NAME = secrets['AWS']['STORAGE_BUCKET_NAME']
+AWS_ACCESS_KEY_ID = secret['AWS']['ACCESS_KEY_ID']
+AWS_SECRET_ACCESS_KEY = secret['AWS']['SECRET_ACCESS_KEY']
+AWS_STORAGE_BUCKET_NAME = secret['AWS']['STORAGE_BUCKET_NAME']
+AWS_REGION = 'ap-northeast-2'
 AWS_DEFAULT_ACL = 'public-read' # 올린 파일을 누구나 읽을 수 있게 지정합니다!
+AWS_S3_CUSTOM_DOMAIN = '%s.s3.%s.amazonaws.com' % (AWS_STORAGE_BUCKET_NAME,AWS_REGION)
