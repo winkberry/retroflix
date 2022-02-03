@@ -30,7 +30,12 @@ DATABASES = {
         'PASSWORD': get_secret('DATABASES')['default']['PASSWORD'],
         'HOST': get_secret('DATABASES')['default']['HOST'],
         'PORT': get_secret('DATABASES')['default']['PORT'],
-    }
+        'OPTIONS': {
+            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'"
+        },
+    },
+    
+    
 }
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -47,13 +52,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'retroflix',
     'storages',
-    'sass_processor',
+    'movie',
+    'user'
 ]
-
-SASS_OUTPUT_STYLE = 'compact'
-SASS_PROCESSOR_ENABLED = True
-SASS_PROCESSOR_ROOT = os.path.join(BASE_DIR, 'static')
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -89,7 +92,7 @@ WSGI_APPLICATION = 'retroflix.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
-
+AUTH_USER_MODEL = 'user.CustomUser'
 
 
 # Password validation
@@ -149,3 +152,15 @@ AWS_STORAGE_BUCKET_NAME = secret['AWS']['STORAGE_BUCKET_NAME']
 AWS_REGION = 'ap-northeast-2'
 AWS_DEFAULT_ACL = 'public-read' # 올린 파일을 누구나 읽을 수 있게 지정합니다!
 AWS_S3_CUSTOM_DOMAIN = '%s.s3.%s.amazonaws.com' % (AWS_STORAGE_BUCKET_NAME,AWS_REGION)
+
+
+with open(os.path.join(BASE_DIR, 'retroflix/config/email.json')) as f: 
+    email = json.loads(f.read()) 
+
+EMAIL_HOST = email['HOST'] 
+EMAIL_PORT = int(email['PORT']) 
+EMAIL_HOST_USER = email['HOST_USER'] 
+EMAIL_HOST_PASSWORD = email['HOST_PASSWORD'] 
+EMAIL_USE_TLS = True 
+EMAIL_USE_SSL = False 
+LOGIN_URL = '/sign-in'
