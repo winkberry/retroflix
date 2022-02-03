@@ -18,11 +18,13 @@ def base(request):
     # True, False반환
     if not user:
         return redirect('/sign-in')
-    return redirect('/home')
-    
+    return redirect('/main')
+
 @login_required
-def home(request):
-    return render(request, 'user/home.html' )
+def main(request):
+    print('ho')
+    return render(request, 'main/main.html' )
+
 certify = False
 def sign_up_view(request):
     print('인증번호')

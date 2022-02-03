@@ -44,6 +44,7 @@ share/python-wheels/
 *.egg
 MANIFEST
 
+.idea
 
 # PyInstaller
 #  Usually these files are written by a python script from a template
@@ -245,3 +246,6 @@ cython_debug/
 retroflix/settings.py
 retroflix/config/aws.json
 retroflix/config/secret.json
+retroflix/config/email.json
+
+
