@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <style>
+        .detail-modal {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1;
+        }
+
+        .detail-modal .bg {
+            position: fixed;
+            z-index: 3;
+            width: 100%;
+            height: 100%;
+        }
+
+        .modalBox {
+            position: fixed;
+            top: 5%;
+            width: 45%;
+            height: 90%;
+            z-index: 2;
+            background-color: black;
+            opacity: 0.8;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 5px;
+            border-radius: 8%;
+        }
+
+
+        .modal_close_btn {
+            z-index: 5;
+            display: block;
+            width: 30%;
+            margin-bottom: 2%;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+
+    </style>
+
+</head>
+<body>
+
+<button class="detail-modal-open-btn">모달</button>
+
+
+    <div class='detail-modal hidden'>
+        <div class="bg">
+        </div>
+        <div class="modalBox">
+            <button class="modal_close_btn btn btn-outline-secondary">닫기</button>
+        </div>
+    </div>
+
+
+
+</body>
+</html>

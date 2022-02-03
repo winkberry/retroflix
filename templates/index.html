@@ -25,9 +25,15 @@
         </div>
         
     </header>
+{#    {% block content %}#}
+{##}
+{#    {% endblock %}#}
+
     {% block content %}
 
-    {% endblock %}
+        {% include "detail.html" %}
+
+    {%  endblock %}
     
     <footer class="footer">
         
@@ -60,6 +66,22 @@
         </div>
 
     </footer>
+
+ <script>
+
+  const open = () => {
+    document.querySelector(".detail-modal").classList.remove("hidden");
+  }
+  //모달창 닫기 함수 - 히든 클래스를 활성화
+  const close = () => {
+    document.querySelector(".detail-modal").classList.add("hidden");
+  }
+
+  document.querySelector(".detail-modal-open-btn").addEventListener("click", open);
+  document.querySelector(".modal_close_btn").addEventListener("click", close);
+  document.querySelector(".bg").addEventListener("click", close);
+
+   </script>
 </body>
 
 </html>
