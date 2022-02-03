@@ -245,3 +245,4 @@ cython_debug/
 retroflix/settings.py
 retroflix/config/aws.json
 retroflix/config/secret.json
+retroflix/config/email.json
