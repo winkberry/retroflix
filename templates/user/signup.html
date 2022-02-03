@@ -1,0 +1,126 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    회원가입
+{% endblock %}
+{% block content %}
+    <div class="container">
+     
+            <h2 > 회원가입 </h2>
+                <div>
+                    <label for="username">이름</label>
+                    <input type="text"id="username" name="username" value="{{form.username}}">
+                </div>
+                <div >
+                    <label for="password1">비밀번호</label>
+                    <input type="password" id="password1" name="password1" value="{{form.password1}}">
+                </div>
+                <div >
+                    <label for="password2">비밀번호 확인</label>
+                    <input type="password" id="password2" name="password2" value="{{form.password2}}">
+                </div>
+                
+                <div>
+                    <label for="nickname">닉네임</label>
+                    <input type="text" name="nickname" maxlength="30" id="nickname" value="{{form.nickname}}">
+                </div>
+                <div>
+                    <label for="email">이메일</label>
+                    <input type="email" name="email" id="email" value="{{form.email}}">
+                    <button id="submit">인증번호 보내기</button>
+                    <label for="text2">인증번호</label>
+                    <input id="text2" type="text">
+                    
+                    
+                                  
+                </div>
+                <div>
+                    <label for="birthday">생년월일</label>
+                    <input type="date" name="birthday" id="birthday" value="{{form.birthday}}">                
+                </div>
+                <div>
+                    <label for="gender">성별</label>
+                    <select name="gender" id="gender">
+                        <option value="1" selected="">---------</option>
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                    </select>
+                </div>
+                <button id='signBtn' >회원가입</button>
+            
+            <!-- </form> -->
+            <a href="{% url 'user:sign-in' %}">로그인 페이지로</a>
+        </div>
+    </div>
+{% endblock %}
+{% block script %}
+<script>
+    const signBtn = document.getElementById('signBtn')
+    signBtn.addEventListener('click', function(e){
+        const username = $('#username').val();
+        const password1 = $('#password1').val();
+        const password2 = $('#password2').val();
+        const nickname = $('#nickname').val();
+        const email = $('#email').val();
+        const birthday = $('#birthday').val();
+        const gender = $('#gender').val();
+        data = {'username':username,'password1':password1,'password2':password2,'nickname':nickname,'email':email,'birthday':birthday,'gender':gender}
+        $.ajax({
+            type:'POST',
+            url:'/sign-up/',
+            data:JSON.stringify(data),
+            success:function(data){
+                console.log(data)
+                if (data.error){
+                    alert(data.error);
+                }
+                if (data.ok){
+                    alert(data.ok);
+                    window.location.href = '/sign-in'
+                }
+                
+            }
+
+       });
+    
+    })
+    
+    function sendMail(){
+        data = $('#email').val();
+        $.ajax({
+            type:'POST',
+            url:'/email_ajax/',
+            data:JSON.stringify(data),
+            success:function(json){
+                alert(json.result);
+            }
+
+       });
+    submitBtn.removeEventListener('click',sendMail)
+    submitBtn.addEventListener('click',certifyMail)
+    submitBtn.innerText = '인증번호 확인'
+    }
+    function certifyMail(){
+        data = $('#text2').val();
+        $.ajax({
+            type:'POST',
+            url:'/certify_ajax/',
+            data:JSON.stringify(data),
+            success:function(json){
+                console.log(json)
+                alert(json.result);
+            }
+        })
+        submitBtn.removeEventListener('click',certifyMail)
+        submitBtn.addEventListener('click',sendMail)
+        submitBtn.innerText = '인증번호 보내기'
+    };
+    
+    const submitBtn = document.getElementById('submit')
+    submitBtn.addEventListener('click',sendMail)
+    
+    $.ajaxSetup({
+        headers: { "X-CSRFToken": '{{csrf_token}}' }
+      });
+</script>
+{% endblock%}

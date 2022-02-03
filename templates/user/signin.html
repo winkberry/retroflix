@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    로그인
+{% endblock %}
+{% block content %}
+    <div class="container">
+            <h1> 로그인</h1>
+            <form method="post" action="/sign-in/">
+                {% csrf_token %}
+                <div>
+                    <label for="username">이름</label>
+                    <input type="text" id="username" name="username">
+                </div>
+                <div>
+                    <label for="password">비밀번호</label>
+                    <input type="password" id="password" name="password">
+                   
+                </div>
+                <hr>
+                {% if error %}
+                    <div class="alert alert-danger" role="alert">
+                        {{ error }}
+                    </div>
+                {% endif %}
+
+                
+                <button type="submit">로그인</button>
+                <a href="{% url 'user:github' %}">😼깃허브로 로그인😽</a>
+                <a href="{% url 'user:kakao' %}">🐯카카오로 로그인🐶</a>
+              
+            </form>
+            <div >
+                <button id="find_pw">비밀번호 찾기</button> 
+            </div>
+            <div hidden id="hidden_box">
+                <input type="text" id='find_id' placeholder="username을 적어주세요.">
+                <button id="find">다음</button>
+            </div>
+            
+
+   
+        <a href="{% url 'user:sign-up' %}" >회원가입 페이지로</a>
+    </div>
+{% endblock %}
+{% block script%}
+<script>
+    const findBtn = document.getElementById('find')
+    const hiddenBox = document.getElementById('hidden_box')
+    const findPw = document.getElementById('find_pw')
+    findPw.addEventListener('click',()=>{
+        hiddenBox.hidden = false
+    })
+    const next1 = () => {
+        
+        data = document.getElementById('find_id').value
+        $.ajax({
+            type:'POST',
+            url:'/isid/',
+            data:JSON.stringify(data),
+            success:function(data){
+                if (data.result){
+                    alert(data.result);
+                }
+                if ('ok' in data){
+                    window.location.reload()
+                }
+                else if ('sns' in data){
+                    window.location.reload()
+                }
+                
+            }
+
+       });
+    
+    }
+    findBtn.addEventListener('click',next1)
+    $.ajaxSetup({
+        headers: { "X-CSRFToken": '{{csrf_token}}' }
+      });
+</script>
+{% endblock %}
