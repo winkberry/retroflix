@@ -2,21 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="74e8165d-d538-4c01-bc28-76c6fa29cae2" name="변경" comment="2/4">
-      <change afterPath="$PROJECT_DIR$/templates/main/detail.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/e5a5d3e2-8a5c-48b7-9c04-8dcaa279c430.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/e5a5d3e2-8a5c-48b7-9c04-8dcaa279c430/storage_v2/_src_/schema/information_schema.FNRwLQ.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/e5a5d3e2-8a5c-48b7-9c04-8dcaa279c430/storage_v2/_src_/schema/information_schema.FNRwLQ.zip" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/e5a5d3e2-8a5c-48b7-9c04-8dcaa279c430/storage_v2/_src_/schema/mysql.osA4Bg.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/e5a5d3e2-8a5c-48b7-9c04-8dcaa279c430/storage_v2/_src_/schema/performance_schema.kIw0nw.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/e5a5d3e2-8a5c-48b7-9c04-8dcaa279c430/storage_v2/_src_/schema/sys.zb4BAA.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/e5a5d3e2-8a5c-48b7-9c04-8dcaa279c430/storage_v2/_src_/schema/sys.zb4BAA.zip" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/retroflix/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/retroflix/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/retroflix/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/retroflix/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/retroflix/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/retroflix/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/base.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/main/main.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/main/main.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/main/detail.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/main/detail.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -107,8 +94,16 @@
       <workItem from="1643891540483" duration="21000" />
       <workItem from="1643891568797" duration="3380000" />
       <workItem from="1643894956632" duration="11000" />
-      <workItem from="1643932378203" duration="5697000" />
+      <workItem from="1643932378203" duration="11999000" />
     </task>
+    <task id="LOCAL-00001" summary="2/4">
+      <created>1643939005736</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1643939005736</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
