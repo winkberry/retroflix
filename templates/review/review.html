@@ -1,6 +1,6 @@
             {% if movie.reviews %}
             {% for review in movie.reviews.all %}
-            
+                      
                 <div class="row">
                     <div class="col-md-12">
                         <div class="media">
@@ -23,7 +23,7 @@
                                     <a href="{% url 'review_delete' review.id %}">
                                         <span class="badge bg-danger">삭제</span>
                                     </a>
-                                </div>
+                                </div>                               
                             {% endif %}
                         </div>
                     </div>
@@ -44,8 +44,8 @@
                 </div>
                 <div class="form-group">
                     <div class="rating rating2">
-                        <div class="rating">                                            
-                            <input name='review-star' id="e5" type="radio" value="5"></a><label for="e5">★</label>
+                        <div class="rating">                                                                   
+                            <input name='review-star' id="e5" type="radio" value="5"></a><label for="e5">★</label>                           
                             <input name='review-star' id="e4" type="radio" value="4"></a><label for="e4">★</label>
                             <input name='review-star' id="e3" type="radio" value="3"></a><label for="e3">★</label>
                             <input name='review-star' id="e2" type="radio" value="2"></a><label for="e2">★</label>

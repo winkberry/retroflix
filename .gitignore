@@ -247,3 +247,4 @@ retroflix/config/aws.json
 retroflix/config/secret.json
 retroflix/config/email.json
 .idea
+templates/review/review2.html
