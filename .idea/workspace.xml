@@ -1,9 +1,60 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="74e8165d-d538-4c01-bc28-76c6fa29cae2" name="변경" comment="2/4">
+<<<<<<< HEAD
+      <change afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/retroflix/config/email.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/review/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/review/admin.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/review/apps.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/review/forms.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/review/migrations/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/review/models.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/review/tests.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/review/urls.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/review/views.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/main/detail.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/main/main.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/review/review.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/user/home.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/user/mypage.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/user/pwchange.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/user/signin.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/user/signup.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/user/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/user/admin.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/user/apps.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/user/forms.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/user/migrations/0001_initial.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/user/migrations/0002_customuser_gogo.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/user/migrations/0003_remove_customuser_gogo.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/user/migrations/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/user/models.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/user/tests.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/user/urls.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/user/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/movie/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/movie/admin.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/movie/apps.py" beforeDir="false" afterPath="$PROJECT_DIR$/movie/apps.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/movie/migrations/0001_initial.py" beforeDir="false" afterPath="$PROJECT_DIR$/movie/migrations/0001_initial.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/movie/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/movie/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/movie/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/movie/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/retroflix/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/retroflix/settings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/retroflix/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/retroflix/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/retroflix/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/retroflix/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/base.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/landing.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/landing.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/movie/main.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/movie/main.html" afterDir="false" />
+=======
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/main/detail.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/main/detail.html" afterDir="false" />
+>>>>>>> ff90ed2a4616dde288f12a5067863f05a9911cd6
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -41,7 +92,10 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/templates" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../Git_project/flask_project_1" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RecentsManager">
@@ -94,7 +148,12 @@
       <workItem from="1643891540483" duration="21000" />
       <workItem from="1643891568797" duration="3380000" />
       <workItem from="1643894956632" duration="11000" />
+<<<<<<< HEAD
+      <workItem from="1643932378203" duration="5697000" />
+      <workItem from="1643959403045" duration="3677000" />
+=======
       <workItem from="1643932378203" duration="11999000" />
+>>>>>>> ff90ed2a4616dde288f12a5067863f05a9911cd6
     </task>
     <task id="LOCAL-00001" summary="2/4">
       <created>1643939005736</created>

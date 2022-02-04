@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="retro-db2" uuid="02638898-3526-453d-b254-0bde4900e8ec">
+    <data-source source="LOCAL" name="rds" uuid="3d425c0a-9bcb-4fa4-84a2-288d201e9d96">
       <driver-ref>mysql.8</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
