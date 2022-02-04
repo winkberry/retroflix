@@ -1,5 +1,11 @@
             {% if movie.reviews %}
             {% for review in movie.reviews.all %}
+
+                <div class="chart-container">
+                    <canvas id='gender-chart'></canvas>
+                    <canvas id='generation-chart'></canvas>
+                </div>
+
                       
                 <div class="row">
                     <div class="col-md-12">
@@ -55,3 +61,84 @@
                 </div>                               
                 <button type="submit" class="btn-primary">작성</button>                                
             </form>
+
+
+
+
+
+{% block script %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js" ></script>
+
+<script>
+    const generationCtx = $("#generation-chart");
+    const generationChart = new Chart(generationCtx, {
+        type: 'bar',
+        data: generationData,
+        options: {
+            scales: {
+            y: {
+                beginAtZero: true
+            }
+            }
+        },
+
+    })
+    const generationData = {
+        labels: ['10대', '20대', '30대', '40대 이상'],
+        datasets: [{
+            label: '연령별 통계',
+            // data: {{ generation_rate | safe }},
+            backgroundColor: [
+            'rgba(255, 99, 132, 0.2)',
+            'rgba(255, 159, 64, 0.2)',
+            'rgba(255, 205, 86, 0.2)',
+            'rgba(75, 192, 192, 0.2)',           
+            ],
+            borderColor: [
+            'rgb(255, 99, 132)',
+            'rgb(255, 159, 64)',
+            'rgb(255, 205, 86)',
+            'rgb(75, 192, 192)',            
+            ],
+            borderWidth: 1
+        }]
+    };
+    
+    const genderCtx = $("#generation-chart");
+    const genderChart = new Chart(genderCtx, {
+        type: 'pie',
+        data: genderData,       
+    })
+
+    const genderData = {
+        labels: ['남성', '여성'],
+        datasets: [{
+            label: '성별 통계',
+            // data: {{ gender_rate | safe }},
+            backgroundColor: [
+            'rgba(255, 99, 132, 0.2)',
+            'rgba(255, 159, 64, 0.2)',
+            'rgba(255, 205, 86, 0.2)',
+            'rgba(75, 192, 192, 0.2)',           
+            ],
+            borderColor: [
+            'rgb(255, 99, 132)',
+            'rgb(255, 159, 64)',
+            'rgb(255, 205, 86)',
+            'rgb(75, 192, 192)',            
+            ],
+            borderWidth: 1
+        }]
+    };
+    
+
+
+
+</script>
+
+
+
+
+
+{% endscript %}
