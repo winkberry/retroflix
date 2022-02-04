@@ -210,8 +210,11 @@ def from_kakao(request):
 def my_page(request):
     if request.method == 'POST':
         pass
+
     else :
-        return render(request,'user/mypage.html' )
+        user = request.user
+        movie_list = user.favorite_movies.all()
+        return render(request,'user/mypage.html', {'movie_list':movie_list} )
 
 @login_required
 def pw_change(request):
@@ -302,4 +305,4 @@ def my_modify(request):
         user.save()
         user.profile_img = url + str(img_file)
         user.save()
-    return render(request, 'user/mypage.html')
+    return redirect('/mypage')
