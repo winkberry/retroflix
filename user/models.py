@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from movie import models as mv_models
+
 # Create your models here.
 
 
