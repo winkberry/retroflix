@@ -111,9 +111,7 @@
         </style>
     </head>
 
-
     <body>
-{#    {% include "main/detail.html" %}#}
     <h1 id="myList">가장인기있는 컨텐츠 Top 10</h1>
     <div class="wrapper">
         <section id="section1">
@@ -122,8 +120,7 @@
                 <div class="item">
 
                     <img src="https://tekken.s3.ap-northeast-2.amazonaws.com/movies/{{ movie.title }}.jpg"
-                         alt="{{ movie.title }}" title="{{ movie.title }}" onclick="open({{ movie}})">
-
+                         alt="{{ movie.title }}" title="{{ movie.title }}" onclick="open({{ movie }})">
                 </div>
             {% endfor %}
             <a href="#section2" class="arrow__btn">›</a>
@@ -142,68 +139,33 @@
         </section>
     </div>
 
-    <h1 id="myList">내 취향과 비슷한 영화</h1>
-    <div class="wrapper">
+    <h1 id="myList">{{ user }}님의 취향과 비슷한 영화</h1>
+     <div class="wrapper">
         <section id="section4">
             <a href="#section5" class="arrow__btn">‹</a>
-            <div class="item">
-                <a href="/"><img
-                        src="https://tekken.s3.ap-northeast-2.amazonaws.com/movies/007%EA%B3%A8%EB%93%A0%EC%95%84%EC%9D%B4.jpg"
-                        alt="{{ movie.title }}">
-                </a></div>
-            <div class="item">
-                <a href="/"><img
-                        src="https://tekken.s3.ap-northeast-2.amazonaws.com/movies/007%EA%B3%A8%EB%93%A0%EC%95%84%EC%9D%B4.jpg"
-                        alt="{{ movie.title }}">
-                </a></div>
-            <div class="item">
-                <a href="/"><img
-                        src="https://tekken.s3.ap-northeast-2.amazonaws.com/movies/007%EA%B3%A8%EB%93%A0%EC%95%84%EC%9D%B4.jpg"
-                        alt="{{ movie.title }}">
-                </a></div>
-            <div class="item">
-                <a href="/"><img
-                        src="https://tekken.s3.ap-northeast-2.amazonaws.com/movies/007%EA%B3%A8%EB%93%A0%EC%95%84%EC%9D%B4.jpg"
-                        alt="{{ movie.title }}">
-                </a></div>
-            <div class="item">
-                <a href="/"><img
-                        src="https://tekken.s3.ap-northeast-2.amazonaws.com/movies/007%EA%B3%A8%EB%93%A0%EC%95%84%EC%9D%B4.jpg"
-                        alt="{{ movie.title }}">
-                </a></div>
+            {% for movie in movie_result_list|slice:":5" %}
+                <div class="item">
+                    <a href="/">
+                        <img src="https://tekken.s3.ap-northeast-2.amazonaws.com/movies/{{ movie.title }}.jpg"
+                             alt="{{ movie.title }}" title="{{ movie.title }}">
+                    </a>
+                </div>
+            {% endfor %}
             <a href="#section5" class="arrow__btn">›</a>
         </section>
         <section id="section5">
             <a href="#section4" class="arrow__btn">‹</a>
-            <div class="item">
-                <a href="/"><img
-                        src="https://tekken.s3.ap-northeast-2.amazonaws.com/movies/007%EA%B3%A8%EB%93%A0%EC%95%84%EC%9D%B4.jpg"
-                        alt="{{ movie.title }}">
-                </a></div>
-            <div class="item">
-                <a href="/"><img
-                        src="https://tekken.s3.ap-northeast-2.amazonaws.com/movies/007%EA%B3%A8%EB%93%A0%EC%95%84%EC%9D%B4.jpg"
-                        alt="{{ movie.title }}">
-                </a></div>
-            <div class="item">
-                <a href="/"><img
-                        src="https://tekken.s3.ap-northeast-2.amazonaws.com/movies/007%EA%B3%A8%EB%93%A0%EC%95%84%EC%9D%B4.jpg"
-                        alt="{{ movie.title }}">
-                </a></div>
-            <div class="item">
-                <a href="/"><img
-                        src="https://tekken.s3.ap-northeast-2.amazonaws.com/movies/007%EA%B3%A8%EB%93%A0%EC%95%84%EC%9D%B4.jpg"
-                        alt="{{ movie.title }}">
-                </a></div>
-            <div class="item">
-                <a href="/"><img
-                        src="https://tekken.s3.ap-northeast-2.amazonaws.com/movies/007%EA%B3%A8%EB%93%A0%EC%95%84%EC%9D%B4.jpg"
-                        alt="{{ movie.title }}">
-                </a></div>
+            {% for movie in movie_result_list|slice:"5:" %}
+                <div class="item">
+                    <a href="/"><img
+                            src="https://tekken.s3.ap-northeast-2.amazonaws.com/movies/{{ movie.title }}.jpg"
+                            alt="{{ movie.title }}" title="{{ movie.title }}">
+                    </a>
+                </div>
+            {% endfor %}
             <a href="#section4" class="arrow__btn">›</a>
         </section>
     </div>
-
 
     <h1 id="myList">장르 1</h1>
     <div class="wrapper">
@@ -261,33 +223,30 @@
         </section>
     </div>
 
-    <h1 id="myList">세대 추천</h1>
+    <h1 id="myList">{{ user }}님의 세대 영화 추천</h1>
     <div class="wrapper">
         <section id="section10">
             <a href="#section11" class="arrow__btn">‹</a>
             {% for movie in age_list|slice:":5" %}
                 <div class="item">
-                    <a href="/">
-                        <img src="https://tekken.s3.ap-northeast-2.amazonaws.com/movies/{{ movie.title }}.jpg"
-                             alt="{{ movie.title }}" title="{{ movie.title }}">
-                    </a>
+                    <img src="https://tekken.s3.ap-northeast-2.amazonaws.com/movies/{{ movie.title }}.jpg"
+                         alt="{{ movie.title }}" title="{{ movie.title }}" class="detail-modal-open-btn">
                 </div>
             {% endfor %}
             <a href="#section11" class="arrow__btn">›</a>
         </section>
         <section id="section11">
             <a href="#section10" class="arrow__btn">‹</a>
-                        {% for movie in age_list|slice:"5:10" %}
-                        <div class="item">
-                            <a href="/"><img
-                                    src="https://tekken.s3.ap-northeast-2.amazonaws.com/movies/{{ movie.title }}.jpg" alt="{{ movie.title }}" title="{{ movie.title }}">
-                            </a>
-                        </div>
-                        {% endfor %}
+            {% for movie in age_list|slice:"5:10" %}
+                <div class="item">
+                    <img src="https://tekken.s3.ap-northeast-2.amazonaws.com/movies/{{ movie.title }}.jpg"
+                         alt="{{ movie.title }}" title="{{ movie.title }}">
+                </div>
+            {% endfor %}
             <a href="#section10" class="arrow__btn">›</a>
         </section>
     </div>
-
+    {% include "./detail.html" %}
     </body>
     </html>
 {% endblock %}

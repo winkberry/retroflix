@@ -104,48 +104,40 @@ def main(request):
         for i in range(len(movie_2)):
             genre2_list.append(movie_2[i])
 
+        # ------------내 취향과 비슷한 영화------------------
+
+        ratings = pd.read_csv('movie/ratings.csv')
+        movies = pd.read_csv('movie/movie_data.csv')
+        movies.drop(['Unnamed: 0'], axis=1, inplace=True)
+
+        pd.set_option('display.max_columns', 10)
+        pd.set_option('display.width', 300)
+        # movieId를 기준으로 ratings 와 movies 를 결합함
+        movie_ratings = pd.merge(ratings, movies, on='movieid')
+
+        # -------------------비슷한 유저로 추천 해줌----------------------
+
+        # 유저 기반 협업 필터링
+        # user별로 영화에 부여한 rating 값을 볼 수 있도록 pivot table 사용
+        title_user = movie_ratings.pivot_table('rating', index='userId', columns='title')
+        # 평점을 부여안한 영화는 그냥 0이라고 부여
+        title_user = title_user.fillna(0)
+        # 유저 1~610 번과 유저 1~610 번 간의 코사인 유사도를 구함
+        user_based_collab = cosine_similarity(title_user, title_user)
+        # 위는 그냥 numpy 행렬이니까, 이를 데이터프레임으로 변환
+        user_based_collab = pd.DataFrame(user_based_collab, index=title_user.index, columns=title_user.index)
+
+        # 1번 유저와 비슷한 유저를 내림차순으로 정렬한 후에, 상위 10개만 뽑음
+        ############### 현재 유저와 가장 비슷한 유저를 뽑는다 ################
+        user = user_based_collab[5].sort_values(ascending=False)[:10].index[1]
+        #####collab = 현재유저 위에서 5 그러면 userid 번호가 들어가야함, user = 가장 비슷한유저
+
+        result = title_user.query(f"userId == {user}").sort_values(ascending=False, by=user, axis=1)
+
+        result_list = list(title_user.sort_values(ascending=False, by=user, axis=1))
+        # 비슷한유저의 상위 영화 10가지
+        movie_result_list = result_list[:10]
+
         return render(request, 'main/main.html',
                       {'top10_list': top10_list, 'age_list': age_list, 'genre1_list': genre1_list,
-                       'genre2_list': genre2_list})
-
-
-def test(request):
-    ratings = pd.read_csv('movie/ratings.csv')
-    movies = pd.read_csv('movie/movie_data.csv')
-    movies.drop(['Unnamed: 0'], axis=1, inplace=True)
-
-    pd.set_option('display.max_columns', 10)
-    pd.set_option('display.width', 300)
-    # movieId를 기준으로 ratings 와 movies 를 결합함
-    movie_ratings = pd.merge(ratings, movies, on='movieid')
-
-    ############################비슷한 유저로 추천 해줌#############################################
-    ###############################################################################################
-
-    # 유저 기반 협업 필터링
-    # user별로 영화에 부여한 rating 값을 볼 수 있도록 pivot table 사용
-    title_user = movie_ratings.pivot_table('rating', index='userId', columns='title')
-    # 평점을 부여안한 영화는 그냥 0이라고 부여
-    title_user = title_user.fillna(0)
-    # 유저 1~610 번과 유저 1~610 번 간의 코사인 유사도를 구함
-    user_based_collab = cosine_similarity(title_user, title_user)
-    # 위는 그냥 numpy 행렬이니까, 이를 데이터프레임으로 변환
-    user_based_collab = pd.DataFrame(user_based_collab, index=title_user.index, columns=title_user.index)
-
-    # 1번 유저와 비슷한 유저를 내림차순으로 정렬한 후에, 상위 10개만 뽑음
-    ############### 현재 유저와 가장 비슷한 유저를 뽑는다 ################
-    user = user_based_collab[5].sort_values(ascending=False)[:10].index[1]
-    #####collab = 현재유저 위에서 5 그러면 userid 번호가 들어가야함, user = 가장 비슷한유저
-
-    result = title_user.query(f"userId == {user}").sort_values(ascending=False, by=user, axis=1)
-
-    result_list = list(title_user.sort_values(ascending=False, by=user, axis=1))
-    # 비슷한유저의 상위 영화 10가지
-    movie_result_list = result_list[:10]
-
-    print(user)
-    print(movie_result_list)
-
-    return render(request, 'main/main.html', {'test': movie_result_list})
-
-
+                       'genre2_list': genre2_list, 'movie_result_list': movie_result_list})
