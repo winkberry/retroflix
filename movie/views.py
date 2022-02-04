@@ -104,7 +104,7 @@ def main(request):
         for i in range(len(movie_2)):
             genre2_list.append(movie_2[i])
 
-        return render(request, 'movie/main.html',
+        return render(request, 'main/main.html',
                       {'top10_list': top10_list, 'age_list': age_list, 'genre1_list': genre1_list,
                        'genre2_list': genre2_list})
 
@@ -146,7 +146,6 @@ def test(request):
     print(user)
     print(movie_result_list)
 
-    return render(request, 'movie/main.html', {'test': movie_result_list})
-
+    return render(request, 'main/main.html', {'test': movie_result_list})
 
 

@@ -12,3 +12,4 @@ class Movie(models.Model):
     star = models.FloatField()
     genre = models.IntegerField()
 
+

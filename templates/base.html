@@ -18,16 +18,23 @@
     <link rel='stylesheet' href="{% static 'retro.css' %}">
 </head>
 <body>
-    <header class="showcase">
-        <div class="showcase-top">
-            <img style="left: 8%;" src="https://tekken.s3.ap-northeast-2.amazonaws.com/logo.png" alt="" />
-            <a href="#" class="btn btn-rounded">로그인</a>
-        </div>
-        
+<header class="showcase">
+    <div class="showcase-top">
+        {#            <img style="left: 8%;" src="https://tekken.s3.ap-northeast-2.amazonaws.com/logo.png" alt="" />#}
+        {#            <a href="#" class="btn btn-rounded">로그인</a>#}
+        <a style="position: initial;" href="/main"><img style="left: 8%;"
+                                                        src="https://tekken.s3.ap-northeast-2.amazonaws.com/logo.png"
+                                                        alt=""/></a>
+        <a href="#" class="btn btn-rounded">로그인</a>
+    </div>
+        <h1>
+
+        </h1>
     </header>
     {% block content %}
 
     {% endblock %}
+
     
     <footer class="footer">
         
@@ -60,6 +67,12 @@
         </div>
 
     </footer>
+
+{#    <footer class="footer">#}
+{#        <p>&copy 2022-2022 Retroflix, Inc.</p>#}
+{#        <p>RETROFLIX &copy 2022</p>#}
+{#    </footer>#}
+
 </body>
 
 </html>

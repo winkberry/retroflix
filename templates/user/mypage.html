@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block content%}
+    <div>마이 페이지</div>
+    <img src={{user.profile_img}} style="width:100px; height:100px" />
+    <a href="/pwchange/">비밀번호 변경</a>
+
+    <form method="POST" enctype="multipart/form-data" action="/my-modify">
+        <p>프로필 사진 변경</p>
+        {% csrf_token %}
+        <input type="file" name="file">
+        <button type="submit">사진 업로드</button>
+    </form>
+
+{% endblock %}

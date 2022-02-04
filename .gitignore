@@ -11,6 +11,7 @@ db.sqlite3
 db.sqlite3-journal
 media
 static
+.idea
 
 # If your build process includes running collectstatic, then you probably don't need or want to include staticfiles/
 # in your Git repository. Update and uncomment the following line accordingly.
@@ -245,3 +246,5 @@ cython_debug/
 retroflix/settings.py
 retroflix/config/aws.json
 retroflix/config/secret.json
+retroflix/config/email.json
+.idea
