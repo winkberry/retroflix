@@ -7,6 +7,21 @@
     <html>
         <head>
             <style>
+                .showcase {
+                    z-index: -1;
+                }
+                .container {
+                    position: absolute;
+                    top: 10%;
+                    left: 50%;
+                    transform: translate(-50%,0);
+                    width : 40%;
+                    padding: 20px;
+
+                }
+                .footer {
+                    display: none;
+                }
 
             </style>
         </head>
@@ -34,26 +49,29 @@
                 <div class="form-floating mb-3">
                     <input type="email" class="form-control" name="email" id="email" value="{{form.email}}" placeholder="name@example.com">
                     <label for="email">이메일</label>
-                    <button id="submit" class="btn btn-primary">인증번호 보내기</button>
-
                 </div>
+                <div class="form-floating mb-3">
+                    <button id="submit" class="btn btn-primary">인증번호 보내기</button></div>
                 <div  class="form-floating mb-3">
                     <input type="text" class="form-control" name="text2" id="text2" placeholder="인증 번호">
                     <label for="text2">인증번호</label>
                 </div>
-                <div>
+                <div  class="form-floating mb-3">
+                    <input type="date" class="form-control" name="birthday" id="birthday" value="{{form.birthday}}" placeholder="인증 번호">
                     <label for="birthday">생년월일</label>
-                    <input type="date" name="birthday" id="birthday" value="{{form.birthday}}">                
                 </div>
-                <div>
-                    <label for="gender">성별</label>
-                    <select name="gender" id="gender">
-                        <option value="1" selected="">---------</option>
+
+                <div class="mb-3">
+                    <select class="form-select" aria-label="Default select example" name="gender" id="gender">
+                        <option value="1" selected="">성별</option>
                         <option value="male">Male</option>
                         <option value="female">Female</option>
                     </select>
                 </div>
-                <button id='signBtn' >회원가입</button>
+                <div class="form-floating mb-3">
+                    <button id='signBtn' class="btn btn-primary" >회원가입</button>
+                </div>
+
             
             <!-- </form> -->
             <a href="{% url 'user:sign-in' %}">로그인 페이지로</a>

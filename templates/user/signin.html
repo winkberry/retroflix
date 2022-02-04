@@ -1,50 +1,119 @@
 {% extends 'base.html' %}
 
-{% block title %}
-    로그인
-{% endblock %}
 {% block content %}
+    <html>
+        <head>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+{#            <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">#}
+            <style>
+                .container {
+                    position: absolute;
+                    top: 15%;
+                    left: 50%;
+                    transform: translate(-50%,0);
+                    width: 40%;
+                }
+                .showcase {
+                    z-index: -1;
+                }
+                #social-login{
+                    width: 80%;
+                    margin: 40px auto;
+                    text-align: center;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                    align-items: center;
+                }
+                #social-login #github-btn{
+                    width: 220px;
+                    background-color: transparent;
+                    border-radius: 2px;
+                    border: 0.5px solid gainsboro;
+                    padding: 10px;
+                    color: white;
+                    border-radius: 5px;
+                    background: black;
+                }
+                #social-login #kakao-btn{
+                    margin-top: 5px;
+                    background-color: #fae100;
+                    border-radius: 2px;
+                    border: 0.5px solid gainsboro;
+                    padding : 10px;
+                    border-radius: 5px;
+                }
+
+            </style>
+        </head>
+    </html>
     <div class="container">
-            <h1> 로그인</h1>
-            <form method="post" action="/sign-in/">
-                {% csrf_token %}
-                <div>
-                    <label for="username">이름</label>
-                    <input type="text" id="username" name="username">
+        <h1> 로그인</h1>
+        <form method="post" action="/sign-in/">
+            {% csrf_token %}
+            <div class="form-floating mb-3">
+                <input type="text" class="form-control" id="username" name="username"  placeholder="아이디">
+                <label for="username">아이디</label>
+            </div>
+            <div class="form-floating mb-3">
+                <input type="password" class="form-control"  id="password" name="password"  placeholder="Password">
+                <label for="password">비밀번호</label>
+            </div>
+
+            <hr>
+            {% if error %}
+                <div class="alert alert-danger" role="alert">
+                    {{ error }}
                 </div>
-                <div>
-                    <label for="password">비밀번호</label>
-                    <input type="password" id="password" name="password">
-                   
-                </div>
-                <hr>
-                {% if error %}
-                    <div class="alert alert-danger" role="alert">
-                        {{ error }}
+            {% endif %}
+
+            <div class="form-floating mb-3">
+                <button class="btn btn-primary" type="submit">로그인</button>
+            </div>
+        </form>
+                <div id="social-login">
+                    <button class="button is-small" id="github-btn">
+                        <span class="icon">
+                          <i class="fab fa-github" style="color: white"></i>
+                        </span>
+                        <span >깃허브로 로그인하기</span>
+                    </button>
+                    <button class="button is-small" id="kakao-btn">
+                        <span class="icon">
+                          <i class="fas fa-comment"></i>
+                        </span>
+                        <span >카카오톡으로 로그인하기</span>
+                    </button>
+                    <br>
+                    <br>
+                    <div class="form-floating mb-3">
+                        <button id="find_pw" class="btn btn-rounded">비밀번호 찾기</button>
                     </div>
-                {% endif %}
-
-                
-                <button type="submit">로그인</button>
-                <a href="{% url 'user:github' %}">😼깃허브로 로그인😽</a>
-                <a href="{% url 'user:kakao' %}">🐯카카오로 로그인🐶</a>
-              
-            </form>
-            <div >
-                <button id="find_pw">비밀번호 찾기</button> 
-            </div>
-            <div hidden id="hidden_box">
-                <input type="text" id='find_id' placeholder="username을 적어주세요.">
-                <button id="find">다음</button>
-            </div>
-            
-
-   
+                    <div hidden id="hidden_box">
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control"  id="find_id" name="password"  placeholder="Password">
+                            <label for="password">아이디를 적어주세요</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <button id="find" class="btn btn-rounded">임시 비밀번호 전송</button>
+                        </div>
+                    </div>
+                </div>
         <a href="{% url 'user:sign-up' %}" >회원가입 페이지로</a>
     </div>
 {% endblock %}
 {% block script%}
 <script>
+
+
+    const githubBtn = document.getElementById('github-btn')
+    githubBtn.addEventListener('click',()=>{
+        window.location.href = '/github'
+    })
+    const kakaoBtn = document.getElementById('kakao-btn')
+    kakaoBtn.addEventListener('click',()=>{
+        window.location.href = '/kakao'
+    })
     const findBtn = document.getElementById('find')
     const hiddenBox = document.getElementById('hidden_box')
     const findPw = document.getElementById('find_pw')
