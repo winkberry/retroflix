@@ -48,13 +48,75 @@
             display: none;
         }
 
-        .itemlist {
-            display: flex;
-            flex-direction: row;
+        .remv_wrapper {
+            display: grid;
+            grid-template-columns: repeat(3, 100%);
+            overflow: hidden;
+            scroll-behavior: smooth;
         }
 
-        .movieitem {
+        .remv_wrapper section {
+            width: 100%;
+            position: relative;
+            display: grid;
+            grid-template-columns: repeat(5, auto);
+            margin: 20px 0;
+        }
 
+        .remv_wrapper section .item {
+            width: 200px;
+            margin-left: 15%;
+            padding: 0 2px;
+            transition: 1.0s all;
+        }
+
+        .remv_wrapper section .remv_item a {
+            width: 200px;
+            margin-left: 5%;
+            padding: 0 2px;
+            transition: 2.0s all;
+            position: initial;
+        }
+
+        .remv_wrapper section .remv_item:hover {
+            margin: 0 40px;
+            transform: scale(1.2);
+        }
+
+        .remv_wrapper section .remv_item:hover a {
+            width: 200px;
+            margin-left: 5%;
+            padding: 0 2px;
+            transition: 0.5s all;
+            position: initial;
+        }
+
+        .remv_wrapper section a {
+            position: absolute;
+            color: #fff;
+            text-decoration: none;
+            font-size: 6em;
+            background: black;
+            width: 80px;
+            padding: 20px;
+            text-align: center;
+            z-index: 1;
+        }
+
+        .remv_wrapper section a:nth-of-type(1) {
+            padding-left: 0;
+            top: 15%;
+            bottom: 0;
+            left: 0;
+            background: linear-gradient(-90deg, rgba(0, 0, 0, 0) 0%, black 100%);
+        }
+
+        .remv_wrapper section a:nth-of-type(2) {
+            padding-right: 0;
+            top: 15%;
+            bottom: 0;
+            right: 0;
+            background: linear-gradient(90deg, rgba(0, 0, 0, 0) 0%, black 100%);
         }
 
     </style>
@@ -114,7 +176,7 @@
                         깔끔하게 떨어지지 않았던 게 좀 아쉽다. 그리고 전작들에 비해 본드걸의 활약이 좀 약했던 거??
                     </p>
                     <div>
-                        <span>탈퇴한 사용자</span>
+                        <span>베리</span>
                         <span>2022.2.1</span>
                     </div>
                 </div>
@@ -127,22 +189,61 @@
             </div>
             <div>
                 <p>추천 영화</p>
-                <div class="itemlist">
-                    <div class="movieitem">
-                        <img src="https://tekken.s3.ap-northeast-2.amazonaws.com/movies/007%EA%B3%A8%EB%93%A0%EC%95%84%EC%9D%B4.jpg">
-                    </div>
-                    <div class="movieitem">
-                        <img src="https://tekken.s3.ap-northeast-2.amazonaws.com/movies/007%EA%B3%A8%EB%93%A0%EC%95%84%EC%9D%B4.jpg">
-                    </div>
-                    <div class="movieitem">
-                        <img src="https://tekken.s3.ap-northeast-2.amazonaws.com/movies/007%EA%B3%A8%EB%93%A0%EC%95%84%EC%9D%B4.jpg">
-                    </div>
-                    <div class="movieitem">
-                        <img src="https://tekken.s3.ap-northeast-2.amazonaws.com/movies/007%EA%B3%A8%EB%93%A0%EC%95%84%EC%9D%B4.jpg">
-                    </div>
-                    <div class="movieitem">
-                        <img src="https://tekken.s3.ap-northeast-2.amazonaws.com/movies/007%EA%B3%A8%EB%93%A0%EC%95%84%EC%9D%B4.jpg">
-                    </div>
+                <div class="remv_wrapper">
+                    <section id="remv_section1">
+                        <a href="#remv_section2" class="remv_arrow__btn">‹</a>
+                        <div class="remv_item">
+                            <a href="/"><img
+                                    src="https://tekken.s3.ap-northeast-2.amazonaws.com/movies/007%EA%B3%A8%EB%93%A0%EC%95%84%EC%9D%B4.jpg"
+                                    alt="">
+                            </a></div>
+                        <div class="remv_item">
+                            <a href="/"><img
+                                    src="https://tekken.s3.ap-northeast-2.amazonaws.com/movies/007%EA%B3%A8%EB%93%A0%EC%95%84%EC%9D%B4.jpg"
+                                    alt="">
+                            </a></div>
+                        <div class="remv_item">
+                            <a href="/"><img
+                                    src="https://tekken.s3.ap-northeast-2.amazonaws.com/movies/007%EA%B3%A8%EB%93%A0%EC%95%84%EC%9D%B4.jpg"
+                                    alt="">
+                            </a></div>
+                        <div class="remv_item">
+                            <a href="/"><img src="https://tekken.s3.ap-northeast-2.amazonaws.com/movies/...ing.jpg"
+                                             alt="">
+                            </a></div>
+                        <div class="remv_item">
+                            <a href="/"><img src="https://tekken.s3.ap-northeast-2.amazonaws.com/movies/...ing.jpg"
+                                             alt="">
+                            </a></div>
+                        <a href="#remv_section2" class="remv_arrow__btn">›</a>
+                    </section>
+                    <section id="remv_section2">
+                        <a href="#remv_section1" class="remv_arrow__btn">‹</a>
+                        <div class="remv_item">
+                            <a href="/"><img
+                                    src="https://tekken.s3.ap-northeast-2.amazonaws.com/movies/007%EA%B3%A8%EB%93%A0%EC%95%84%EC%9D%B4.jpg"
+                                    alt="">
+                            </a></div>
+                        <div class="remv_item">
+                            <a href="/"><img
+                                    src="https://tekken.s3.ap-northeast-2.amazonaws.com/movies/007%EA%B3%A8%EB%93%A0%EC%95%84%EC%9D%B4.jpg"
+                                    alt="">
+                            </a></div>
+                        <div class="remv_item">
+                            <a href="/"><img
+                                    src="https://tekken.s3.ap-northeast-2.amazonaws.com/movies/007%EA%B3%A8%EB%93%A0%EC%95%84%EC%9D%B4.jpg"
+                                    alt="">
+                            </a></div>
+                        <div class="remv_item">
+                            <a href="/"><img
+                                    src="https://tekken.s3.ap-northeast-2.amazonaws.com/movies/007%EA%B3%A8%EB%93%A0%EC%95%84%EC%9D%B4.jpg">
+                            </a></div>
+                        <div class="remv_item">
+                            <a href="/"><img
+                                    src="https://tekken.s3.ap-northeast-2.amazonaws.com/movies/007%EA%B3%A8%EB%93%A0%EC%95%84%EC%9D%B4.jpg">
+                            </a></div>
+                        <a href="#remv_section1" class="arrow__btn">›</a>
+                    </section>
                 </div>
             </div>
             <button class="modal_close_btn btn btn-outline-secondary">닫기</button>
