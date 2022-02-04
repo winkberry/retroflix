@@ -10,5 +10,5 @@ def main(request):
         return render(request,'main/main.html')
 
 # def detail(request):
-#     if request method =="GET":
-#         return render(request, 'detail/detail.html')
+#     if request.method =="GET":
+#         return render(request, 'main/detail.html')

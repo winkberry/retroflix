@@ -17,7 +17,8 @@ def base(request):
     user = request.user.is_authenticated
     # True, False반환
     if not user:
-        return redirect('/sign-in')
+        return render(request, 'landing.html')
+        # return redirect('/sign-in')
     return redirect('/main')
 
 @login_required
