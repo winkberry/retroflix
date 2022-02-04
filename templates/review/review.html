@@ -1,0 +1,57 @@
+            {% if movie.reviews %}
+            {% for review in movie.reviews.all %}
+                      
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="media">
+                            <div class="media-body">
+                                <h5 class="mt-0"> {{ review.content }} </h5>
+                                <div class="fa fa-star-container" style="float: right;">
+                                    <span class="fa fa-star {% if review.star > 0 %}checked{% endif %}"></span>
+                                    <span class="fa fa-star {% if review.star > 1 %}checked{% endif %}"></span>
+                                    <span class="fa fa-star {% if review.star > 2 %}checked{% endif %}"></span>
+                                    <span class="fa fa-star {% if review.star > 3 %}checked{% endif %}"></span>
+                                    <span class="fa fa-star {% if review.star > 4 %}checked{% endif %}"></span>
+                                </div>
+                                <span> {{ review.author.username }} </span>
+                                <span> - {{ review.created_data }}</span>
+                            </div>
+                            
+                            
+                            {% if review.author == request.user %}
+                                <div style="float: right">
+                                    <a href="{% url 'review_delete' review.id %}">
+                                        <span class="badge bg-danger">삭제</span>
+                                    </a>
+                                </div>                               
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                
+            {% endfor %}
+            {% else %}
+                <p class='movie-help-p'>아직 등록된 리뷰가 없습니다.</p>
+            {% endif %}                                  
+                       
+                        
+            
+            <form class="review-form" action="#" method="POST">
+                {% csrf_token %}
+                <div class="form-group">
+                    <textarea name="review-content" rows="3" placeholder="리뷰를 작성해주세요."></textarea>
+                </div>
+                <div class="form-group">
+                    <div class="rating rating2">
+                        <div class="rating">                                                                   
+                            <input name='review-star' id="e5" type="radio" value="5"></a><label for="e5">★</label>                           
+                            <input name='review-star' id="e4" type="radio" value="4"></a><label for="e4">★</label>
+                            <input name='review-star' id="e3" type="radio" value="3"></a><label for="e3">★</label>
+                            <input name='review-star' id="e2" type="radio" value="2"></a><label for="e2">★</label>
+                            <input name='review-star' id="e1" type="radio" value="1"></a><label for="e1">★</label>
+                        </div>
+                    </div>
+                </div>                               
+                <button type="submit" class="btn-primary">작성</button>                                
+            </form>

@@ -1,0 +1,271 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <style>
+        .detail-modal {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1;
+        }
+
+        .detail-modal .bg {
+            position: fixed;
+            z-index: 3;
+            width: 100%;
+            height: 100%;
+        }
+
+        .modalBox {
+            overflow: scroll;
+            top: 5%;
+            position: fixed;
+            width: 45%;
+            height: 90%;
+            z-index: 2;
+            background-color: black;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 5px;
+            border-radius: 8%;
+        }
+
+
+        .modal_close_btn {
+            z-index: 5;
+            display: block;
+            width: 30%;
+            margin-bottom: 2%;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .remv_wrapper {
+            display: grid;
+            grid-template-columns: repeat(3, 100%);
+            overflow: hidden;
+            scroll-behavior: smooth;
+        }
+
+        .remv_wrapper section {
+            width: 100%;
+            position: relative;
+            display: grid;
+            grid-template-columns: repeat(5, auto);
+            margin: 20px 0;
+        }
+
+        .remv_wrapper section .item {
+            width: 200px;
+            margin-left: 15%;
+            padding: 0 2px;
+            transition: 1.0s all;
+        }
+
+        .remv_wrapper section .remv_item a {
+            width: 200px;
+            margin-left: 5%;
+            padding: 0 2px;
+            transition: 2.0s all;
+            position: initial;
+        }
+
+        .remv_wrapper section .remv_item:hover {
+            margin: 0 40px;
+            transform: scale(1.2);
+        }
+
+        .remv_wrapper section .remv_item:hover a {
+            width: 200px;
+            margin-left: 5%;
+            padding: 0 2px;
+            transition: 0.5s all;
+            position: initial;
+        }
+
+        .remv_wrapper section a {
+            position: absolute;
+            color: #fff;
+            text-decoration: none;
+            font-size: 6em;
+            background: black;
+            width: 80px;
+            padding: 20px;
+            text-align: center;
+            z-index: 1;
+        }
+
+        .remv_wrapper section a:nth-of-type(1) {
+            padding-left: 0;
+            top: 15%;
+            bottom: 0;
+            left: 0;
+            background: linear-gradient(-90deg, rgba(0, 0, 0, 0) 0%, black 100%);
+        }
+
+        .remv_wrapper section a:nth-of-type(2) {
+            padding-right: 0;
+            top: 15%;
+            bottom: 0;
+            right: 0;
+            background: linear-gradient(90deg, rgba(0, 0, 0, 0) 0%, black 100%);
+        }
+
+    </style>
+
+</head>
+<body>
+
+<button class="detail-modal-open-btn">모달</button>
+
+
+<div class='detail-modal hidden'>
+    <div class="bg">
+    </div>
+    <div class="modalBox">
+        <div class="wrapper_modalBox">
+            <div>
+                <p>007 스펙터</p>
+            </div>
+            <div><img
+                    src="https://tekken.s3.ap-northeast-2.amazonaws.com/movies/007%EA%B3%A8%EB%93%A0%EC%95%84%EC%9D%B4.jpg">
+            </div>
+            <div>
+                <p>영화 소개</p>
+                <p>
+                    최악의 적 스펙터와 제임스 본드의 과거
+                    그리고 그 속에 숨겨진 거대한 비밀!
+
+                    멕시코에서 일어난 폭발 테러 이후 MI6는 영국 정부에 의해 해체 위기에 놓인다. 자신의 과거와 연관된 암호를 추적하던 제임스 본드는 사상 최악의 조직 ‘스펙터’와 자신이 연관되어
+                    있다는 사실을 알게 되고, 궁지에 몰린 MI6조차 그를 포기하면서 절체절명의 위기에 직면하는데……
+                </p>
+            </div>
+            <div>
+                <div>
+                    <p>REVIEW</p>
+                    <div>⭐⭐⭐⭐⭐</div>
+                    <p>지난 3일동안 다니엘 크레이그의 007을 연달아 모두 봤다.
+                        몇년만에 한 편씩 개봉하니 과거 작품은 기억도 안나는 상황에서 봤을때는 뭔 내용인가 싶었는데,
+                        이번 기회에 다시 몰아보니 그간 모르고 지나간 것들이 눈에 많이 띄고,
+                        각 편마다 하나 하나씩 퍼즐 맞추듯
+                        각편의 보스들과 조직원들이 스펙터의 하부 조직원들인게 밝혀지는등
+                        그렇게 스토리가 연계되니 아는 만큼 훨씬 재미 있어 진다.
+                        007매니아라면 날잡아서 복습겸 예습을 개인적으로 권장함.
+
+                        스펙터가 예상외로 평점이 상당히 낮고 5년전에 봤던 기억도 별로라서 다시 보기가 꺼려졌었는데
+                        막상 연달아서 다시 보니 퍼즐을 맞추어 나가는 스토리가 상당히 흥미롭고 재미있었다.
+                        액션 역시 나쁘지 않았고. 개인적으로도 재평가하게 되었다.
+                        상당한 수작임에는 틀림없다.
+                    </p>
+                    <div>
+                        <span>베가</span>
+                        <span>2022.2.3</span>
+                    </div>
+                </div>
+                <div>
+                    <div>⭐⭐⭐⭐⭐</div>
+                    <p>개인적으로는 괜찮았다. 다이엘 크레이드의 거침없는 액션도 참 맘에 들었고, 긴 런닝타임에도 불구하고 빠른 전개와 화려한 액션으로 지루할 틈이 없어 좋았다. 다만 스토리 전개가
+                        깔끔하게 떨어지지 않았던 게 좀 아쉽다. 그리고 전작들에 비해 본드걸의 활약이 좀 약했던 거??
+                    </p>
+                    <div>
+                        <span>베리</span>
+                        <span>2022.2.1</span>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <p>댓글 작성</p>
+                <p>작성자이름</p>
+                <textarea rows="5" cols="10" placeholder="댓글을 입력하세요"></textarea>
+                <button>작성하기</button>
+            </div>
+            <div>
+                <p>추천 영화</p>
+                <div class="remv_wrapper">
+                    <section id="remv_section1">
+                        <a href="#remv_section2" class="remv_arrow__btn">‹</a>
+                        <div class="remv_item">
+                            <a href="/"><img
+                                    src="https://tekken.s3.ap-northeast-2.amazonaws.com/movies/007%EA%B3%A8%EB%93%A0%EC%95%84%EC%9D%B4.jpg"
+                                    alt="">
+                            </a></div>
+                        <div class="remv_item">
+                            <a href="/"><img
+                                    src="https://tekken.s3.ap-northeast-2.amazonaws.com/movies/007%EA%B3%A8%EB%93%A0%EC%95%84%EC%9D%B4.jpg"
+                                    alt="">
+                            </a></div>
+                        <div class="remv_item">
+                            <a href="/"><img
+                                    src="https://tekken.s3.ap-northeast-2.amazonaws.com/movies/007%EA%B3%A8%EB%93%A0%EC%95%84%EC%9D%B4.jpg"
+                                    alt="">
+                            </a></div>
+                        <div class="remv_item">
+                            <a href="/"><img src="https://tekken.s3.ap-northeast-2.amazonaws.com/movies/...ing.jpg"
+                                             alt="">
+                            </a></div>
+                        <div class="remv_item">
+                            <a href="/"><img src="https://tekken.s3.ap-northeast-2.amazonaws.com/movies/...ing.jpg"
+                                             alt="">
+                            </a></div>
+                        <a href="#remv_section2" class="remv_arrow__btn">›</a>
+                    </section>
+                    <section id="remv_section2">
+                        <a href="#remv_section1" class="remv_arrow__btn">‹</a>
+                        <div class="remv_item">
+                            <a href="/"><img
+                                    src="https://tekken.s3.ap-northeast-2.amazonaws.com/movies/007%EA%B3%A8%EB%93%A0%EC%95%84%EC%9D%B4.jpg"
+                                    alt="">
+                            </a></div>
+                        <div class="remv_item">
+                            <a href="/"><img
+                                    src="https://tekken.s3.ap-northeast-2.amazonaws.com/movies/007%EA%B3%A8%EB%93%A0%EC%95%84%EC%9D%B4.jpg"
+                                    alt="">
+                            </a></div>
+                        <div class="remv_item">
+                            <a href="/"><img
+                                    src="https://tekken.s3.ap-northeast-2.amazonaws.com/movies/007%EA%B3%A8%EB%93%A0%EC%95%84%EC%9D%B4.jpg"
+                                    alt="">
+                            </a></div>
+                        <div class="remv_item">
+                            <a href="/"><img
+                                    src="https://tekken.s3.ap-northeast-2.amazonaws.com/movies/007%EA%B3%A8%EB%93%A0%EC%95%84%EC%9D%B4.jpg">
+                            </a></div>
+                        <div class="remv_item">
+                            <a href="/"><img
+                                    src="https://tekken.s3.ap-northeast-2.amazonaws.com/movies/007%EA%B3%A8%EB%93%A0%EC%95%84%EC%9D%B4.jpg">
+                            </a></div>
+                        <a href="#remv_section1" class="arrow__btn">›</a>
+                    </section>
+                </div>
+            </div>
+            <button class="modal_close_btn btn btn-outline-secondary">닫기</button>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    const open = () => {
+        document.querySelector(".detail-modal").classList.remove("hidden");
+    }
+    //모달창 닫기 함수 - 히든 클래스를 활성화
+    const close = () => {
+        document.querySelector(".detail-modal").classList.add("hidden");
+    }
+
+    document.querySelector(".detail-modal-open-btn").addEventListener("click", open);
+    document.querySelector(".modal_close_btn").addEventListener("click", close);
+    document.querySelector(".bg").addEventListener("click", close);
+</script>
+
+
+</body>
+</html>

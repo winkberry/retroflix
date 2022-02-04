@@ -55,7 +55,8 @@ INSTALLED_APPS = [
     'retroflix',
     'storages',
     'movie',
-    'user'
+    'user',
+    'review'
 ]
 
 MIDDLEWARE = [
