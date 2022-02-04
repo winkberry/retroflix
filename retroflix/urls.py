@@ -23,7 +23,6 @@ urlpatterns = [
 
     path('', views.landing, name='landing'),
     path('', include('movie.urls')),
-    # path('main/',views.main),
     path('', include('user.urls')),
     # path('detail/', views.detail, name='detail'),
 ]

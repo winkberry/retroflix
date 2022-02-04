@@ -7,13 +7,13 @@ from datetime import date
 # Create your models here.
 
 
-STAR_RATE=[(1,'★'),
-            (2,'★'),
-            (3,'★'),
-            (4,'★'),
-            (5,'★'),]
+# STAR_RATE=[(1,1),
+#             (2,2),
+#             (3,3),
+#             (4,4),
+#             (5,5),]
 
-def age(birthday):
+def cal_age(birthday):
     today = date.today()
     age = today.year - birthday.year - ((today.month, today.day) < (birthday.month, birthday.day))
     return age
@@ -26,7 +26,7 @@ class Review(models.Model):
     content = models.TextField()
     created_date = models.DateField(auto_now_add=True)
     modified_date = models.DateField(auto_now=True)
-    star = models.PositiveIntegerField(choices=STAR_RATE)
+    star = models.IntegerField(default=0)
 
     def __str__(self):
         return self.author.username
