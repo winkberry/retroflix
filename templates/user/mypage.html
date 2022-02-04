@@ -6,30 +6,31 @@
 
                 .showcase::after {
                     background: rgba(0, 0, 0, 0);
-                    box-shadow : none;
+
                 }
                 .showcase {
                     z-index: -1;
                 }
                 .my-page-container {
                     width: 60%;
-                    border: 2px solid red;
+
                     position: absolute;
                     top : 20%;
                     left: 50%;
                     transform: translate(-50%,0);
                 }
                 .my-page-wrapper {
-                    border: 2px solid yellow;
+
                 }
                 .my-page-info {
-                    border: 2px solid white;
+
                     display: flex;
                     flex-direction: column;
                     justify-content: space-around;
                     align-items: center;
                     height: 600px;
-
+                    background: black;
+                    border-radius: 20px;
                 }
 
                 .my-page-info img {
@@ -96,7 +97,9 @@
                 </form>
             </div>
             <div class="title1">
+                {% if movie_list %}
                 <h1>내가 찜한 영화</h1>
+                {% endif %}
             </div>
             <div class="my-favorite-movies">
 
