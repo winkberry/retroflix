@@ -23,4 +23,5 @@ urlpatterns = [
     # path('', views.landing, name='landing'),
     # path('main/', views.main, name='main'),
     path('', include('user.urls')),
+    # path('detail/', views.detail, name='detail'),
 ]
