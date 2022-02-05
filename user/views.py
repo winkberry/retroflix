@@ -86,11 +86,11 @@ def sign_in_view(request):
         if not me:
             return render(request, 'user/signin.html', {'error':'아이디 혹은 비밀번호가 틀렸습니다.'})
         auth.login(request, me)
-        return redirect('/')
+        return redirect('/main')
     else:
         is_user = request.user.is_authenticated
         if is_user:
-            return redirect('/')
+            return redirect('/main')
         return render(request, 'user/signin.html')
 
 @login_required
