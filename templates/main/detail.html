@@ -130,12 +130,16 @@
                 <p>{{ title }}</p>
             </div>
             <div><img
-                    src="https://tekken.s3.ap-northeast-2.amazonaws.com/movies/{{ title }}.jpg">
-                <p>{{ genre }}</p>
-                <p>{{ star }}</p>
-                <p>{{ openDt }}</p>
-                <p>{{ recommend_list }}</p>
+                    src="https://tekken.s3.ap-northeast-2.amazonaws.com/movies/007%EA%B3%A8%EB%93%A0%EC%95%84%EC%9D%B4.jpg">
             </div>
+            <div id="temp_detail">
+                <div>영화 제목</div>
+                <div>
+                    <span>⭐⭐⭐⭐⭐</span>
+                    <span>5.0</span>
+                </div>
+            </div>
+
             <div>
                 <div>
                     <p>REVIEW</p>
@@ -263,8 +267,8 @@
             url: '/detail/',
             data: {mv_img_give: mv_img, mv_title_give: mv_title},
             success: function (response) {
-                let star = response['star']
-                console.log(mv_img, mv_title, star)
+                let star = {{ detail.title }}
+                console.log(mv star)
                 # temp_html의 내용들은 modal창 안에 붙일 내용들이다.
                 let temp_html = `
                          <div>${mv_img}</div>

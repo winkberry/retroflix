@@ -7,7 +7,7 @@ import pandas as pd
 import numpy as np
 
 from sklearn.metrics.pairwise import cosine_similarity
-
+from django.http import JsonResponse
 
 # 임의로 views 조회수 만들기
 views_list = [{'user_id': 1, 'movie_id': 1, 'genre': 1},
@@ -54,6 +54,18 @@ views_list = [{'user_id': 1, 'movie_id': 1, 'genre': 1},
               {'user_id': 1, 'movie_id': 13, 'genre': 7},
               ]
 
+ratings = pd.read_csv('movie/ratings.csv')
+movies = pd.read_csv('movie/movie_data.csv')
+movies.drop(['Unnamed: 0'], axis=1, inplace=True)
+
+pd.set_option('display.max_columns', 10)
+pd.set_option('display.width', 300)
+# movieId를 기준으로 ratings 와 movies 를 결합함
+movie_ratings = pd.merge(ratings, movies, on='movieid')
+
+genre_idx = ['가족', '공포(호러)', '다큐멘터리', '드라마', '멜로/로맨스', '뮤지컬', '미스터리', '범죄', '사극', '서부극(웨스턴)', '성인물(에로)', '스릴러', '애니메이션',
+            '액션', '어드벤처', '전쟁', '코미디', '판타지', 'SF', '']
+
 
 ratings = pd.read_csv('movie/ratings.csv')
 movies = pd.read_csv('movie/movie_data.csv')
@@ -71,7 +83,6 @@ def main(request):
     if request.method == 'GET':
 
         current_user = request.user.id
-        
         # ----------- top10  --------------
         top_list = []
         for i in views_list:
@@ -111,7 +122,7 @@ def main(request):
         rank = Counter(top_list).most_common(2)
         print('genre rank:  ', rank)
 
-        most_rank = [genre_idx[rank[0][0]],genre_idx[rank[1][0]]]
+        most_rank = [genre_idx[rank[0][0]], genre_idx[rank[1][0]]]
 
         movie_1 = Movie.objects.filter(genre=rank[0][0])
         for i in range(len(movie_1)):
@@ -135,9 +146,9 @@ def main(request):
         # 1번 유저와 비슷한 유저를 내림차순으로 정렬한 후에, 상위 10개만 뽑음
         ############### 현재 유저와 가장 비슷한 유저를 뽑는다 ################
 
-        #user = user_based_collab['현재 로그인한 유저의 id번호'].sort_values 하셔야 합니다
+        # user = user_based_collab['현재 로그인한 유저의 id번호'].sort_values 하셔야 합니다
         user = user_based_collab[current_user].sort_values(ascending=False)[:10].index[1]
-        
+
         #####collab = 현재유저 위에서 5 그러면 userid 번호가 들어가야함, user = 가장 비슷한유저
 
         result = title_user.query(f"userId == {user}").sort_values(ascending=False, by=user, axis=1)
@@ -147,30 +158,30 @@ def main(request):
         movie_result_list = result_list[:10]
 
         return render(request, 'main/main.html',
-                      {'top10_list': top10_list, 'age_list': age_list, 'genre1_list': genre1_list,
-                       'genre2_list': genre2_list, 'movie_result_list': movie_result_list, 'most_rank': most_rank})
+                        {'age_list': age_list, 'genre1_list': genre1_list,
+                        'genre2_list': genre2_list, 'movie_result_list': movie_result_list, 'most_rank': most_rank})
 
 
 def select_movie_detail(request):
-    if request.method == 'GET':
-        
+    if request.method == 'POST':
         abc = request.user.id
 
-        print(request.POST.get('moive_give'))
-        #넘겨받는 영화 제목
+        title_give = request.POST.get('movie_give')
+        # 넘겨받는 영화 제목
 
-        title_give = '올드보이'
+        print(title_give)
 
         #############Movie.objects.get(title = { 여기에 넘겨받은 영화 제목이 들어감 })
-        movie_find = Movie.objects.get(title = title_give)
-
+        movie_find = Movie.objects.get(title=title_give)
 
         ###### 찾은 영화의 .opneDt ex ) .title = 끌로드부인 , .openDt = 1990, 이런 값들에  접근이 가능합니다
         print(movie_find.openDt)
         print(movie_find.title)
         print(genre_idx[movie_find.genre])
         print(movie_find.star)
-        
+
+        # 리뷰 , 리뷰 통계 
+
         #### 영화와 비슷한 영화 추천 정보 #####
 
         user_title = movie_ratings.pivot_table('rating', index='title', columns='userId')
@@ -183,24 +194,34 @@ def select_movie_detail(request):
 
         # 현재영화와 비슷하게 유저들로부터 평점을 부여받은 영화들은?
 
-        
-        # recommend_movies = item_based_collba[넘겨받은 영화의 제목 넣는 부분].sort_values(ascending=False)[1:11].index 
+        # recommend_movies = item_based_collba[넘겨받은 영화의 제목 넣는 부분].sort_values(ascending=False)[1:11].index
         recommend_movies = item_based_collab[title_give].sort_values(ascending=False)[1:11].index
 
         # 추천 영화를 리스트로 변경 해주는 부분
         recommend_list = [i for i in recommend_movies]
 
         print(recommend_list)
-        detail= {'title':movie_find.title,
-        'openDt':movie_find.openDt,
-        'star':movie_find.star,
-        'genre':genre_idx[movie_find.genre],
-        'recommend_list': recommend_list
-        }
-        
+        detail = {'title': movie_find.title,
+                'openDt': movie_find.openDt,
+                'star': movie_find.star,
+                'genre': genre_idx[movie_find.genre],
+                'recommend_list': recommend_list
+                }
+
         return JsonResponse(detail)
 
 
-def detail(request):
 
-    return render(request, 'main/detail.html')
+
+
+
+
+
+
+
+
+
+
+
+
+
