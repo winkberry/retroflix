@@ -11,7 +11,7 @@ class Movie(models.Model):
     clip = models.CharField(max_length=100, default='') 
     star = models.FloatField() 
     genre = models.IntegerField()
-
-    def __str__(self):
-        return self.title
+    #
+    # def __str__(self):
+    #     return self.title
 
