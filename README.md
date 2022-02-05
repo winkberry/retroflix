@@ -1,6 +1,7 @@
 # RetroFlix
 A classic movie streaming service cloning Netflix with a recommedation filtering algorithm applied.
-
+---
+[![호환마마](http://img.youtube.com/vi/LCtQbh-DxCQ/0.jpg)](https://youtu.be/LCtQbh-DxCQ?t=0s) 
 
 # Project WIKI
 ---
