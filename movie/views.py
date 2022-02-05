@@ -180,7 +180,7 @@ def select_movie_detail(request):
         print(genre_idx[movie_find.genre])
         print(movie_find.star)
 
-        # 리뷰 , 리뷰 통계 
+        ###### 리뷰 , 리뷰 통계를 추가해서 같이 넘겨주시면 됩니다 
 
         #### 영화와 비슷한 영화 추천 정보 #####
 
