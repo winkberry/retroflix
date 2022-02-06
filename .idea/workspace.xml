@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="abe5d97f-c0be-42f1-a572-d4a2284d7140" name="변경" comment="모달창 추천영화 구현">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/main/detail.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/main/detail.html" afterDir="false" />
-    </list>
+    <list default="true" id="abe5d97f-c0be-42f1-a572-d4a2284d7140" name="변경" comment="모달창 추천영화 구현 5:48" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -83,7 +80,7 @@
       <workItem from="1644063617946" duration="858000" />
       <workItem from="1644065149479" duration="214000" />
       <workItem from="1644065366282" duration="2214000" />
-      <workItem from="1644127377663" duration="9440000" />
+      <workItem from="1644127377663" duration="9765000" />
     </task>
     <task id="LOCAL-00001" summary=" 2/5 8:08">
       <created>1644059341272</created>
@@ -106,7 +103,14 @@
       <option name="project" value="LOCAL" />
       <updated>1644136749085</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="모달창 추천영화 구현 5:48">
+      <created>1644137312130</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1644137312130</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -127,18 +131,7 @@
     <MESSAGE value=" 2/5 8:08" />
     <MESSAGE value=" 모달창 구현" />
     <MESSAGE value="모달창 추천영화 구현" />
-    <option name="LAST_COMMIT_MESSAGE" value="모달창 추천영화 구현" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/templates/main/main.html</url>
-          <line>243</line>
-          <properties lambdaOrdinal="-1" />
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
+    <MESSAGE value="모달창 추천영화 구현 5:48" />
+    <option name="LAST_COMMIT_MESSAGE" value="모달창 추천영화 구현 5:48" />
   </component>
 </project>
