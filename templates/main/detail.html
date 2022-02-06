@@ -123,11 +123,16 @@
 
 </head>
 <body>
-        <button onclick='select_movie_modal()' > 넘버3 </button>
 
-        <div >
+<button class="detail-modal-open-btn">모달</button>
+
+<div class='detail-modal hidden'>
+    <div class="bg">
+    </div>
+    <div class="modalBox">
+        <div class="wrapper_modalBox">
             <div>
-                <p>{{ title }}</p>
+                <p>007 스펙터</p>
             </div>
             <div><img
                     src="https://tekken.s3.ap-northeast-2.amazonaws.com/movies/007%EA%B3%A8%EB%93%A0%EC%95%84%EC%9D%B4.jpg">
@@ -179,68 +184,11 @@
                 <textarea rows="5" cols="10" placeholder="댓글을 입력하세요"></textarea>
                 <button>작성하기</button>
             </div>
-            <div>
-                <p>추천 영화</p>
-                <div class="remv_wrapper">
-                    <section id="remv_section1">
-                        <a href="#remv_section2" class="remv_arrow__btn">‹</a>
-                        <div class="remv_item">
-                            <a href="/"><img
-                                    src="https://tekken.s3.ap-northeast-2.amazonaws.com/movies/007%EA%B3%A8%EB%93%A0%EC%95%84%EC%9D%B4.jpg"
-                                    alt="">
-                            </a></div>
-                        <div class="remv_item">
-                            <a href="/"><img
-                                    src="https://tekken.s3.ap-northeast-2.amazonaws.com/movies/007%EA%B3%A8%EB%93%A0%EC%95%84%EC%9D%B4.jpg"
-                                    alt="">
-                            </a></div>
-                        <div class="remv_item">
-                            <a href="/"><img
-                                    src="https://tekken.s3.ap-northeast-2.amazonaws.com/movies/007%EA%B3%A8%EB%93%A0%EC%95%84%EC%9D%B4.jpg"
-                                    alt="">
-                            </a></div>
-                        <div class="remv_item">
-                            <a href="/"><img src="https://tekken.s3.ap-northeast-2.amazonaws.com/movies/...ing.jpg"
-                                             alt="">
-                            </a></div>
-                        <div class="remv_item">
-                            <a href="/"><img src="https://tekken.s3.ap-northeast-2.amazonaws.com/movies/...ing.jpg"
-                                             alt="">
-                            </a></div>
-                        <a href="#remv_section2" class="remv_arrow__btn">›</a>
-                    </section>
-                    <section id="remv_section2">
-                        <a href="#remv_section1" class="remv_arrow__btn">‹</a>
-                        <div class="remv_item">
-                            <a href="/"><img
-                                    src="https://tekken.s3.ap-northeast-2.amazonaws.com/movies/007%EA%B3%A8%EB%93%A0%EC%95%84%EC%9D%B4.jpg"
-                                    alt="">
-                            </a></div>
-                        <div class="remv_item">
-                            <a href="/"><img
-                                    src="https://tekken.s3.ap-northeast-2.amazonaws.com/movies/007%EA%B3%A8%EB%93%A0%EC%95%84%EC%9D%B4.jpg"
-                                    alt="">
-                            </a></div>
-                        <div class="remv_item">
-                            <a href="/"><img
-                                    src="https://tekken.s3.ap-northeast-2.amazonaws.com/movies/007%EA%B3%A8%EB%93%A0%EC%95%84%EC%9D%B4.jpg"
-                                    alt="">
-                            </a></div>
-                        <div class="remv_item">
-                            <a href="/"><img
-                                    src="https://tekken.s3.ap-northeast-2.amazonaws.com/movies/007%EA%B3%A8%EB%93%A0%EC%95%84%EC%9D%B4.jpg">
-                            </a></div>
-                        <div class="remv_item">
-                            <a href="/"><img
-                                    src="https://tekken.s3.ap-northeast-2.amazonaws.com/movies/007%EA%B3%A8%EB%93%A0%EC%95%84%EC%9D%B4.jpg">
-                            </a></div>
-                        <a href="#remv_section1" class="arrow__btn">›</a>
-                    </section>
-                </div>
-            </div>
-            <button class="modal_close_btn btn btn-outline-secondary">닫기</button>
         </div>
-
+        <button class="modal_close_btn btn btn-outline-secondary">닫기</button>
+    </div>
+</div>
+</div>
 
 
 <script>
@@ -256,33 +204,8 @@
     document.querySelector(".modal_close_btn").addEventListener("click", close);
     document.querySelector(".bg").addEventListener("click", close);
 
-    function select_movie_modal(value) {
-        let mv_img = value;
-        # 007 골든아이
-        let mv_title = document.getElementById("mv_title").innerText;
-        # 클릭한 영화 이미지의 영화 제목 가져오기
-
-        $.ajax({
-            type: 'POST',
-            url: '/detail/',
-            data: {mv_img_give: mv_img, mv_title_give: mv_title},
-            success: function (response) {
-                let star = {{ detail.title }}
-                console.log(mv star)
-                # temp_html의 내용들은 modal창 안에 붙일 내용들이다.
-                let temp_html = `
-                         <div>${mv_img}</div>
-                         <div>${mv_title}</div>
-                         <div>
-                             <span>⭐⭐⭐⭐⭐</span>
-                             <span>${star}</span>
-                         </div>
-                            `
-                $('#temp_detail').html(temp_html)
-            }
-        });
-    }
 </script>
+
 
 </body>
 </html>
