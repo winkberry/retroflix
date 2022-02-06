@@ -78,6 +78,18 @@ movie_ratings = pd.merge(ratings, movies, on='movieid')
 
 genre_idx=['가족','공포(호러)','다큐멘터리','드라마','멜로/로맨스','뮤지컬','미스터리','범죄','사극','서부극(웨스턴)','성인물(에로)','스릴러','애니메이션','액션','어드벤처','전쟁','코미디','판타지','SF','']
 
+ratings = pd.read_csv('movie/ratings.csv')
+movies = pd.read_csv('movie/movie_data.csv')
+movies.drop(['Unnamed: 0'], axis=1, inplace=True)
+
+pd.set_option('display.max_columns', 10)
+pd.set_option('display.width', 300)
+# movieId를 기준으로 ratings 와 movies 를 결합함
+movie_ratings = pd.merge(ratings, movies, on='movieid')
+
+genre_idx = ['가족', '공포(호러)', '다큐멘터리', '드라마', '멜로/로맨스', '뮤지컬', '미스터리', '범죄', '사극', '서부극(웨스턴)', '성인물(에로)', '스릴러', '애니메이션',
+             '액션', '어드벤처', '전쟁', '코미디', '판타지', 'SF', '']
+
 
 def main(request):
     if request.method == 'GET':
@@ -180,7 +192,7 @@ def select_movie_detail(request):
         print(genre_idx[movie_find.genre])
         print(movie_find.star)
 
-        ###### 리뷰 , 리뷰 통계를 추가해서 같이 넘겨주시면 됩니다 
+
 
         #### 영화와 비슷한 영화 추천 정보 #####
 
@@ -209,6 +221,7 @@ def select_movie_detail(request):
                 }
 
         return JsonResponse(detail)
+
 
 
 
