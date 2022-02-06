@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from collections import Counter
-from .models import Movie
+from .models import Movie, Views
 import datetime
 
 import pandas as pd
@@ -10,49 +10,49 @@ from sklearn.metrics.pairwise import cosine_similarity
 from django.http import JsonResponse
 
 # 임의로 views 조회수 만들기
-views_list = [{'user_id': 1, 'movie_id': 1, 'genre': 1},
-              {'user_id': 1, 'movie_id': 2, 'genre': 2},
-              {'user_id': 1, 'movie_id': 3, 'genre': 3},
-              {'user_id': 1, 'movie_id': 4, 'genre': 1},
-              {'user_id': 1, 'movie_id': 5, 'genre': 6},
-              {'user_id': 1, 'movie_id': 6, 'genre': 4},
-              {'user_id': 1, 'movie_id': 7, 'genre': 7},
-              {'user_id': 1, 'movie_id': 8, 'genre': 4},
-              {'user_id': 1, 'movie_id': 9, 'genre': 2},
-              {'user_id': 1, 'movie_id': 10, 'genre': 5},
-              {'user_id': 1, 'movie_id': 11, 'genre': 3},
-              {'user_id': 1, 'movie_id': 12, 'genre': 2},
-              {'user_id': 1, 'movie_id': 13, 'genre': 7},
-              {'user_id': 1, 'movie_id': 14, 'genre': 9},
-              {'user_id': 1, 'movie_id': 15, 'genre': 5},
-              {'user_id': 1, 'movie_id': 16, 'genre': 3},
-              {'user_id': 1, 'movie_id': 17, 'genre': 2},
-              {'user_id': 1, 'movie_id': 18, 'genre': 4},
-              {'user_id': 1, 'movie_id': 19, 'genre': 1},
-              {'user_id': 1, 'movie_id': 20, 'genre': 3},
-              {'user_id': 1, 'movie_id': 16, 'genre': 3},
-              {'user_id': 1, 'movie_id': 17, 'genre': 2},
-              {'user_id': 1, 'movie_id': 18, 'genre': 4},
-              {'user_id': 1, 'movie_id': 19, 'genre': 1},
-              {'user_id': 1, 'movie_id': 20, 'genre': 3},
-              {'user_id': 1, 'movie_id': 5, 'genre': 6},
-              {'user_id': 1, 'movie_id': 6, 'genre': 4},
-              {'user_id': 1, 'movie_id': 7, 'genre': 7},
-              {'user_id': 1, 'movie_id': 8, 'genre': 4},
-              {'user_id': 1, 'movie_id': 9, 'genre': 2},
-              {'user_id': 1, 'movie_id': 4, 'genre': 1},
-              {'user_id': 1, 'movie_id': 5, 'genre': 6},
-              {'user_id': 1, 'movie_id': 6, 'genre': 4},
-              {'user_id': 1, 'movie_id': 7, 'genre': 7},
-              {'user_id': 1, 'movie_id': 8, 'genre': 4},
-              {'user_id': 1, 'movie_id': 9, 'genre': 2},
-              {'user_id': 1, 'movie_id': 8, 'genre': 4},
-              {'user_id': 1, 'movie_id': 9, 'genre': 2},
-              {'user_id': 1, 'movie_id': 10, 'genre': 5},
-              {'user_id': 1, 'movie_id': 11, 'genre': 3},
-              {'user_id': 1, 'movie_id': 12, 'genre': 2},
-              {'user_id': 1, 'movie_id': 13, 'genre': 7},
-              ]
+# views_list = [{'user_id': 1, 'movie_id': 1, 'genre': 1},
+#               {'user_id': 1, 'movie_id': 2, 'genre': 2},
+#               {'user_id': 1, 'movie_id': 3, 'genre': 3},
+#               {'user_id': 1, 'movie_id': 4, 'genre': 1},
+#               {'user_id': 1, 'movie_id': 5, 'genre': 6},
+#               {'user_id': 1, 'movie_id': 6, 'genre': 4},
+#               {'user_id': 1, 'movie_id': 7, 'genre': 7},
+#               {'user_id': 1, 'movie_id': 8, 'genre': 4},
+#               {'user_id': 1, 'movie_id': 9, 'genre': 2},
+#               {'user_id': 1, 'movie_id': 10, 'genre': 5},
+#               {'user_id': 1, 'movie_id': 11, 'genre': 3},
+#               {'user_id': 1, 'movie_id': 12, 'genre': 2},
+#               {'user_id': 1, 'movie_id': 13, 'genre': 7},
+#               {'user_id': 1, 'movie_id': 14, 'genre': 9},
+#               {'user_id': 1, 'movie_id': 15, 'genre': 5},
+#               {'user_id': 1, 'movie_id': 16, 'genre': 3},
+#               {'user_id': 1, 'movie_id': 17, 'genre': 2},
+#               {'user_id': 1, 'movie_id': 18, 'genre': 4},
+#               {'user_id': 1, 'movie_id': 19, 'genre': 1},
+#               {'user_id': 1, 'movie_id': 20, 'genre': 3},
+#               {'user_id': 1, 'movie_id': 16, 'genre': 3},
+#               {'user_id': 1, 'movie_id': 17, 'genre': 2},
+#               {'user_id': 1, 'movie_id': 18, 'genre': 4},
+#               {'user_id': 1, 'movie_id': 19, 'genre': 1},
+#               {'user_id': 1, 'movie_id': 20, 'genre': 3},
+#               {'user_id': 1, 'movie_id': 5, 'genre': 6},
+#               {'user_id': 1, 'movie_id': 6, 'genre': 4},
+#               {'user_id': 1, 'movie_id': 7, 'genre': 7},
+#               {'user_id': 1, 'movie_id': 8, 'genre': 4},
+#               {'user_id': 1, 'movie_id': 9, 'genre': 2},
+#               {'user_id': 1, 'movie_id': 4, 'genre': 1},
+#               {'user_id': 1, 'movie_id': 5, 'genre': 6},
+#               {'user_id': 1, 'movie_id': 6, 'genre': 4},
+#               {'user_id': 1, 'movie_id': 7, 'genre': 7},
+#               {'user_id': 1, 'movie_id': 8, 'genre': 4},
+#               {'user_id': 1, 'movie_id': 9, 'genre': 2},
+#               {'user_id': 1, 'movie_id': 8, 'genre': 4},
+#               {'user_id': 1, 'movie_id': 9, 'genre': 2},
+#               {'user_id': 1, 'movie_id': 10, 'genre': 5},
+#               {'user_id': 1, 'movie_id': 11, 'genre': 3},
+#               {'user_id': 1, 'movie_id': 12, 'genre': 2},
+#               {'user_id': 1, 'movie_id': 13, 'genre': 7},
+#               ]
 
 ratings = pd.read_csv('movie/ratings.csv')
 movies = pd.read_csv('movie/movie_data.csv')
@@ -64,22 +64,11 @@ pd.set_option('display.width', 300)
 movie_ratings = pd.merge(ratings, movies, on='movieid')
 
 genre_idx = ['가족', '공포(호러)', '다큐멘터리', '드라마', '멜로/로맨스', '뮤지컬', '미스터리', '범죄', '사극', '서부극(웨스턴)', '성인물(에로)', '스릴러', '애니메이션',
-            '액션', '어드벤처', '전쟁', '코미디', '판타지', 'SF', '']
-
-
-ratings = pd.read_csv('movie/ratings.csv')
-movies = pd.read_csv('movie/movie_data.csv')
-movies.drop(['Unnamed: 0'], axis=1, inplace=True)
-
-pd.set_option('display.max_columns', 10)
-pd.set_option('display.width', 300)
-# movieId를 기준으로 ratings 와 movies 를 결합함
-movie_ratings = pd.merge(ratings, movies, on='movieid')
-
-genre_idx=['가족','공포(호러)','다큐멘터리','드라마','멜로/로맨스','뮤지컬','미스터리','범죄','사극','서부극(웨스턴)','성인물(에로)','스릴러','애니메이션','액션','어드벤처','전쟁','코미디','판타지','SF','']
+             '액션', '어드벤처', '전쟁', '코미디', '판타지', 'SF', '']
 
 
 def main(request):
+    views_list = list(Views.objects.all().values())
     if request.method == 'GET':
 
         current_user = request.user.id
@@ -96,26 +85,22 @@ def main(request):
         top10_list = []
         for i in top_10:
             top10_list.append(Movie.objects.get(id=i))
-        
+
         # ---------------- user 세대 영화  ------------
         # ------ 임의로 user의 출생년도 가지고오기
         user_birthday = datetime.date(1994, 1, 1)
 
         user_birthday = int(user_birthday.strftime('%Y'))  # '1994'
-        age_list = []
 
         if user_birthday < 1990:
             user_birthday = 1990
         elif user_birthday > 2002:
             user_birthday = 2002
-        movie = Movie.objects.filter(openDt=user_birthday + 5)
-        for n in range(len(movie)):
-            age_list.append(movie[n])
+        age_list = list(Movie.objects.filter(openDt=user_birthday + 5))
 
         # ---------- genre --------------
         top_list = []
-        genre1_list = []
-        genre2_list = []
+
         for i in views_list:
             name = i['genre']
             top_list.append(name)
@@ -124,13 +109,27 @@ def main(request):
 
         most_rank = [genre_idx[rank[0][0]], genre_idx[rank[1][0]]]
 
-        movie_1 = Movie.objects.filter(genre=rank[0][0])
-        for i in range(len(movie_1)):
-            genre1_list.append(movie_1[i])
+        # genre만 뽑는 원래 코드----------
+        genre1_list = list(Movie.objects.filter(genre=rank[0][0]))
+        genre2_list = list(Movie.objects.filter(genre=rank[1][0]))
+        # genre중 조회수 높은 순으로 뽑기--------------
+        genre1_top_list = []
+        genre2_top_list = []
+        for i in views_list:
+            name = i['movie_id']
+            if i['genre'] == rank[0][0]:
+                genre1_top_list.append(name)
+            elif i['genre'] == rank[1][0]:
+                genre2_top_list.append(name)
+        print("genre1_top_list", genre1_top_list)
+        print("genre2_top_list", genre2_top_list)
+        genre1_rank = Counter(genre1_top_list).most_common(10)
+        genre2_rank = Counter(genre2_top_list).most_common(10)
+        # -----------------------------------------------------
 
-        movie_2 = Movie.objects.filter(genre=rank[1][0])
-        for i in range(len(movie_2)):
-            genre2_list.append(movie_2[i])
+        print('genre1_rank : ', genre1_rank)
+        print('genre2_rank : ', genre2_rank)
+
         # -------------------비슷한 유저로 추천 해줌----------------------
 
         # 유저 기반 협업 필터링
@@ -158,8 +157,8 @@ def main(request):
         movie_result_list = result_list[:10]
 
         return render(request, 'main/main.html',
-                        {'age_list': age_list, 'genre1_list': genre1_list,
-                        'genre2_list': genre2_list, 'movie_result_list': movie_result_list, 'most_rank': most_rank})
+                      {'top10_list': top10_list, 'age_list': age_list, 'genre1_list': genre1_list,
+                       'genre2_list': genre2_list, 'movie_result_list': movie_result_list, 'most_rank': most_rank})
 
 
 def select_movie_detail(request):
@@ -202,26 +201,21 @@ def select_movie_detail(request):
 
         print(recommend_list)
         detail = {'title': movie_find.title,
-                'openDt': movie_find.openDt,
-                'star': movie_find.star,
-                'genre': genre_idx[movie_find.genre],
-                'recommend_list': recommend_list
-                }
+                  'openDt': movie_find.openDt,
+                  'star': movie_find.star,
+                  'genre': genre_idx[movie_find.genre],
+                  'recommend_list': recommend_list
+                  }
 
         return JsonResponse(detail)
 
 
+def test(request):
+    if request.method == "POST":
+        user_id = request.POST.get('user_id')
+        movie_id = request.POST.get('movie_id')
+        genre = request.POST.get('genre')
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+        views = Views.objects.create(user_id=user_id, movie_id=movie_id, genre=genre)
+        views.save()
+        return JsonResponse({'msg': 'views 저장!'})
