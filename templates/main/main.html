@@ -253,17 +253,48 @@
 
                     title = response['title']
                     genre = response['genre']
-                    console.log(response['openDt'])
+                    openDt = response['openDt']
                     star = response['star']
-                    console.log(response['recommend_list'])
+                    recommend_list = response['recommend_list']
 
                     let temp_html = `
                         <div><img src="https://tekken.s3.ap-northeast-2.amazonaws.com/movies/${value}.jpg"></div>
                         <div>${title}</div>
-                        <div>${genre}</div>
+                        <div>
+                        <span>${genre}</span>
+                        <span>${openDt}</span>
+                        </div>
+
                         <div>
                         <span>⭐⭐⭐⭐⭐</span>
                         <span>${star}</span>
+                        </div>
+
+
+                         <div>
+                            <p>추천 영화</p>
+                            <div class="remv_wrapper">
+                                <section id="remv_section1">
+                                    <a href="#remv_section2" class="remv_arrow__btn">‹</a>
+                                        ${recommend_list.slice(0,5).join(0).split(0).map((item, i) => `
+                                            <div class="remv_item">
+                                                <img src="https://tekken.s3.ap-northeast-2.amazonaws.com/movies/${item}.jpg"
+                                                    alt="${item}" title="${item}" onclick="select_movie_modal(this.title)">
+                                               </div>
+                                        `).join('')}
+                                    <a href="#remv_section2" class="remv_arrow__btn">›</a>
+                                </section>
+                                <section id="remv_section2">
+                                    <a href="#remv_section1" class="remv_arrow__btn">‹</a>
+                                    ${recommend_list.slice(5,10).join(0).split(0).map((item, i) => `
+                                    <div class="remv_item">
+                                        <img src="https://tekken.s3.ap-northeast-2.amazonaws.com/movies/${item}.jpg"
+                                     alt="${item}" title="${item}" onclick="select_movie_modal(this.title)">
+                                        </div>
+                                        `).join('')}
+                                    <a href="#remv_section1" class="arrow__btn">›</a>
+                                </section>
+                            </div>
                         </div>
                         `
                     $('#temp_detail').html(temp_html)
