@@ -123,62 +123,41 @@
 
 </head>
 <body>
-        <button onclick='select_movie_modal()' > 넘버3 </button>
 
-        <div >
-            <div>
-                <p>{{ title }}</p>
-            </div>
-            <div><img
-                    src="https://tekken.s3.ap-northeast-2.amazonaws.com/movies/007%EA%B3%A8%EB%93%A0%EC%95%84%EC%9D%B4.jpg">
-            </div>
+<button class="detail-modal-open-btn">모달</button>
+
+<div class='detail-modal hidden'>
+    <div class="bg">
+    </div>
+    <div class="modalBox">
+        <div class="wrapper_modalBox">            
             <div id="temp_detail">
-                <div>영화 제목</div>
-                <div>
-                    <span>⭐⭐⭐⭐⭐</span>
-                    <span>5.0</span>
-                </div>
+                
             </div>
 
-            <div>
-                <div>
-                    <p>REVIEW</p>
-                    <div>⭐⭐⭐⭐⭐</div>
-                    <p>지난 3일동안 다니엘 크레이그의 007을 연달아 모두 봤다.
-                        몇년만에 한 편씩 개봉하니 과거 작품은 기억도 안나는 상황에서 봤을때는 뭔 내용인가 싶었는데,
-                        이번 기회에 다시 몰아보니 그간 모르고 지나간 것들이 눈에 많이 띄고,
-                        각 편마다 하나 하나씩 퍼즐 맞추듯
-                        각편의 보스들과 조직원들이 스펙터의 하부 조직원들인게 밝혀지는등
-                        그렇게 스토리가 연계되니 아는 만큼 훨씬 재미 있어 진다.
-                        007매니아라면 날잡아서 복습겸 예습을 개인적으로 권장함.
-
-                        스펙터가 예상외로 평점이 상당히 낮고 5년전에 봤던 기억도 별로라서 다시 보기가 꺼려졌었는데
-                        막상 연달아서 다시 보니 퍼즐을 맞추어 나가는 스토리가 상당히 흥미롭고 재미있었다.
-                        액션 역시 나쁘지 않았고. 개인적으로도 재평가하게 되었다.
-                        상당한 수작임에는 틀림없다.
-                    </p>
-                    <div>
-                        <span>베가</span>
-                        <span>2022.2.3</span>
+     
+        
+        <form class="review-form" method="POST">
+            
+            <div class="form-group">
+                <textarea id = "review-content" name="review-content" rows="3" placeholder="리뷰를 작성해주세요."></textarea>
+            </div>
+            <div class="form-group">
+                <div class="rating rating2">
+                    <div class="rating">                                                                   
+                        <input name='review-star' id="e5" type="radio" value="5"></a><label for="e5">★</label>                           
+                        <input name='review-star' id="e4" type="radio" value="4"></a><label for="e4">★</label>
+                        <input name='review-star' id="e3" type="radio" value="3"></a><label for="e3">★</label>
+                        <input name='review-star' id="e2" type="radio" value="2"></a><label for="e2">★</label>
+                        <input name='review-star' id="e1" type="radio" value="1"></a><label for="e1">★</label>
                     </div>
                 </div>
-                <div>
-                    <div>⭐⭐⭐⭐⭐</div>
-                    <p>개인적으로는 괜찮았다. 다이엘 크레이드의 거침없는 액션도 참 맘에 들었고, 긴 런닝타임에도 불구하고 빠른 전개와 화려한 액션으로 지루할 틈이 없어 좋았다. 다만 스토리 전개가
-                        깔끔하게 떨어지지 않았던 게 좀 아쉽다. 그리고 전작들에 비해 본드걸의 활약이 좀 약했던 거??
-                    </p>
-                    <div>
-                        <span>베리</span>
-                        <span>2022.2.1</span>
-                    </div>
-                </div>
-            </div>
-            <div>
-                <p>댓글 작성</p>
-                <p>작성자이름</p>
-                <textarea rows="5" cols="10" placeholder="댓글을 입력하세요"></textarea>
-                <button>작성하기</button>
-            </div>
+            </div>                               
+            <button type="button" class="btn-primary" onclick="postReview()">작성</button>                                
+        </form>
+            <!-- Review 폼 -->
+               
+            <!-- 추천영화 -->
             <div>
                 <p>추천 영화</p>
                 <div class="remv_wrapper">
@@ -240,7 +219,8 @@
             </div>
             <button class="modal_close_btn btn btn-outline-secondary">닫기</button>
         </div>
-
+    </div>
+</div>
 
 
 <script>
@@ -256,33 +236,8 @@
     document.querySelector(".modal_close_btn").addEventListener("click", close);
     document.querySelector(".bg").addEventListener("click", close);
 
-    function select_movie_modal(value) {
-        let mv_img = value;
-        # 007 골든아이
-        let mv_title = document.getElementById("mv_title").innerText;
-        # 클릭한 영화 이미지의 영화 제목 가져오기
-
-        $.ajax({
-            type: 'POST',
-            url: '/detail/',
-            data: {mv_img_give: mv_img, mv_title_give: mv_title},
-            success: function (response) {
-                let star = {{ detail.title }}
-                console.log(mv star)
-                # temp_html의 내용들은 modal창 안에 붙일 내용들이다.
-                let temp_html = `
-                         <div>${mv_img}</div>
-                         <div>${mv_title}</div>
-                         <div>
-                             <span>⭐⭐⭐⭐⭐</span>
-                             <span>${star}</span>
-                         </div>
-                            `
-                $('#temp_detail').html(temp_html)
-            }
-        });
-    }
 </script>
+
 
 </body>
 </html>
