@@ -1,8 +1,8 @@
 
-{
-  "HOST": "smtp.naver.com",
+{ "BACKEND" : "django.core.mail.backends.smtp.EmailBackend",
+  "HOST": "smtp.googlemail.com",
   "PORT": "587",
-  "HOST_USER" : "taehyeki123@naver.com",
+  "HOST_USER" : "taehyeki123@gmail.com",
   "HOST_PASSWORD" : "!!xogus123",
   "USE_TLS" : "True",
   "USE_SSL" : "False"
