@@ -4,6 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
+<<<<<<< HEAD
     <list default="true" id="e20dae63-a160-46c5-9ab6-0b5955b60476" name="변경" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
@@ -12,6 +13,10 @@
       <change beforePath="$PROJECT_DIR$/movie/migrations/0002_remove_movie_movieid.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/movie/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/movie/models.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/movie/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/movie/urls.py" afterDir="false" />
+=======
+    <list default="true" id="abe5d97f-c0be-42f1-a572-d4a2284d7140" name="변경" comment=" 2/5 8:08">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+>>>>>>> 84af9d131ea2802d6deb6abf4dde96ee6793dc6e
       <change beforePath="$PROJECT_DIR$/movie/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/movie/views.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/main/main.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/main/main.html" afterDir="false" />
     </list>
@@ -84,10 +89,29 @@
       <created>1644077804470</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
+<<<<<<< HEAD
       <updated>1644077804470</updated>
       <workItem from="1644077822644" duration="10357000" />
       <workItem from="1644139110624" duration="2606000" />
+=======
+      <updated>1644045668118</updated>
+      <workItem from="1644045673853" duration="2099000" />
+      <workItem from="1644047781307" duration="10645000" />
+      <workItem from="1644062513613" duration="1099000" />
+      <workItem from="1644063617946" duration="858000" />
+      <workItem from="1644065149479" duration="214000" />
+      <workItem from="1644065366282" duration="2214000" />
+      <workItem from="1644127377663" duration="2346000" />
+>>>>>>> 84af9d131ea2802d6deb6abf4dde96ee6793dc6e
     </task>
+    <task id="LOCAL-00001" summary=" 2/5 8:08">
+      <created>1644059341272</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1644059341272</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -103,5 +127,24 @@
         </entry>
       </map>
     </option>
+<<<<<<< HEAD
+=======
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value=" 2/5 8:08" />
+    <option name="LAST_COMMIT_MESSAGE" value=" 2/5 8:08" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/templates/main/main.html</url>
+          <line>243</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+>>>>>>> 84af9d131ea2802d6deb6abf4dde96ee6793dc6e
   </component>
 </project>
