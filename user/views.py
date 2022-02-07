@@ -4,7 +4,7 @@ import string
 from random import randint
 from django.http import JsonResponse
 import requests
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, reverse
 from .models import  CustomUser
 from django.contrib.auth import get_user_model
 from django.contrib import auth
@@ -238,10 +238,13 @@ certify_num = ''
 def email_ajax(request):
     global certify_num
     if request.method =='POST':
+        print('hi')
         certify_num = randint(10000,99999)
+
         email = json.loads(request.body)
+        print(email)
         send_mail('레트로 플릭스 회원가입 인증 메일입니다.',
-        f'안녕하세요 아래의 인증번호를 입력해주세요\n\n인증번호 : {certify_num}','taehyeki123@naver.com',[email],fail_silently=False)
+        f'안녕하세요 아래의 인증번호를 입력해주세요\n\n인증번호 : {certify_num}','taehyeki123@gmail.com',[email],fail_silently=False)
         context = {
             'result': '인증번호 발송이 완료되었습니다.',
         }
@@ -304,5 +307,18 @@ def my_modify(request):
         user.profile_img = img_file
         user.save()
         user.profile_img = url + str(img_file)
+        user.save()
+    return redirect('/mypage')
+
+def id_change(request):
+    if request.method == 'POST':
+        id = request.POST.get('id','')
+        if id == '':
+            return redirect('/mypage')
+        if len(CustomUser.objects.filter(username=id)) >= 1:
+
+            return redirect('/mypage')
+        user = request.user
+        user.username = id
         user.save()
     return redirect('/mypage')

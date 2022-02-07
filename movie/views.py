@@ -51,6 +51,7 @@ def main(request):
             user_birthday = 1990
         elif user_birthday > 2002:
             user_birthday = 2002
+
         age_list = list(Movie.objects.filter(openDt=user_birthday + 5))
 
         # ---------- genre --------------
@@ -61,44 +62,30 @@ def main(request):
             top_list.append(name)
         rank = Counter(top_list).most_common(2)
         print('genre rank:  ', rank)
-
         most_rank = [genre_idx[rank[0][0]], genre_idx[rank[1][0]]]
-
-        # genre만 뽑는 원래 코드----------
         genre1_list = list(Movie.objects.filter(genre=rank[0][0]))
         genre2_list = list(Movie.objects.filter(genre=rank[1][0]))
-        # genre중 조회수 높은 순으로 뽑기--------------
-        genre1_top_list = []
-        genre2_top_list = []
-        for i in views_list:
-            name = i['movie_id']
-            if i['genre'] == rank[0][0]:
-                genre1_top_list.append(name)
-            elif i['genre'] == rank[1][0]:
-                genre2_top_list.append(name)
-        print("genre1_top_list", genre1_top_list)
-        print("genre2_top_list", genre2_top_list)
-        genre1_rank = Counter(genre1_top_list).most_common(10)
-        genre2_rank = Counter(genre2_top_list).most_common(10)
-        print('genre1_rank',genre1_rank)
-        print('genre2_rank', genre2_rank)
 
-        # ----------------------------------------------------
 
         # -------------------비슷한 유저로 추천 해줌----------------------
 
         # 유저 기반 협업 필터링
         # user별로 영화에 부여한 rating 값을 볼 수 있도록 pivot table 사용
+
+
         title_user = movie_ratings.pivot_table('rating', index='userId', columns='title')
         # 평점을 부여안한 영화는 그냥 0이라고 부여
         title_user = title_user.fillna(0)
+
         # 유저 1~610 번과 유저 1~610 번 간의 코사인 유사도를 구함
         user_based_collab = cosine_similarity(title_user, title_user)
+
         # 위는 그냥 numpy 행렬이니까, 이를 데이터프레임으로 변환
         user_based_collab = pd.DataFrame(user_based_collab, index=title_user.index, columns=title_user.index)
 
         # 1번 유저와 비슷한 유저를 내림차순으로 정렬한 후에, 상위 10개만 뽑음
         ############### 현재 유저와 가장 비슷한 유저를 뽑는다 ################
+
 
         # user = user_based_collab['현재 로그인한 유저의 id번호'].sort_values 하셔야 합니다
         user = user_based_collab[current_user].sort_values(ascending=False)[:10].index[1]
@@ -106,10 +93,10 @@ def main(request):
         #####collab = 현재유저 위에서 5 그러면 userid 번호가 들어가야함, user = 가장 비슷한유저
 
         result = title_user.query(f"userId == {user}").sort_values(ascending=False, by=user, axis=1)
-
         result_list = list(title_user.sort_values(ascending=False, by=user, axis=1))
         # 비슷한유저의 상위 영화 10가지
         movie_result_list = result_list[:10]
+        movie_result_list = [Movie.objects.filter(title=movie)[0] for movie in movie_result_list]
 
         return render(request, 'main/main.html',
                       {'top10_list': top10_list, 'age_list': age_list, 'genre1_list': genre1_list,
@@ -165,6 +152,7 @@ def select_movie_detail(request, movie_id):
         user_title = user_title.fillna(0)
         item_based_collab = cosine_similarity(user_title, user_title)
         item_based_collab = pd.DataFrame(item_based_collab, index=user_title.index, columns=user_title.index)
+
         # 현재영화와 비슷하게 유저들로부터 평점을 부여받은 영화들은?
         # recommend_movies = item_based_collba[넘겨받은 영화의 제목 넣는 부분].sort_values(ascending=False)[1:11].index
         recommend_movies = item_based_collab[movie_find.title].sort_values(ascending=False)[1:11].index
