@@ -108,10 +108,47 @@
                     display: none;
                 }
             }
+            /* .video-box {
+                position: absolute;
+                left: 0;
+                top: 0;
+
+                width: 100%;
+                z-index: 1;
+            }
+
+            .video-box video{
+
+
+                object-fit: fill;
+
+                width: 100%;
+            }
+            .item:hover {
+
+            }
+            #hidden-video {
+                width: 330px;
+                height: 250px;
+                position: absolute;
+                display: none;
+                border : 1px solid yellow;
+
+            }
+            #hidden-video video {
+                width: 330px;
+                border-radius: 30px;
+            }
+            */
         </style>
     </head>
 
     <body>
+    <!-- <div class="video-box">
+        <video id="hohwan" src="https://fuck-sparta.s3.ap-northeast-2.amazonaws.com/video1.mp4" loop="loop" autoplay muted controls>
+        </video>
+    </div> -->
+
     <h1 id="myList">가장인기있는 컨텐츠 Top 10</h1>
     <div class="wrapper">
         <section id="section1">
@@ -233,197 +270,226 @@
         </section>
     </div>
     {% include "./detail.html" %}
+    <!-- <div id="hidden-video" >
+        <video src="" muted autoplay ></video>
+    </div> -->
 {% endblock %}
     
 
 {% block script %}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
 
-<script>
-    function select_movie_modal(value, id) {
-        document.querySelector(".detail-modal").classList.remove("hidden");
-        let mv_title = value;
-        let mv_id = id;
-        $.ajax({
-            type: 'GET',
-            url: `/detail/${mv_id}/`,            
-            success: function (response) {
+        <script>
 
-                console.log(response['movie'])
-                console.log(response['recommend_list'])                
-                console.log(response['reviews'])
-                // console.log(response['gender_rate'])
-                // console.log(response['generation_rate'])
 
-                const genderRate = response['gender_rate']
-                const generationRate = response['gender_rate']             
-                let movie = JSON.parse(response['movie']);
-                
-                let title = movie[0]['fields']['title']
-                let genre = movie[0]['fields']['genre']
-                let openDt = movie[0]['fields']['openDt']
-                let star = movie[0]['fields']['star']
-               
-                let temp_html = `
-                    <div><img src="https://tekken.s3.ap-northeast-2.amazonaws.com/movies/${title}.jpg"></div>
-                    <div id="movie-title">${title}</div>
-                    <div>${genre}</div>
-                    <div>
-                    <span>⭐⭐⭐⭐⭐</span>
-                    <span>${star}</span>
-                    <span>${openDt}</span>
-                    <input type='hidden' id='movie-id' value=${mv_id}>
-                    </div> 
-                    
 
-                            <div class="chart-container">
-                                <canvas id='gender-chart'></canvas>
-                                <canvas id='generation-chart'></canvas>
+            function select_movie_modal(value, id) {
+                document.querySelector(".detail-modal").classList.remove("hidden");
+                let mv_title = value;
+                let mv_id = id;
+                $.ajax({
+                    type: 'GET',
+                    url: `/detail/${mv_id}/`,
+                    success: function (response) {
+
+                        console.log(response['movie'])
+                        console.log(response['recommend_list'])
+                        console.log(response['reviews'])
+                        // console.log(response['gender_rate'])
+                        // console.log(response['generation_rate'])
+
+                        const genderRate = response['gender_rate']
+                        const generationRate = response['gender_rate']
+                        let movie = JSON.parse(response['movie']);
+
+                        let title = movie[0]['fields']['title']
+                        let genre = movie[0]['fields']['genre']
+                        let openDt = movie[0]['fields']['openDt']
+                        let star = movie[0]['fields']['star']
+
+                        let temp_html = `
+                            <div><img src="https://tekken.s3.ap-northeast-2.amazonaws.com/movies/${title}.jpg"></div>
+                            <div id="movie-title">${title}</div>
+                            <div>${genre}</div>
+                            <div>
+                            <span>⭐⭐⭐⭐⭐</span>
+                            <span>${star}</span>
+                            <span>${openDt}</span>
+                            <input type='hidden' id='movie-id' value=${mv_id}>
                             </div>
 
-                                
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="media">
-                                        <div class="media-body">
-                                            <h5 class="mt-0"> </h5>
-                                            
-                                        </div>                                                                                
+
+                                    <div class="chart-container">
+                                        <canvas id='gender-chart'></canvas>
+                                        <canvas id='generation-chart'></canvas>
                                     </div>
-                                </div>
-                            </div>
-                            <hr>                       
 
-                    `
-                $('#temp_detail').html(temp_html)
-                
-                let reviews = response['reviews']
-                
-                for (let i = 0; i <= response['reviews'].length; i++){
-                    let content = response['reviews'][i]['content']
-                    let star = response['reviews'][i]['star']
-                    let author = response['reviews'][i]['author_id']
-                    let createdDate = response['reviews'][i]['created_date']                    
 
-                    let review_html = `
-                        <h5 class="mt-0"> ${content} </h5>
-                                            
-                            <span> ${author} </span>
-                            <span> - ${createdDate}</span>
-                
-                    `
-                    $('.media-body').append(review_html)
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="media">
+                                                <div class="media-body">
+                                                    <h5 class="mt-0"> </h5>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <hr>
+
+                            `
+                        $('#temp_detail').html(temp_html)
+
+                        let reviews = response['reviews']
+
+                        for (let i = 0; i <= response['reviews'].length; i++){
+                            let content = response['reviews'][i]['content']
+                            let star = response['reviews'][i]['star']
+                            let author = response['reviews'][i]['author_id']
+                            let createdDate = response['reviews'][i]['created_date']
+
+                            let review_html = `
+                                <h5 class="mt-0"> ${content} </h5>
+
+                                    <span> ${author} </span>
+                                    <span> - ${createdDate}</span>
+
+                            `
+                            $('.media-body').append(review_html)
+                        }
+
+                        // const generationCtx = $("#generation-chart");
+                        // const generationChart = new Chart(generationCtx, {
+                        //     type: 'bar',
+                        //     data: generationData,
+                        //     options: {
+                        //         scales: {
+                        //         y: {
+                        //             beginAtZero: true
+                        //         }
+                        //         }
+                        //     },
+
+                        // })
+                        // const generationData = {
+                        //     labels: ['10대', '20대', '30대', '40대 이상'],
+                        //     datasets: [{
+                        //         label: '연령별 통계',
+                        //         data: generationRate,
+                        //         backgroundColor: [
+                        //         'rgba(255, 99, 132, 0.2)',
+                        //         'rgba(255, 159, 64, 0.2)',
+                        //         'rgba(255, 205, 86, 0.2)',
+                        //         'rgba(75, 192, 192, 0.2)',
+                        //         ],
+                        //         borderColor: [
+                        //         'rgb(255, 99, 132)',
+                        //         'rgb(255, 159, 64)',
+                        //         'rgb(255, 205, 86)',
+                        //         'rgb(75, 192, 192)',
+                        //         ],
+                        //         borderWidth: 1
+                        //     }]
+                        // };
+
+                        // const genderCtx = $("#generation-chart");
+                        // const genderChart = new Chart(genderCtx, {
+                        //     type: 'pie',
+                        //     data: genderData,
+                        // })
+
+                        // const genderData = {
+                        //     labels: ['남성', '여성'],
+                        //     datasets: [{
+                        //         label: '성별 통계',
+                        //         data: genderRate,
+                        //         backgroundColor: [
+                        //         'rgba(255, 99, 132, 0.2)',
+                        //         'rgba(255, 159, 64, 0.2)',
+                        //         'rgba(255, 205, 86, 0.2)',
+                        //         'rgba(75, 192, 192, 0.2)',
+                        //         ],
+                        //         borderColor: [
+                        //         'rgb(255, 99, 132)',
+                        //         'rgb(255, 159, 64)',
+                        //         'rgb(255, 205, 86)',
+                        //         'rgb(75, 192, 192)',
+                        //         ],
+                        //         borderWidth: 1
+                        //     }]
+                        // };
+
+
+
+                    }
+                });
+            }
+
+            function postReview(){
+                let movie_id = $('#movie-id').val()
+                let movie_title = $('#movie-title').val()
+                let review_data = {
+                    'review-content' : $("#review-content").val(),
+                    'review-star' : $("input[name='review-star']:checked").val()
                 }
 
-                // const generationCtx = $("#generation-chart");
-                // const generationChart = new Chart(generationCtx, {
-                //     type: 'bar',
-                //     data: generationData,
-                //     options: {
-                //         scales: {
-                //         y: {
-                //             beginAtZero: true
-                //         }
-                //         }
-                //     },
+                $.ajax({
+                    type: 'POST',
+                    url: `/detail/${movie_id}/reviews/create/`,
+                    headers: {'X-CSRFTOKEN': '{{ csrf_token }}'},
+                    datatype: 'json',
+                    data: review_data,
 
-                // })
-                // const generationData = {
-                //     labels: ['10대', '20대', '30대', '40대 이상'],
-                //     datasets: [{
-                //         label: '연령별 통계',
-                //         data: generationRate,
-                //         backgroundColor: [
-                //         'rgba(255, 99, 132, 0.2)',
-                //         'rgba(255, 159, 64, 0.2)',
-                //         'rgba(255, 205, 86, 0.2)',
-                //         'rgba(75, 192, 192, 0.2)',
-                //         ],
-                //         borderColor: [
-                //         'rgb(255, 99, 132)',
-                //         'rgb(255, 159, 64)',
-                //         'rgb(255, 205, 86)',
-                //         'rgb(75, 192, 192)',
-                //         ],
-                //         borderWidth: 1
-                //     }]
-                // };
+                    success: function(response){
+                        alert(response['result']);
+                        $(".review-form")[0].reset()
+                        select_movie_modal(movie_title,movie_id);
+                    }
+                })
 
-                // const genderCtx = $("#generation-chart");
-                // const genderChart = new Chart(genderCtx, {
-                //     type: 'pie',
-                //     data: genderData,
-                // })
-
-                // const genderData = {
-                //     labels: ['남성', '여성'],
-                //     datasets: [{
-                //         label: '성별 통계',
-                //         data: genderRate,
-                //         backgroundColor: [
-                //         'rgba(255, 99, 132, 0.2)',
-                //         'rgba(255, 159, 64, 0.2)',
-                //         'rgba(255, 205, 86, 0.2)',
-                //         'rgba(75, 192, 192, 0.2)',
-                //         ],
-                //         borderColor: [
-                //         'rgb(255, 99, 132)',
-                //         'rgb(255, 159, 64)',
-                //         'rgb(255, 205, 86)',
-                //         'rgb(75, 192, 192)',
-                //         ],
-                //         borderWidth: 1
-                //     }]
-                // };
-                
-
-                
             }
-        });     
-    }
-    
-    function postReview(){
-        let movie_id = $('#movie-id').val()
-        let movie_title = $('#movie-title').val()
-        let review_data = {
-            'review-content' : $("#review-content").val(),
-            'review-star' : $("input[name='review-star']:checked").val()
-        }
+            function view(user_id, mv_id, genre) {
+                    $.ajax({
+                        type: 'POST',
+                        url: {% url 'view' %},
+                        headers: {'X-CSRFTOKEN': '{{ csrf_token }}'},
+                        datatype: 'json',
+                        data: {
+                            'user_id' : user_id,
+                            'movie_id': mv_id,
+                            'genre': genre
+                        },
+                        success: function (response){
+                        }
 
-        $.ajax({
-            type: 'POST',
-            url: `/detail/${movie_id}/reviews/create/`,
-            headers: {'X-CSRFTOKEN': '{{ csrf_token }}'},
-            datatype: 'json',
-            data: review_data,
-            
-            success: function(response){
-                alert(response['result']);
-                $(".review-form")[0].reset()
-                select_movie_modal(movie_title,movie_id);
-            }
-        })
-
-    }
-    function view(user_id, mv_id, genre) {
-            $.ajax({
-                type: 'POST',
-                url: {% url 'view' %},
-                headers: {'X-CSRFTOKEN': '{{ csrf_token }}'},
-                datatype: 'json',
-                data: {
-                    'user_id' : user_id,
-                    'movie_id': mv_id,
-                    'genre': genre
-                },
-                success: function (response){
+                    });
                 }
 
+            /* $(document).ready(function (){
+                $("#hohwan").css({
+                    'height': ($(".showcase").height() + 'px')
+                });
+            })
+            $(window).resize(function() {
+                console.log('hi')
+                $("#hohwan").css({
+                    'height': ($(".showcase").height() + 'px')
+                });
             });
-        }
+            $('.item img').mouseenter(function () {
 
+                        console.log($(this).offset().top)
+                        console.log($(this).offset().left)
+                        $('#hidden-video').css({
+                            display : 'block',
+                            top : $(this).offset().top -50,
+                            left : $(this).offset().left -70
+                        })
+                        {#$('#hidden-video video')[0].load().src = "https://fuck-sparta.s3.ap-northeast-2.amazonaws.com/video1.mp4"#}
+                        $('#hidden-video video')[0].src = "https://fuck-sparta.s3.ap-northeast-2.amazonaws.com/video1.mp4"
+            });
+            */
 
-    
 
 </script>
 
