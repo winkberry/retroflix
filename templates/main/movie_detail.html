@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% block content %}
+
     <div class="container movie-details">
         <div class="container movie-detail-wrapper">
             <div class="row">
@@ -14,11 +15,7 @@
                     <p>평점: {{ movie.star }} / 5</p>
                     {% endif %}
                     {% if star_rate %}
-                    <div class="star-ratings-css">
-                        <div class="star-ratings-css-top" style="width: {{star_rate}}%">
-                            <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
-                        <div class="star-ratings-css-bottom"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
-                    </div>
+                    <div class="star-ratings-sprite"><span style="width:{{star_rate}}%" class="star-ratings-sprite-rating"></span></div>
                     {% endif %}
                     
                 </div>
@@ -124,15 +121,35 @@
 {% block script %}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js" ></script>
-
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
 
 
 
 <script>
-    const generationCtx = $("#generation-chart");
+    {% if generation_rate %}
+    const generationCtx = document.getElementById('generation-chart').getContext('2d');
     const generationChart = new Chart(generationCtx, {
         type: 'bar',
-        data: generationData,
+        data: {
+        labels: ['10대', '20대', '30대', '40대 이상'],
+        datasets: [{
+            label: '연령별 통계',
+            data: {{ generation_rate | safe }},
+            backgroundColor: [
+            'rgba(255, 99, 132, 0.2)',
+            'rgba(255, 159, 64, 0.2)',
+            'rgba(255, 205, 86, 0.2)',
+            'rgba(75, 192, 192, 0.2)',           
+            ],
+            borderColor: [
+            'rgb(255, 99, 132)',
+            'rgb(255, 159, 64)',
+            'rgb(255, 205, 86)',
+            'rgb(75, 192, 192)',            
+            ],
+            borderWidth: 1
+        }]
+    },
         options: {
             scales: {
             y: {
@@ -142,38 +159,17 @@
         },
 
     })
-    const generationData = {
-        labels: ['10대', '20대', '30대', '40대 이상'],
-        datasets: [{
-            label: '연령별 통계',
-            data: {% if generation_rate %}{{ generation_rate | safe }}{% endif %},
-            backgroundColor: [
-            'rgba(255, 99, 132, 0.2)',
-            'rgba(255, 159, 64, 0.2)',
-            'rgba(255, 205, 86, 0.2)',
-            'rgba(75, 192, 192, 0.2)',           
-            ],
-            borderColor: [
-            'rgb(255, 99, 132)',
-            'rgb(255, 159, 64)',
-            'rgb(255, 205, 86)',
-            'rgb(75, 192, 192)',            
-            ],
-            borderWidth: 1
-        }]
-    };
+    {% endif %}
     
-    const genderCtx = $("#generation-chart");
+    {% if gender_rate %}
+    const genderCtx = document.getElementById('gender-chart').getContext('2d');
     const genderChart = new Chart(genderCtx, {
         type: 'pie',
-        data: genderData,       
-    })
-
-    const genderData = {
+        data: {
         labels: ['남성', '여성'],
         datasets: [{
             label: '성별 통계',
-            data: {% if gender_rate %}{{ gender_rate | safe }}{% endif %},
+            data: {{ gender_rate | safe}},
             backgroundColor: [
             'rgba(255, 99, 132, 0.2)',
             'rgba(255, 159, 64, 0.2)',
@@ -188,7 +184,13 @@
             ],
             borderWidth: 1
         }]
-    };
+    },       
+    })
+    {% endif %}
+
+   
+
+    
     
 
 
@@ -215,6 +217,9 @@ $(document).ready(function(){
             
         })
     })
+    
+
+
 })
 </script>
 

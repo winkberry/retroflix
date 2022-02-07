@@ -223,6 +223,8 @@ def movie_detail(request, movie_id):
         # 평점표시
         star_rate = (movie.star * 100) / 5
         print(star_rate)
+        print(generation_rate)
+        print(gender_rate)
 
         context = {
             'movie': movie,
