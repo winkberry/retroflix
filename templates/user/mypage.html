@@ -184,7 +184,7 @@
                     <button type="submit" class="btn btn-primary">변경😁</button>
                 </form>
                 <button class="to-change-img btn btn-primary btn-lg"><p>프로필사진 변경</p></button>
-                <form method="POST" enctype="multipart/form-data" action="/my-modify" class="change-img" hidden>
+                <form method="POST" enctype="multipart/form-data" action="/my-modify/" class="change-img" hidden>
                     {% csrf_token %}
                     <input type="file" name="file">
                     <button type="submit">사진 업로드</button>
