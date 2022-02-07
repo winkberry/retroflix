@@ -148,19 +148,19 @@ def select_movie_detail(request, movie_id):
 
         #### 영화와 비슷한 영화 추천 정보 #####
 
-        user_title = movie_ratings.pivot_table('rating', index='title', columns='userId')
-        user_title = user_title.fillna(0)
-        item_based_collab = cosine_similarity(user_title, user_title)
-        item_based_collab = pd.DataFrame(item_based_collab, index=user_title.index, columns=user_title.index)
+        # user_title = movie_ratings.pivot_table('rating', index='title', columns='userId')
+        # user_title = user_title.fillna(0)
+        # item_based_collab = cosine_similarity(user_title, user_title)
+        # item_based_collab = pd.DataFrame(item_based_collab, index=user_title.index, columns=user_title.index)
 
-        # 현재영화와 비슷하게 유저들로부터 평점을 부여받은 영화들은?
-        # recommend_movies = item_based_collba[넘겨받은 영화의 제목 넣는 부분].sort_values(ascending=False)[1:11].index
-        recommend_movies = item_based_collab[movie_find.title].sort_values(ascending=False)[1:11].index
+        # # 현재영화와 비슷하게 유저들로부터 평점을 부여받은 영화들은?
+        # # recommend_movies = item_based_collba[넘겨받은 영화의 제목 넣는 부분].sort_values(ascending=False)[1:11].index
+        # recommend_movies = item_based_collab[movie_find.title].sort_values(ascending=False)[1:11].index
 
-        # 추천 영화를 리스트로 변경 해주는 부분
-        recommend_list = [i for i in recommend_movies]
+        # # 추천 영화를 리스트로 변경 해주는 부분
+        # recommend_list = [i for i in recommend_movies]
 
-        print(recommend_list)
+        # print(recommend_list)
         movie = serializers.serialize('json', [movie_find])
         
         data = {'movie': movie,
@@ -191,7 +191,8 @@ def movie_detail(request, movie_id):
     recommend_movies = item_based_collab[movie.title].sort_values(ascending=False)[1:11].index
 
     # 추천 영화를 리스트로 변경 해주는 부분
-    recommend_list = [i for i in recommend_movies]
+    recommend_list = [Movie.objects.filter(title=movie)[0] for movie in recommend_movies]
+    print(recommend_list)
 
     
 
