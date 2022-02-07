@@ -153,7 +153,7 @@ def from_github(request):
 
     
     auth.login(request, user)
-    return redirect('/')
+    return redirect('/mypage')
     
 
 def to_kakao(request):
@@ -204,7 +204,7 @@ def from_kakao(request):
 
     
     auth.login(request, user)
-    return redirect('/')
+    return redirect('/mypage')
 
 @login_required
 def my_page(request):
@@ -214,7 +214,10 @@ def my_page(request):
     else :
         user = request.user
         movie_list = user.favorite_movies.all()
-        return render(request,'user/mypage.html', {'movie_list':movie_list} )
+        err = False
+        if user.login_method != 'email' and (user.birthday == None or user.gender == None):
+            err = '깃허브/카카오톡으로 로그인 하신 경우에는 반드시 생일, 성별을 설정해주세요 !'
+        return render(request,'user/mypage.html', {'movie_list':movie_list, 'err':err} )
 
 @login_required
 def pw_change(request):
@@ -320,5 +323,28 @@ def id_change(request):
             return redirect('/mypage')
         user = request.user
         user.username = id
+        user.save()
+    return redirect('/mypage')
+
+
+def birth_change(request):
+    if request.method == 'POST':
+        birth = request.POST.get('birth','')
+        if id == '':
+            return redirect('/mypage')
+        user = request.user
+        user.birthday = birth
+        user.save()
+    return redirect('/mypage')
+
+
+def gender_change(request):
+    if request.method == 'POST':
+        gender = request.POST.get('gender','')
+        if gender == '1':
+            return redirect('/mypage')
+
+        user = request.user
+        user.gender = gender
         user.save()
     return redirect('/mypage')

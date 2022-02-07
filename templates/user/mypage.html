@@ -91,12 +91,35 @@
                 .change-id button{
                     width: 100%;
                 }
+
+                .change-birth {
+                    display: flex;
+                    flex-direction: column;
+
+                }
+                .change-birth .form-floating {
+                    margin-bottom: 5px;
+                }
+                .change-birth button{
+                    width: 100%;
+                }
+                .change-gender {
+                    display: flex;
+                    flex-direction: column;
+
+                }
+                .change-gender .form-floating {
+                    margin-bottom: 5px;
+                }
+                .change-gender button{
+                    width: 100%;
+                }
             </style>
         </head>
     </html>
     {% if err %}
         <script>
-            alert(err)
+            alert("{{ err }}")
         </script>
     {% endif %}
     <div class="my-page-container">
@@ -105,7 +128,33 @@
                 <h1 class="my-page-h1">{{ user.username }}</h1>
                 <img src="{{user.profile_img}}" />
             </div>
+
             <div class="my-page-info">
+                {% if err %}
+                <button class="to-change-birth btn btn-primary btn-lg">생년원일 변경</button>
+                <form action="/birth-change/" method="post" class="change-birth" hidden>
+                    {% csrf_token %}
+                    <div class="form-floating">
+                        <input type="date" class="form-control" id="birth" placeholder="Password" name="birth">
+                        <label for="birth">생년월일</label>
+                    </div>
+                    <button type="submit" class="btn btn-primary">변경😁</button>
+                </form>
+
+
+
+                <button class="to-change-gender btn btn-primary btn-lg">성별</button>
+                <form action="/gender-change/" method="post" class="change-gender" hidden>
+                    {% csrf_token %}
+                    <select class="form-select" aria-label="Default select example" name="gender" id="gender">
+                        <option value="1" selected="">성별</option>
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                    </select>
+                    <button type="submit" class="btn btn-primary">변경😁</button>
+                </form>
+                {% endif %}
+
 
                 <button class="to-change-id btn btn-primary btn-lg">아이디 변경</button>
                 <form action="/idchange/" method="post" class="change-id" hidden>
@@ -168,6 +217,8 @@
         const toChangeImg = document.querySelector('.to-change-img')
         const toChangePw = document.querySelector('.to-change-pw')
         const toChangeId = document.querySelector('.to-change-id')
+        const toChangeBirth = document.querySelector('.to-change-birth')
+        const toChangeGender = document.querySelector('.to-change-gender')
 
 
 
@@ -206,5 +257,28 @@
             toChangeId.removeEventListener('click', backTo3)
         }
         toChangeId.addEventListener('click',change3)
+
+        const change4 = ()=> {
+            document.querySelector('.change-birth').hidden = false
+            toChangeBirth.removeEventListener('click', change4)
+            toChangeBirth.addEventListener('click',backTo4)
+        }
+        function backTo4(){
+            document.querySelector('.change-birth').hidden = true
+            toChangeBirth.addEventListener('click', change4)
+            toChangeBirth.removeEventListener('click', backTo4)
+        }
+        toChangeBirth.addEventListener('click',change4)
+        const change5 = ()=> {
+            document.querySelector('.change-gender').hidden = false
+            toChangeGender.removeEventListener('click', change5)
+            toChangeGender.addEventListener('click',backTo5)
+        }
+        function backTo5(){
+            document.querySelector('.change-gender').hidden = true
+            toChangeGender.addEventListener('click', change5)
+            toChangeGender.removeEventListener('click', backTo5)
+        }
+        toChangeGender.addEventListener('click',change5)
     </script>
 {% endblock %}
