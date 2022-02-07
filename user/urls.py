@@ -19,6 +19,8 @@ urlpatterns = [
     path('email_ajax/',views.email_ajax, name='email_ajax'),
     path('certify_ajax/',views.certify_ajax, name='certify_ajax'),
     path('isid/',views.is_id, name='is_id'),
-    path('my-modify',views.my_modify, name='my_modify')
+    path('my-modify/',views.my_modify, name='my_modify'),
+    path('birth-change/', views.birth_change, name='birth-change'),
+    path('gender-change/', views.gender_change, name='gender-change')
 
 ]
