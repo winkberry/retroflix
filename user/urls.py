@@ -15,6 +15,7 @@ urlpatterns = [
     path('logout/', views.log_out, name='logout'),
     path('mypage/',views.my_page, name='mypage'),
     path('pwchange/',views.pw_change, name='pwchange'),
+    path('idchange/', views.id_change, name='idchange'),
     path('email_ajax/',views.email_ajax, name='email_ajax'),
     path('certify_ajax/',views.certify_ajax, name='certify_ajax'),
     path('isid/',views.is_id, name='is_id'),
