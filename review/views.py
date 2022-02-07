@@ -70,7 +70,7 @@ def review_create(request, movie_id):
         Review.objects.create(movie=movie, author=request.user, content=content, star=star).save()
         movie.star = movie.reviews.all().aggregate(Avg('star')).get('star__avg')
         movie.save()
-        return JsonResponse({'result':'리뷰를 등록하였습니다.'})
+        return redirect('movie_detail', movie_id = movie.id)
 
 
 # @login_required
@@ -113,10 +113,11 @@ def review_create(request, movie_id):
 @login_required
 def review_delete(request, review_id):
     if request.method == 'POST':
+        review_id = request.POST.get('review_id')
         review = get_object_or_404(Review, id = review_id)
         movie = get_object_or_404(Movie, id = review.movie.id)
         review.delete()
         movie.rate = movie.reviews.all().aggregate(Avg('star')).get('star__avg')
         movie.save()
-        return redirect('main')
+        return JsonResponse({'msg':'done'})
 
