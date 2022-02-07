@@ -1,26 +1,13 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from collections import Counter
 from .models import Movie, Views
+from review.models import Review, cal_age
 import datetime
-
 import pandas as pd
 import numpy as np
-
 from sklearn.metrics.pairwise import cosine_similarity
 from django.http import JsonResponse
-
-
-ratings = pd.read_csv('movie/ratings.csv')
-movies = pd.read_csv('movie/movie_data.csv')
-movies.drop(['Unnamed: 0'], axis=1, inplace=True)
-
-pd.set_option('display.max_columns', 10)
-pd.set_option('display.width', 300)
-# movieId를 기준으로 ratings 와 movies 를 결합함
-movie_ratings = pd.merge(ratings, movies, on='movieid')
-
-genre_idx = ['가족', '공포(호러)', '다큐멘터리', '드라마', '멜로/로맨스', '뮤지컬', '미스터리', '범죄', '사극', '서부극(웨스턴)', '성인물(에로)', '스릴러', '애니메이션',
-             '액션', '어드벤처', '전쟁', '코미디', '판타지', 'SF', '']
+from django.core import serializers
 
 ratings = pd.read_csv('movie/ratings.csv')
 movies = pd.read_csv('movie/movie_data.csv')
@@ -93,10 +80,10 @@ def main(request):
         print("genre2_top_list", genre2_top_list)
         genre1_rank = Counter(genre1_top_list).most_common(10)
         genre2_rank = Counter(genre2_top_list).most_common(10)
-        # -----------------------------------------------------
+        print('genre1_rank',genre1_rank)
+        print('genre2_rank', genre2_rank)
 
-        print('genre1_rank : ', genre1_rank)
-        print('genre2_rank : ', genre2_rank)
+        # ----------------------------------------------------
 
         # -------------------비슷한 유저로 추천 해줌----------------------
 
@@ -129,17 +116,12 @@ def main(request):
                        'genre2_list': genre2_list, 'movie_result_list': movie_result_list, 'most_rank': most_rank})
 
 
-def select_movie_detail(request):
-    if request.method == 'POST':
+def select_movie_detail(request, movie_id):
+    if request.method == 'GET':
         abc = request.user.id
 
-        title_give = request.POST.get('movie_give')
-        # 넘겨받는 영화 제목
-
-        print(title_give)
-
         #############Movie.objects.get(title = { 여기에 넘겨받은 영화 제목이 들어감 })
-        movie_find = Movie.objects.get(title=title_give)
+        movie_find = Movie.objects.get(id=movie_id)
 
         ###### 찾은 영화의 .opneDt ex ) .title = 끌로드부인 , .openDt = 1990, 이런 값들에  접근이 가능합니다
         print(movie_find.openDt)
@@ -147,44 +129,67 @@ def select_movie_detail(request):
         print(genre_idx[movie_find.genre])
         print(movie_find.star)
 
+        ###### 리뷰 ######
+        reviews = list(Review.objects.filter(movie=movie_find).order_by('-created_date').values())
+        total_reviews = movie_find.reviews.all()
+        total_user_count = total_reviews.count()
+        male_user_count = total_reviews.filter(author__gender__iexact='male').count()
 
+        # 리뷰 성별 비율
+        if total_user_count > 0:
+            male_gender_rate = (male_user_count / total_user_count) * 100
+            female_gender_rate = 100 - male_gender_rate
+            gender_rate = [male_gender_rate, female_gender_rate]
+
+            # 리뷰 연령별 비율  
+            # user_age = list(map(lambda x : cal_age(x.author.birthday), total_user))
+            user_age = [cal_age(review.author.birthday) for review in total_reviews]
+            gen_10 = gen_20 = gen_30 = gen_40 = 0
+
+            for age in user_age:
+                if age >= 40:
+                    gen_40 += 1
+                elif age >= 30:
+                    gen_30 += 1
+                elif age >= 20:
+                    gen_20 += 1
+                else:
+                    gen_10 += 1
+
+            generation_count = [gen_10, gen_20, gen_30, gen_40]
+            generation_rate = [(gen_cnt / total_user_count) * 100 for gen_cnt in generation_count]
 
         #### 영화와 비슷한 영화 추천 정보 #####
 
         user_title = movie_ratings.pivot_table('rating', index='title', columns='userId')
-
         user_title = user_title.fillna(0)
-
         item_based_collab = cosine_similarity(user_title, user_title)
-
         item_based_collab = pd.DataFrame(item_based_collab, index=user_title.index, columns=user_title.index)
-
         # 현재영화와 비슷하게 유저들로부터 평점을 부여받은 영화들은?
-
         # recommend_movies = item_based_collba[넘겨받은 영화의 제목 넣는 부분].sort_values(ascending=False)[1:11].index
-        recommend_movies = item_based_collab[title_give].sort_values(ascending=False)[1:11].index
+        recommend_movies = item_based_collab[movie_find.title].sort_values(ascending=False)[1:11].index
 
         # 추천 영화를 리스트로 변경 해주는 부분
         recommend_list = [i for i in recommend_movies]
 
         print(recommend_list)
-        detail = {'title': movie_find.title,
-                  'openDt': movie_find.openDt,
-                  'star': movie_find.star,
-                  'genre': genre_idx[movie_find.genre],
-                  'recommend_list': recommend_list
-                  }
+        movie = serializers.serialize('json', [movie_find])
+        print(movie)
 
-        return JsonResponse(detail)
+        data = {'movie': movie,
+                'recommend_list': recommend_list,
+                'reviews': reviews,
+                # 'gender_rate': gender_rate,
+                # 'generation_rate' : generation_rate 
+                }
+        return JsonResponse(data, safe=False)
 
 
-def test(request):
+def view(request):
     if request.method == "POST":
         user_id = request.POST.get('user_id')
         movie_id = request.POST.get('movie_id')
         genre = request.POST.get('genre')
-
         views = Views.objects.create(user_id=user_id, movie_id=movie_id, genre=genre)
         views.save()
         return JsonResponse({'msg': 'views 저장!'})
-

@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'base_header.html' %}
 {% block content %}
     <html>
     <head>
@@ -119,7 +119,7 @@
             {% for movie in top10_list|slice:":5" %}
                 <div class="item">
                     <img src="https://tekken.s3.ap-northeast-2.amazonaws.com/movies/{{ movie.title }}.jpg"
-                         alt="{{ movie.title }}" title="{{ movie.title }}" onclick="select_movie_modal(this.title)">
+                         alt="{{ movie.title }}" title="{{ movie.title }}" id = "{{movie.id}}" onclick="select_movie_modal(this.title, this.id); view({{ user.id }},{{ movie.id }},{{ movie.genre }});">
                 </div>
             {% endfor %}
             <a href="#section2" class="arrow__btn">›</a>
@@ -129,7 +129,7 @@
             {% for movie in top10_list|slice:"5:10" %}
                 <div class="item">
                    <img src="https://tekken.s3.ap-northeast-2.amazonaws.com/movies/{{ movie.title }}.jpg"
-                            alt="{{ movie.title }}" title="{{ movie.title }}" onclick="select_movie_modal(this.title)">
+                            alt="{{ movie.title }}" title="{{ movie.title }}" id = "{{movie.id}}" onclick="select_movie_modal(this.title, this.id); view({{ user.id }},{{ movie.id }},{{ movie.genre }});">
 
                 </div>
             {% endfor %}
@@ -143,8 +143,8 @@
             <a href="#section5" class="arrow__btn">‹</a>
             {% for movie in movie_result_list|slice:":5" %}
                 <div class="item">
-                        <img src="https://tekken.s3.ap-northeast-2.amazonaws.com/movies/{{ movie.title }}.jpg"
-                             alt="{{ movie.title }}" title="{{ movie.title }}" onclick="select_movie_modal(this.title)">
+                    <img src="https://tekken.s3.ap-northeast-2.amazonaws.com/movies/{{ movie.title }}.jpg"
+                         alt="{{ movie.title }}" title="{{ movie.title }}" id = "{{movie.id}}" onclick="select_movie_modal(this.title, this.id); view({{ user.id }},{{ movie.id }},{{ movie.genre }});">
                 </div>
             {% endfor %}
             <a href="#section5" class="arrow__btn">›</a>
@@ -153,9 +153,8 @@
             <a href="#section4" class="arrow__btn">‹</a>
             {% for movie in movie_result_list|slice:"5:" %}
                 <div class="item">
-                   <img src="https://tekken.s3.ap-northeast-2.amazonaws.com/movies/{{ movie.title }}.jpg"
-                            alt="{{ movie.title }}" title="{{ movie.title }}" onclick="select_movie_modal(this.title)">
-
+                    <img src="https://tekken.s3.ap-northeast-2.amazonaws.com/movies/{{ movie.title }}.jpg"
+                         alt="{{ movie.title }}" title="{{ movie.title }}" id = "{{movie.id}}" onclick="select_movie_modal(this.title, this.id); view({{ user.id }},{{ movie.id }},{{ movie.genre }});">
                 </div>
             {% endfor %}
             <a href="#section4" class="arrow__btn">›</a>
@@ -169,7 +168,7 @@
             {% for movie in genre1_list|slice:":5" %}
                 <div class="item">
                     <img src="https://tekken.s3.ap-northeast-2.amazonaws.com/movies/{{ movie.title }}.jpg"
-                         alt="{{ movie.title }}" title="{{ movie.title }}" onclick="select_movie_modal(this.title)">
+                         alt="{{ movie.title }}" title="{{ movie.title }}" id = "{{movie.id}}" onclick="select_movie_modal(this.title, this.id); view({{ user.id }},{{ movie.id }},{{ movie.genre }});">
                 </div>
             {% endfor %}
             <a href="#section7" class="arrow__btn">›</a>
@@ -179,7 +178,7 @@
             {% for movie in genre1_list|slice:"5:10" %}
                 <div class="item">
                     <img src="https://tekken.s3.ap-northeast-2.amazonaws.com/movies/{{ movie.title }}.jpg"
-                         alt="{{ movie.title }}" title="{{ movie.title }}" onclick="select_movie_modal(this.title)">
+                         alt="{{ movie.title }}" title="{{ movie.title }}" id = "{{movie.id}}" onclick="select_movie_modal(this.title, this.id); view({{ user.id }},{{ movie.id }},{{ movie.genre }});">
                 </div>
             {% endfor %}
             <a href="#section6" class="arrow__btn">›</a>
@@ -193,7 +192,7 @@
             {% for movie in genre2_list|slice:":5" %}
                 <div class="item">
                         <img src="https://tekken.s3.ap-northeast-2.amazonaws.com/movies/{{ movie.title }}.jpg"
-                             alt="{{ movie.title }}" title="{{ movie.title }}" onclick="select_movie_modal(this.title)">
+                             alt="{{ movie.title }}" title="{{ movie.title }}" id = "{{movie.id}}" onclick="select_movie_modal(this.title, this.id); view({{ user.id }},{{ movie.id }},{{ movie.genre }});">
                 </div>
             {% endfor %}
             <a href="#section9" class="arrow__btn">›</a>
@@ -203,7 +202,7 @@
             {% for movie in genre2_list|slice:"5:10" %}
                 <div class="item">
                     <img src="https://tekken.s3.ap-northeast-2.amazonaws.com/movies/{{ movie.title }}.jpg"
-                         alt="{{ movie.title }}" title="{{ movie.title }}" onclick="select_movie_modal(this.title)">
+                         alt="{{ movie.title }}" title="{{ movie.title }}" id = "{{movie.id}}" onclick="select_movie_modal(this.title, this.id); view({{ user.id }},{{ movie.id }},{{ movie.genre }});">
                 </div>
             {% endfor %}
             <a href="#section8" class="arrow__btn">›</a>
@@ -217,7 +216,7 @@
             {% for movie in age_list|slice:":5" %}
                 <div class="item">
                     <img src="https://tekken.s3.ap-northeast-2.amazonaws.com/movies/{{ movie.title }}.jpg"
-                         alt="{{ movie.title }}" title="{{ movie.title }}" onclick="select_movie_modal(this.title)">
+                         alt="{{ movie.title }}" title="{{ movie.title }}" id = "{{movie.id}}" onclick="select_movie_modal(this.title, this.id); view({{ user.id }},{{ movie.id }},{{ movie.genre }});">
                 </div>
             {% endfor %}
             <a href="#section11" class="arrow__btn">›</a>
@@ -227,83 +226,206 @@
             {% for movie in age_list|slice:"5:10" %}
                 <div class="item">
                     <img src="https://tekken.s3.ap-northeast-2.amazonaws.com/movies/{{ movie.title }}.jpg"
-                         alt="{{ movie.title }}" title="{{ movie.title }}" onclick="select_movie_modal(this.title)">
+                         alt="{{ movie.title }}" title="{{ movie.title }}" id = "{{movie.id}}" onclick="select_movie_modal(this.title, this.id); view({{ user.id }},{{ movie.id }},{{ movie.genre }});">
                 </div>
             {% endfor %}
             <a href="#section10" class="arrow__btn">›</a>
         </section>
     </div>
     {% include "./detail.html" %}
+{% endblock %}
+    
 
-    <script>
-        function select_movie_modal(value) {
-             document.querySelector(".detail-modal").classList.remove("hidden");
-            let mv_title = value;
+{% block script %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
 
-            console.log(mv_title)
+<script>
+    function select_movie_modal(value, id) {
+        document.querySelector(".detail-modal").classList.remove("hidden");
+        let mv_title = value;
+        let mv_id = id;
+        $.ajax({
+            type: 'GET',
+            url: `/detail/${mv_id}/`,            
+            success: function (response) {
+
+                console.log(response['movie'])
+                console.log(response['recommend_list'])                
+                console.log(response['reviews'])
+                // console.log(response['gender_rate'])
+                // console.log(response['generation_rate'])
+
+                const genderRate = response['gender_rate']
+                const generationRate = response['gender_rate']             
+                let movie = JSON.parse(response['movie']);
+                
+                let title = movie[0]['fields']['title']
+                let genre = movie[0]['fields']['genre']
+                let openDt = movie[0]['fields']['openDt']
+                let star = movie[0]['fields']['star']
+               
+                let temp_html = `
+                    <div><img src="https://tekken.s3.ap-northeast-2.amazonaws.com/movies/${title}.jpg"></div>
+                    <div id="movie-title">${title}</div>
+                    <div>${genre}</div>
+                    <div>
+                    <span>⭐⭐⭐⭐⭐</span>
+                    <span>${star}</span>
+                    <span>${openDt}</span>
+                    <input type='hidden' id='movie-id' value=${mv_id}>
+                    </div> 
+                    
+
+                            <div class="chart-container">
+                                <canvas id='gender-chart'></canvas>
+                                <canvas id='generation-chart'></canvas>
+                            </div>
+
+                                
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="media">
+                                        <div class="media-body">
+                                            <h5 class="mt-0"> </h5>
+                                            
+                                        </div>                                                                                
+                                    </div>
+                                </div>
+                            </div>
+                            <hr>                       
+
+                    `
+                $('#temp_detail').html(temp_html)
+                
+                let reviews = response['reviews']
+                
+                for (let i = 0; i <= response['reviews'].length; i++){
+                    let content = response['reviews'][i]['content']
+                    let star = response['reviews'][i]['star']
+                    let author = response['reviews'][i]['author_id']
+                    let createdDate = response['reviews'][i]['created_date']                    
+
+                    let review_html = `
+                        <h5 class="mt-0"> ${content} </h5>
+                                            
+                            <span> ${author} </span>
+                            <span> - ${createdDate}</span>
+                
+                    `
+                    $('.media-body').append(review_html)
+                }
+
+                // const generationCtx = $("#generation-chart");
+                // const generationChart = new Chart(generationCtx, {
+                //     type: 'bar',
+                //     data: generationData,
+                //     options: {
+                //         scales: {
+                //         y: {
+                //             beginAtZero: true
+                //         }
+                //         }
+                //     },
+
+                // })
+                // const generationData = {
+                //     labels: ['10대', '20대', '30대', '40대 이상'],
+                //     datasets: [{
+                //         label: '연령별 통계',
+                //         data: generationRate,
+                //         backgroundColor: [
+                //         'rgba(255, 99, 132, 0.2)',
+                //         'rgba(255, 159, 64, 0.2)',
+                //         'rgba(255, 205, 86, 0.2)',
+                //         'rgba(75, 192, 192, 0.2)',           
+                //         ],
+                //         borderColor: [
+                //         'rgb(255, 99, 132)',
+                //         'rgb(255, 159, 64)',
+                //         'rgb(255, 205, 86)',
+                //         'rgb(75, 192, 192)',            
+                //         ],
+                //         borderWidth: 1
+                //     }]
+                // };
+                
+                // const genderCtx = $("#generation-chart");
+                // const genderChart = new Chart(genderCtx, {
+                //     type: 'pie',
+                //     data: genderData,       
+                // })
+
+                // const genderData = {
+                //     labels: ['남성', '여성'],
+                //     datasets: [{
+                //         label: '성별 통계',
+                //         data: genderRate,
+                //         backgroundColor: [
+                //         'rgba(255, 99, 132, 0.2)',
+                //         'rgba(255, 159, 64, 0.2)',
+                //         'rgba(255, 205, 86, 0.2)',
+                //         'rgba(75, 192, 192, 0.2)',           
+                //         ],
+                //         borderColor: [
+                //         'rgb(255, 99, 132)',
+                //         'rgb(255, 159, 64)',
+                //         'rgb(255, 205, 86)',
+                //         'rgb(75, 192, 192)',            
+                //         ],
+                //         borderWidth: 1
+                //     }]
+                // };
+                
+
+                
+            }
+        });     
+    }
+    
+    function postReview(){
+        let movie_id = $('#movie-id').val()
+        let movie_title = $('#movie-title').val()
+        let review_data = {
+            'review-content' : $("#review-content").val(),
+            'review-star' : $("input[name='review-star']:checked").val()
+        }
+
+        $.ajax({
+            type: 'POST',
+            url: `/detail/${movie_id}/reviews/create/`,
+            headers: {'X-CSRFTOKEN': '{{ csrf_token }}'},
+            datatype: 'json',
+            data: review_data,
+            
+            success: function(response){
+                alert(response['result']);
+                $(".review-form")[0].reset()
+                select_movie_modal(movie_title,movie_id);
+            }
+        })
+
+    }
+    function view(user_id, mv_id, genre) {
             $.ajax({
                 type: 'POST',
-                url: {% url 'select_movie_detail' %},
+                url: {% url 'view' %},
                 headers: {'X-CSRFTOKEN': '{{ csrf_token }}'},
                 datatype: 'json',
                 data: {
-                    'movie_give': mv_title
+                    'user_id' : user_id,
+                    'movie_id': mv_id,
+                    'genre': genre
                 },
-                success: function (response) {
-
-                    title = response['title']
-                    genre = response['genre']
-                    openDt = response['openDt']
-                    star = response['star']
-                    recommend_list = response['recommend_list']
-                    console.log(recommend_list)
-
-                    let temp_html = `
-                        <div><img src="https://tekken.s3.ap-northeast-2.amazonaws.com/movies/${value}.jpg"></div>
-                        <div>${title}</div>
-                        <div>
-                        <span>${genre}</span>
-                        <span>${openDt}</span>
-                        </div>
-
-                        <div>
-                        <span>⭐⭐⭐⭐⭐</span>
-                        <span>${star}</span>
-                        </div>
-
-
-                         <div>
-                            <p>추천 영화</p>
-                            <div class="remv_wrapper">
-                                <section id="remv_section1">
-                                    <a href="#remv_section2" class="remv_arrow__btn">‹</a>
-                                        ${recommend_list.slice(0,5).join(0).split(0).map((item, i) => `
-                                            <div class="remv_item">
-                                                <img src="https://tekken.s3.ap-northeast-2.amazonaws.com/movies/${item}.jpg"
-                                                    alt="${item}" title="${item}" onclick="select_movie_modal(this.title)">
-                                               </div>
-                                        `).join('')}
-                                    <a href="#remv_section2" class="remv_arrow__btn">›</a>
-                                </section>
-                                <section id="remv_section2">
-                                    <a href="#remv_section1" class="remv_arrow__btn">‹</a>
-                                    ${recommend_list.slice(5,10).join(0).split(0).map((item, i) => `
-                                    <div class="remv_item">
-                                        <img src="https://tekken.s3.ap-northeast-2.amazonaws.com/movies/${item}.jpg"
-                                     alt="${item}" title="${item}" onclick="select_movie_modal(this.title)">
-                                        </div>
-                                        `).join('')}
-                                    <a href="#remv_section1" class="arrow__btn">›</a>
-                                </section>
-                            </div>
-                        </div>
-                        `
-                    $('#temp_detail').html(temp_html)
+                success: function (response){
                 }
+
             });
         }
+
+
+    
+
 </script>
 
-    </body>
-    </html>
+
 {% endblock %}
