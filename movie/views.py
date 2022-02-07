@@ -263,11 +263,17 @@ def select_movie_detail(request, movie_id):
         }
 
         
-        
 
         return JsonResponse(data, safe=False)
-        
 
+def view(request):
+    if request.method == "POST":
+        user_id = request.POST.get('user_id')
+        movie_id = request.POST.get('movie_id')
+        genre = request.POST.get('genre')
+        views = Views.objects.create(user_id=user_id, movie_id=movie_id, genre=genre)
+        views.save()
+        return JsonResponse({'msg': 'views 저장!'})
 
 
 

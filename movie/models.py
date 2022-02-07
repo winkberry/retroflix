@@ -15,3 +15,11 @@ class Movie(models.Model):
     # def __str__(self):
     #     return self.title
 
+
+class Views(models.Model):
+    class Meta:
+        db_table = 'views'
+
+    user_id = models.IntegerField()
+    movie_id = models.IntegerField()
+    genre = models.IntegerField()

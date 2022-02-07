@@ -4,5 +4,6 @@ from . import views
 
 urlpatterns = [
     path('main/', views.main, name='main'),
+    path('view/', views.view, name='view'),
     path('detail/<int:movie_id>/', views.select_movie_detail, name='select_movie_detail'),
 ]
