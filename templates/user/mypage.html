@@ -13,29 +13,43 @@
                 }
                 .my-page-container {
                     width: 60%;
-
+                    background: rgba(0, 0, 0, 0.5);
                     position: absolute;
                     top : 20%;
                     left: 50%;
                     transform: translate(-50%,0);
+                    border-radius: 30px;
+
                 }
                 .my-page-wrapper {
+                    display: flex;
+                    margin-bottom: 50px;
 
                 }
-                .my-page-info {
+                .my-page-img {
 
+                    width: 50%;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: space-around;
+                    align-items: center;
+                }
+                .my-page-img img {
+                    border-radius: 20px;
+                    width: 70%;
+                }
+                .my-page-info {
+                    border-left: 2px dashed gainsboro;
                     display: flex;
                     flex-direction: column;
                     justify-content: space-around;
                     align-items: center;
                     height: 600px;
-                    background: black;
-                    border-radius: 20px;
+                    width: 50%;
+
                 }
 
-                .my-page-info img {
-                    border-radius: 20px;
-                }
+
                 .my-favorite-movies {
                     display: flex;
                     flex-wrap: wrap;
@@ -60,17 +74,48 @@
                     flex-direction: column;
 
                 }
+                .change-pw button{
+                    width: 100%;
+                }
                 .change-pw .form-floating {
                     margin-bottom: 5px;
+                }
+                .change-id {
+                    display: flex;
+                    flex-direction: column;
+
+                }
+                .change-id .form-floating {
+                    margin-bottom: 5px;
+                }
+                .change-id button{
+                    width: 100%;
                 }
             </style>
         </head>
     </html>
+    {% if err %}
+        <script>
+            alert(err)
+        </script>
+    {% endif %}
     <div class="my-page-container">
         <div class="my-page-wrapper">
+            <div class="my-page-img">
+                <h1 class="my-page-h1">{{ user.username }}</h1>
+                <img src="{{user.profile_img}}" />
+            </div>
             <div class="my-page-info">
-                <h1 class="my-page-h1">마이 페이지</h1>
-                <img src="{{user.profile_img}}" style="width: 200px; height: 200px"/>
+
+                <button class="to-change-id btn btn-primary btn-lg">아이디 변경</button>
+                <form action="/idchange/" method="post" class="change-id" hidden>
+                    {% csrf_token %}
+                    <div class="form-floating">
+                      <input type="text" class="form-control" id="id" placeholder="Password" name="id">
+                      <label for="id">변경할 아이디</label>
+                    </div>
+                    <button type="submit" class="btn btn-primary">변경😁</button>
+                </form>
                 <button class="to-change-pw btn btn-primary btn-lg">비밀 번호 변경</button>
                 <form action="/pwchange/" method="post" class="change-pw" hidden>
                     {% csrf_token %}
@@ -96,6 +141,7 @@
                     <button type="submit">사진 업로드</button>
                 </form>
             </div>
+          </div>
             <div class="title1">
                 {% if movie_list %}
                 <h1>내가 찜한 영화</h1>
@@ -110,7 +156,7 @@
                     </div>
                 {% endfor %}
             </div>
-        </div>
+
     </div>
 
 
@@ -121,6 +167,11 @@
     <script>
         const toChangeImg = document.querySelector('.to-change-img')
         const toChangePw = document.querySelector('.to-change-pw')
+        const toChangeId = document.querySelector('.to-change-id')
+
+
+
+
         const change1 = ()=> {
             document.querySelector('.change-img').hidden = false
             toChangeImg.removeEventListener('click', change1)
@@ -144,6 +195,16 @@
         }
         toChangePw.addEventListener('click',change2)
 
-
+        const change3 = ()=> {
+            document.querySelector('.change-id').hidden = false
+            toChangeId.removeEventListener('click', change3)
+            toChangeId.addEventListener('click',backTo3)
+        }
+        function backTo3(){
+            document.querySelector('.change-id').hidden = true
+            toChangeId.addEventListener('click', change3)
+            toChangeId.removeEventListener('click', backTo3)
+        }
+        toChangeId.addEventListener('click',change3)
     </script>
 {% endblock %}

@@ -156,7 +156,7 @@ AWS_S3_CUSTOM_DOMAIN = '%s.s3.%s.amazonaws.com' % (AWS_STORAGE_BUCKET_NAME,AWS_R
 
 with open(os.path.join(BASE_DIR, 'retroflix/config/email.json')) as f: 
     email = json.loads(f.read()) 
-
+EMAIL_BACKEND = email['BACKEND']
 EMAIL_HOST = email['HOST'] 
 EMAIL_PORT = int(email['PORT']) 
 EMAIL_HOST_USER = email['HOST_USER'] 

@@ -1,8 +1,9 @@
+from django.http import JsonResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from movie.models import Movie
 from django.db.models import Count, Avg
 from django.contrib.auth.decorators import login_required
-from .forms import ReviewForm
+# from .forms import ReviewForm
 from review.models import Review, cal_age
 
 # Create your views here.
@@ -48,6 +49,15 @@ def movie_detail(request, movie_id):
     return render(request, 'main/detail.html', context)
 
 
+def review_list(request, movie_id):
+    movie = get_object_or_404(Movie, id=movie_id)
+    reviews = Review.objects.filter(movie = movie).order_by('-created_date')
+    context = {'reviews':reviews}
+    return render(request, 'main/detail.html', context)
+
+
+
+
 
 # Form이 제 역할을 못하면 쓸 기능입니다.
 @login_required
@@ -57,10 +67,10 @@ def review_create(request, movie_id):
     if request.method == 'POST':
         content = request.POST.get('review-content')
         star = request.POST.get('review-star')
-        Movie.objects.create(movie=movie, author=request.user, content=content, star=star).save()
+        Review.objects.create(movie=movie, author=request.user, content=content, star=star).save()
         movie.star = movie.reviews.all().aggregate(Avg('star')).get('star__avg')
         movie.save()
-        return redirect('main')
+        return JsonResponse({'result':'리뷰를 등록하였습니다.'})
 
 
 # @login_required

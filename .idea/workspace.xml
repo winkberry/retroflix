@@ -1,11 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="abe5d97f-c0be-42f1-a572-d4a2284d7140" name="변경" comment="모달창 추천영화 구현 5:50">
+    <list default="true" id="abe5d97f-c0be-42f1-a572-d4a2284d7140" name="변경" comment="모달창 추천영화 구현">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/retroflix/config/email.json" beforeDir="false" afterPath="$PROJECT_DIR$/retroflix/config/email.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/movie/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/movie/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/movie/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/movie/views.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/retroflix/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/retroflix/settings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/retroflix/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/retroflix/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/review/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/review/forms.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/review/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/review/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/review/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/review/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/main/detail.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/main/detail.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/main/main.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/main/main.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/user/mypage.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/user/mypage.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/user/signup.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/user/signup.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/user/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/user/views.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -87,7 +97,7 @@
       <workItem from="1644065366282" duration="2214000" />
       <workItem from="1644127377663" duration="11752000" />
       <workItem from="1644149665811" duration="960000" />
-      <workItem from="1644191113055" duration="2902000" />
+      <workItem from="1644191113055" duration="5148000" />
     </task>
     <task id="LOCAL-00001" summary=" 2/5 8:08">
       <created>1644059341272</created>
@@ -131,7 +141,14 @@
       <option name="project" value="LOCAL" />
       <updated>1644137425810</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="모달창 추천영화 구현">
+      <created>1644200293039</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1644200293039</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -151,10 +168,10 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value=" 2/5 8:08" />
     <MESSAGE value=" 모달창 구현" />
-    <MESSAGE value="모달창 추천영화 구현" />
     <MESSAGE value="모달창 추천영화 구현 5:48" />
     <MESSAGE value="모달창 추천영화 구현 5:49" />
     <MESSAGE value="모달창 추천영화 구현 5:50" />
-    <option name="LAST_COMMIT_MESSAGE" value="모달창 추천영화 구현 5:50" />
+    <MESSAGE value="모달창 추천영화 구현" />
+    <option name="LAST_COMMIT_MESSAGE" value="모달창 추천영화 구현" />
   </component>
 </project>
