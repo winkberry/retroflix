@@ -53,6 +53,7 @@
                     display: flex;
                     flex-wrap: wrap;
                     justify-content: center;
+                    padding-bottom: 50px;
                 }
                 .footer {
                     display: none;
@@ -130,28 +131,28 @@
 
             <div class="my-page-info">
                 {% if err %}
-                <button class="to-change-birth btn btn-primary btn-lg">생년원일 변경</button>
-                <form action="/birth-change/" method="post" class="change-birth" hidden>
-                    {% csrf_token %}
-                    <div class="form-floating">
-                        <input type="date" class="form-control" id="birth" placeholder="Password" name="birth">
-                        <label for="birth">생년월일</label>
-                    </div>
-                    <button type="submit" class="btn btn-primary">변경😁</button>
-                </form>
+                    <button class="to-change-birth btn btn-primary btn-lg">생년원일 변경</button>
+                    <form action="/birth-change/" method="post" class="change-birth" hidden>
+                        {% csrf_token %}
+                        <div class="form-floating">
+                            <input type="date" class="form-control" id="birth" placeholder="Password" name="birth">
+                            <label for="birth">생년월일</label>
+                        </div>
+                        <button type="submit" class="btn btn-primary">변경😁</button>
+                    </form>
 
 
 
-                <button class="to-change-gender btn btn-primary btn-lg">성별</button>
-                <form action="/gender-change/" method="post" class="change-gender" hidden>
-                    {% csrf_token %}
-                    <select class="form-select" aria-label="Default select example" name="gender" id="gender">
-                        <option value="1" selected="">성별</option>
-                        <option value="male">Male</option>
-                        <option value="female">Female</option>
-                    </select>
-                    <button type="submit" class="btn btn-primary">변경😁</button>
-                </form>
+                    <button class="to-change-gender btn btn-primary btn-lg">성별</button>
+                    <form action="/gender-change/" method="post" class="change-gender" hidden>
+                        {% csrf_token %}
+                        <select class="form-select" aria-label="Default select example" name="gender" id="gender">
+                            <option value="1" selected="">성별</option>
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                        </select>
+                        <button type="submit" class="btn btn-primary">변경😁</button>
+                    </form>
                 {% endif %}
 
 
@@ -159,8 +160,8 @@
                 <form action="/idchange/" method="post" class="change-id" hidden>
                     {% csrf_token %}
                     <div class="form-floating">
-                      <input type="text" class="form-control" id="id" placeholder="Password" name="id">
-                      <label for="id">변경할 아이디</label>
+                        <input type="text" class="form-control" id="id" placeholder="Password" name="id">
+                        <label for="id">변경할 아이디</label>
                     </div>
                     <button type="submit" class="btn btn-primary">변경😁</button>
                 </form>
@@ -168,16 +169,16 @@
                 <form action="/pwchange/" method="post" class="change-pw" hidden>
                     {% csrf_token %}
                     <div class="form-floating">
-                      <input type="password" class="form-control" id="floatingPassword" placeholder="Password" name="password1">
-                      <label for="floatingPassword">변경할 비밀번호</label>
+                        <input type="password" class="form-control" id="floatingPassword" placeholder="Password" name="password1">
+                        <label for="floatingPassword">변경할 비밀번호</label>
                     </div>
                     <div class="form-floating">
-                      <input type="password" class="form-control" id="floatingPassword" placeholder="Password" name="password2">
-                      <label for="floatingPassword">비밀번호 확인</label>
+                        <input type="password" class="form-control" id="floatingPassword" placeholder="Password" name="password2">
+                        <label for="floatingPassword">비밀번호 확인</label>
                     </div>
                     <div class="err_box">
                         {%if error %}
-                        {{error}}
+                            {{error}}
                         {%endif %}
                     </div>
                     <button type="submit" class="btn btn-primary">변경😁</button>
@@ -189,21 +190,21 @@
                     <button type="submit">사진 업로드</button>
                 </form>
             </div>
-          </div>
-            <div class="title1">
-                {% if movie_list %}
+        </div>
+        <div class="title1">
+            {% if movie_list %}
                 <h1>내가 찜한 영화</h1>
-                {% endif %}
-            </div>
-            <div class="my-favorite-movies">
+            {% endif %}
+        </div>
+        <div class="my-favorite-movies">
 
-                {% for i in movie_list %}
-                    <div class="movie">
-                        <a><img src="https://tekken.s3.ap-northeast-2.amazonaws.com/movies/{{ i.title }}.jpg" style="width: 200px; height: 250px"></a>
-                        <p>{{ i.title }}</p>
-                    </div>
-                {% endfor %}
-            </div>
+            {% for i in movie_list %}
+                <div class="movie">
+                    <a><img src="https://tekken.s3.ap-northeast-2.amazonaws.com/movies/{{ i.title }}.jpg" style="width: 200px; height: 250px"></a>
+                    <p>{{ i.title }}</p>
+                </div>
+            {% endfor %}
+        </div>
 
     </div>
 
