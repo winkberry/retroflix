@@ -117,6 +117,8 @@ def select_movie_detail(request, movie_id):
         print(genre_idx[movie_find.genre])
         print(movie_find.star)
 
+
+
         # ###### 리뷰 ######
         # reviews = list(Review.objects.filter(movie=movie_find).order_by('-created_date').values())
         # total_reviews = movie_find.reviews.all()
@@ -165,7 +167,8 @@ def select_movie_detail(request, movie_id):
         movie = serializers.serialize('json', [movie_find])
         
         data = {'movie': movie,
-                # 'recommend_list': recommend_list,
+                'genre': genre_idx[movie_find.genre],
+               # 'recommend_list': recommend_list,
                 # 'reviews': reviews,
                 # 'gender_rate': gender_rate,
                 # 'generation_rate' : generation_rate 
