@@ -164,6 +164,7 @@ def select_movie_detail(request, movie_id):
         # print(recommend_list)
         movie = serializers.serialize('json', [movie_find])
         data = {'movie': movie,
+                'genre': genre_idx[movie_find.genre],
                 # 'recommend_list': recommend_list,
                 # 'reviews': reviews,
                 # 'gender_rate': gender_rate,
@@ -230,6 +231,7 @@ def movie_detail(request, movie_id):
 
         context = {
             'movie': movie,
+            'genre': genre_idx[movie.genre],
             'gender_rate': gender_rate,
             'generation_rate' : generation_rate,
             'recommend_list': recommend_list,
@@ -239,6 +241,7 @@ def movie_detail(request, movie_id):
     else:
         context = {
             'movie': movie,
+            'genre': genre_idx[movie.genre],
             'recommend_list': recommend_list,     
         }
     
