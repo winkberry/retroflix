@@ -21,6 +21,7 @@ urlpatterns = [
     path('isid/',views.is_id, name='is_id'),
     path('my-modify/',views.my_modify, name='my_modify'),
     path('birth-change/', views.birth_change, name='birth-change'),
-    path('gender-change/', views.gender_change, name='gender-change')
+    path('gender-change/', views.gender_change, name='gender-change'),
+    path('like-or-donlike/',views.like_or_donlike,name='like_or_donlike'),
 
 ]

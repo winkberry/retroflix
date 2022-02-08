@@ -117,8 +117,6 @@ def select_movie_detail(request, movie_id):
         print(genre_idx[movie_find.genre])
         print(movie_find.star)
 
-
-
         # ###### 리뷰 ######
         # reviews = list(Review.objects.filter(movie=movie_find).order_by('-created_date').values())
         # total_reviews = movie_find.reviews.all()
@@ -151,10 +149,10 @@ def select_movie_detail(request, movie_id):
 
         #### 영화와 비슷한 영화 추천 정보 #####
 
-        user_title = movie_ratings.pivot_table('rating', index='title', columns='userId')
-        user_title = user_title.fillna(0)
-        item_based_collab = cosine_similarity(user_title, user_title)
-        item_based_collab = pd.DataFrame(item_based_collab, index=user_title.index, columns=user_title.index)
+        # user_title = movie_ratings.pivot_table('rating', index='title', columns='userId')
+        # user_title = user_title.fillna(0)
+        # item_based_collab = cosine_similarity(user_title, user_title)
+        # item_based_collab = pd.DataFrame(item_based_collab, index=user_title.index, columns=user_title.index)
 
         # # 현재영화와 비슷하게 유저들로부터 평점을 부여받은 영화들은?
         # # recommend_movies = item_based_collba[넘겨받은 영화의 제목 넣는 부분].sort_values(ascending=False)[1:11].index
@@ -165,10 +163,9 @@ def select_movie_detail(request, movie_id):
 
         # print(recommend_list)
         movie = serializers.serialize('json', [movie_find])
-        
         data = {'movie': movie,
                 'genre': genre_idx[movie_find.genre],
-               # 'recommend_list': recommend_list,
+                # 'recommend_list': recommend_list,
                 # 'reviews': reviews,
                 # 'gender_rate': gender_rate,
                 # 'generation_rate' : generation_rate 
@@ -199,7 +196,7 @@ def movie_detail(request, movie_id):
     print(recommend_list)
 
     # 소수점 자리 표현
-
+    
 
     # 리뷰 성별 비율
     if total_user_count > 0:
@@ -234,6 +231,7 @@ def movie_detail(request, movie_id):
 
         context = {
             'movie': movie,
+            'genre': genre_idx[movie.genre],
             'gender_rate': gender_rate,
             'generation_rate' : generation_rate,
             'recommend_list': recommend_list,
@@ -243,7 +241,8 @@ def movie_detail(request, movie_id):
     else:
         context = {
             'movie': movie,
-            'recommend_list': recommend_list,     
+            'genre': genre_idx[movie.genre],
+            'recommend_list': recommend_list,
         }
     
     return render(request, 'main/movie_detail.html', context)
