@@ -17,6 +17,12 @@
                     {% if star_rate %}
                     <div class="star-ratings-sprite"><span style="width:{{star_rate}}%" class="star-ratings-sprite-rating"></span></div>
                     {% endif %}
+                    <div class="like-content">
+                        <button class="btn-secondary like-review" style="background: #ed2553; box-shadow: 0 10px 20px -8px rgb(240, 75, 113);">
+                            <i class="fa fa-heart" aria-hidden="true"></i> 찜하기
+                        </button>
+                    </div>
+                    
                     
                 </div>
                 <div class="col-md-6 text-center">
@@ -164,7 +170,7 @@
         labels: ['10대', '20대', '30대', '40대 이상'],
         datasets: [{
             label: '연령별 통계',
-            data: {{ generation_rate | safe }},
+            data: {{ generation_rate  }},
             backgroundColor: [
             'rgba(255, 99, 132, 0.2)',
             'rgba(255, 159, 64, 0.2)',
@@ -199,7 +205,7 @@
         labels: ['남성', '여성'],
         datasets: [{
             label: '성별 통계',
-            data: {{ gender_rate | safe}},
+            data: {{ gender_rate }},
             backgroundColor: [
             'rgba(255, 99, 132, 0.2)',
             'rgba(255, 159, 64, 0.2)',
@@ -263,8 +269,15 @@ $(document).ready(function(){
                 }
             });
         }
-    
 
+    $(".like-review").on('click', function(){
+        $(this).html('<i class="fa fa-heart" aria-hidden="true"></i> 찜한 영화');
+        $(this).children('.fa-heart').addClass('animate-like');
+
+        
+    })
+    
+   
 
 })
 
