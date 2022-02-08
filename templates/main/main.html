@@ -103,6 +103,8 @@
                 background: linear-gradient(90deg, rgba(0, 0, 0, 0) 0%, black 100%);
             }
 
+
+
             @media only screen and (max-width: 600px) {
                 a.arrow__btn {
                     display: none;
@@ -305,6 +307,7 @@
                     // console.log(response['generation_rate'])
                     const genderRate = response['gender_rate']
                     const generationRate = response['gender_rate']
+
                     let movie = JSON.parse(response['movie']);
 
                     let title = movie[0]['fields']['title']
@@ -313,24 +316,27 @@
                     let star = movie[0]['fields']['star']
 
                     let temp_html = `
-                    <div><img src="https://tekken.s3.ap-northeast-2.amazonaws.com/movies/${title}.jpg"></div>
-                    <div id="movie-title">${title}</div>
-                    <div>${genre}</div>
-                    <div>
-                    <span>⭐⭐⭐⭐⭐</span>
-                    <span>${star}</span>
-                    <span>${openDt}</span>
-                    <input type='hidden' id='movie-id' value=${mv_id}>
-                    </div>
+                    <div class="model_movie_wrapper">
+                        <img src="https://tekken.s3.ap-northeast-2.amazonaws.com/movies/${title}.jpg">
+                        <div class="modal_movie_info">
+                            <div id="movie-title"><h1>${title}</h1></div>
+                            <div><h3>${genre}</h3></div>
+                            <div><h3>${openDt}</h3></div>
+                            <div><h3>평점 : ${star} / 5</h3></div>
+                            <div><button class="btn btn-outline-secondary"
+                                onclick="location.href='/moviedetail/${mv_id}/'">상세 정보</button>
+                            </div>
+                            <div><button class="modal_close_btn btn btn-outline-secondary">닫기</button></div>
+
+                        </div>
+                            <input type='hidden' id='movie-id' value=${mv_id}>
+                     </div>
+
                     `
                     $('#temp_detail').html(temp_html)
-                    let btn_html =`
-                <button class="modal_close_btn btn btn-outline-secondary">닫기</button>
-                <button class="btn btn-outline-secondary"
-                        onclick="location.href='/moviedetail/${mv_id}/'">상세 정보</button>
 
-                `
-                    $(".btn-wrapper").html(btn_html)
+
+
                     document.querySelector(".modal_close_btn").addEventListener("click", close);
                     // let reviews = response['reviews']
 

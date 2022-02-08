@@ -19,7 +19,7 @@
                         <div class="star-ratings-sprite"><span style="width:{{star_rate}}%" class="star-ratings-sprite-rating"></span></div>
                         {% endif %}
                     </div>
-                    
+
                     <div class="like-content">
                         <button class="btn-secondary like-review" data-movie_pk="{{ movie.pk }}">
 
@@ -66,9 +66,9 @@
                                             <span class="delete badge bg-danger">삭제</span>
                                         </a>
                                         <input type="hidden" id="review-id" value="{{review.id}}" >
-                                    </div>                               
+                                    </div>
                                     {% endif %}
-                                </div>                                
+                                </div>
                                 <div class="fa fa-star-container" style="float: right;">
                                     <span class="fa fa-star {% if review.star > 0 %}checked{% endif %}"></span>
                                     <span class="fa fa-star {% if review.star > 1 %}checked{% endif %}"></span>
@@ -81,39 +81,39 @@
                             </div>
                             
                             
-                            
+
                         </div>
                     </div>
                 </div>
                 <hr>
-        
+
             {% endfor %}
             {% else %}
                 <p class='movie-help-p'>아직 등록된 리뷰가 없습니다.</p>
             {% endif %}                                  
-        </div>           
+        </div>
                         
             <div class="review-container">
                 <form class="review-form" action="{% url 'review:review_create' movie.id %}" method="POST">
                     {% csrf_token %}
                     <h2>리뷰를 작성해주세요!</h2>
-                    <div class="rating">                                                                   
-                        <input name='review-star' id="e5" type="radio" value="5"></a><label for="e5">★</label>                           
+                    <div class="rating">
+                        <input name='review-star' id="e5" type="radio" value="5"></a><label for="e5">★</label>
                         <input name='review-star' id="e4" type="radio" value="4"></a><label for="e4">★</label>
                         <input name='review-star' id="e3" type="radio" value="3"></a><label for="e3">★</label>
                         <input name='review-star' id="e2" type="radio" value="2"></a><label for="e2">★</label>
                         <input name='review-star' id="e1" type="radio" value="1"></a><label for="e1">★</label>
                     </div>
-                    
-                    <div class="form-group">                        
+
+                    <div class="form-group">
                         <textarea class="form-control" style="resize: none;" rows="3" placeholder="Your Reivew" name="review-content" id="review"></textarea>
                     </div>
                     <div class="review-submit-btn" >
                         <button type="submit" class="btn btn-danger">작성</button>
                     </div>
-                       
+
                 </form>
-                
+
 
             </div>
             <hr>
@@ -145,17 +145,17 @@
                         </section>
                     </div>
                 </div>
-            </div> 
+            </div>
     </div>
 
-    
+
 
 
     <!-- 리뷰 삭제 Modal -->
     <div class="modal fade" id="reveiwDeleteModal" tabindex="-1" aria-labelledby="reveiwDeleteModalLabel" aria-hidden="true">
         <div class="modal-dialog">
         <div class="modal-content">
-            
+
             <div class="modal-body">
             <p>리뷰를 삭제하시겠습니까?</p>
             </div>

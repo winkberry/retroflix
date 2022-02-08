@@ -242,7 +242,7 @@ def movie_detail(request, movie_id):
         context = {
             'movie': movie,
             'genre': genre_idx[movie.genre],
-            'recommend_list': recommend_list,     
+            'recommend_list': recommend_list,
         }
     
     return render(request, 'main/movie_detail.html', context)
