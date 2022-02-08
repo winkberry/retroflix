@@ -12,6 +12,12 @@ from decimal import Decimal, getcontext
 from django.core.paginator import Paginator
 from django.contrib.auth.decorators import login_required
 
+# Streaming 관련 패키지 임포트
+import os
+import mimetypes
+from wsgiref.util import FileWrapper
+from django.http.response import StreamingHttpResponse
+from .streaming import RangeFileWrapper, range_re
 
 ratings = pd.read_csv('movie/ratings.csv')
 movies = pd.read_csv('movie/movie_data.csv')
@@ -214,47 +220,7 @@ def view(request):
         return JsonResponse({'msg': 'views 저장!'})
 
 
-
-import os
-import re
-import mimetypes
-from wsgiref.util import FileWrapper
-
-from django.http.response import StreamingHttpResponse
-
-
-range_re = re.compile(r'bytes\s*=\s*(\d+)\s*-\s*(\d*)', re.I)
-
-
-class RangeFileWrapper(object):
-    def __init__(self, filelike, blksize=10240, offset=0, length=None):
-        self.filelike = filelike
-        self.filelike.seek(offset, os.SEEK_SET)
-        self.remaining = length
-        self.blksize = blksize
-
-    def close(self):
-        if hasattr(self.filelike, 'close'):
-            self.filelike.close()
-
-    def __iter__(self):
-        return self
-
-    def __next__(self):
-        if self.remaining is None:
-            # If remaining is None, we're reading the entire file.
-            data = self.filelike.read(self.blksize)
-            if data:
-                return data
-            raise StopIteration()
-        else:
-            if self.remaining <= 0:
-                raise StopIteration()
-            data = self.filelike.read(min(self.remaining, self.blksize))
-            if not data:
-                raise StopIteration()
-            self.remaining -= len(data)
-            return data
+######################## Video/Audio StreamingHttpResponse로 스트리밍하기 ###############
 
 
 def stream(request):
@@ -302,6 +268,8 @@ def audio(request):
     resp['Accept-Ranges'] = 'bytes'
     return resp
 
+
+##################################################################################################
 
 @login_required
 def search(request):
