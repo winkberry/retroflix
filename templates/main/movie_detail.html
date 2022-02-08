@@ -17,6 +17,20 @@
                     {% if star_rate %}
                     <div class="star-ratings-sprite"><span style="width:{{star_rate}}%" class="star-ratings-sprite-rating"></span></div>
                     {% endif %}
+                    <div class="like-content">
+                        <button class="btn-secondary like-review" data-movie_pk="{{ movie.pk }}">
+
+                            <i class="fa fa-heart" aria-hidden="true"></i>
+                            {% if movie in user.favorite_movies.all %}
+                                찜한 영화
+                            {% else %}
+                                찜하기
+                            {% endif %}
+
+
+                        </button>
+                    </div>
+                    
                     
                 </div>
                 <div class="col-md-6 text-center">
@@ -164,7 +178,7 @@
         labels: ['10대', '20대', '30대', '40대 이상'],
         datasets: [{
             label: '연령별 통계',
-            data: {{ generation_rate | safe }},
+            data: {{ generation_rate  }},
             backgroundColor: [
             'rgba(255, 99, 132, 0.2)',
             'rgba(255, 159, 64, 0.2)',
@@ -199,7 +213,7 @@
         labels: ['남성', '여성'],
         datasets: [{
             label: '성별 통계',
-            data: {{ gender_rate | safe}},
+            data: {{ gender_rate }},
             backgroundColor: [
             'rgba(255, 99, 132, 0.2)',
             'rgba(255, 159, 64, 0.2)',
@@ -263,8 +277,33 @@ $(document).ready(function(){
                 }
             });
         }
-    
+    function like_movie(e){
 
+        $(e.target).children('.fa-heart').addClass('animate-like');
+        movie_pk = e.target.dataset['movie_pk']
+        $.ajax({
+                type: 'GET',
+                url: `{% url 'user:like_or_donlike' %}`,
+                headers: {'X-CSRFTOKEN': '{{ csrf_token }}'},
+                data: {
+                    'movie_pk':movie_pk
+                },
+                success: function (response){
+                    if (response.remove){
+                        alert('찜 목록에서 제거하였습니다. 🎬')
+                        $(e.target).html('<i class="fa fa-heart" aria-hidden="true"></i> 찜하기');
+                    }
+                    else if (response.add){
+                        alert('찜 목록에 추가하였습니다. 🎬')
+                        $(e.target).html('<i class="fa fa-heart" aria-hidden="true"></i> 찜한 영화');
+                    }
+                }
+            });
+
+    }
+    $(".like-review").on('click', like_movie)
+    
+   
 
 })
 

@@ -68,7 +68,7 @@ def review_create(request, movie_id):
         content = request.POST.get('review-content')
         star = request.POST.get('review-star')
         Review.objects.create(movie=movie, author=request.user, content=content, star=star).save()
-        movie.star = movie.reviews.all().aggregate(Avg('star')).get('star__avg')
+        movie.star = round(movie.reviews.all().aggregate(Avg('star')).get('star__avg'), 2)
         movie.save()
         return redirect('movie_detail', movie_id = movie.id)
 
@@ -117,7 +117,7 @@ def review_delete(request, review_id):
         review = get_object_or_404(Review, id = review_id)
         movie = get_object_or_404(Movie, id = review.movie.id)
         review.delete()
-        movie.rate = movie.reviews.all().aggregate(Avg('star')).get('star__avg')
+        movie.star = round(movie.reviews.all().aggregate(Avg('star')).get('star__avg'), 2)
         movie.save()
         return JsonResponse({'msg':'done'})
 

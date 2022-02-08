@@ -10,6 +10,7 @@ from django.contrib.auth import get_user_model
 from django.contrib import auth
 from django.contrib.auth.decorators import login_required
 from . import models
+from movie import models as movie_models
 from django.core.mail import send_mail
 
 
@@ -375,3 +376,18 @@ def gender_change(request):
         user.gender = gender
         user.save()
     return redirect('/mypage')
+
+def like_or_donlike(request):
+    pk = request.GET.get('movie_pk','')
+    user = request.user
+
+    try:
+        user.favorite_movies.get(pk=pk)
+        movie = movie_models.Movie.objects.get(pk=pk)
+        user.favorite_movies.remove(movie)
+        return JsonResponse({'remove': 'ok'})
+    except:
+        movie = movie_models.Movie.objects.get(pk=pk)
+        user.favorite_movies.add(movie)
+        user.save()
+        return JsonResponse({'add': 'ok'})
