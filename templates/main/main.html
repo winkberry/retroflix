@@ -110,7 +110,7 @@
                     display: none;
                 }
             }
-            /* .video-box {
+            .video-box {
                 position: absolute;
                 left: 0;
                 top: 0;
@@ -141,15 +141,15 @@
                 width: 330px;
                 border-radius: 30px;
             }
-            */
+
         </style>
     </head>
 
     <body>
-    <!-- <div class="video-box">
+    <div class="video-box">
         <video id="hohwan" src="https://fuck-sparta.s3.ap-northeast-2.amazonaws.com/video1.mp4" loop="loop" autoplay muted controls>
         </video>
-    </div> -->
+    </div>
 
     <h1 id="myList">가장 인기있는 컨텐츠 Top 10</h1>
     <div class="wrapper">
@@ -272,9 +272,9 @@
         </section>
     </div>
     {% include 'main/detail.html' %}
-    <!-- <div id="hidden-video" >
-        <video src="" muted autoplay ></video>
-    </div> -->
+{#    <div id="hidden-video" >#}
+{#        <video src="" muted autoplay ></video>#}
+{#    </div>#}
 {% endblock %}
 
 {% block script %}
@@ -301,7 +301,7 @@
                 }
             });
         }
-        /* $(document).ready(function (){
+        /* >(document).ready(function (){
                     $("#hohwan").css({
                         'height': ($(".showcase").height() + 'px')
                     });
