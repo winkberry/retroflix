@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'base_header.html' %}
 
 {% block title %}
     회원가입
@@ -8,7 +8,7 @@
         <head>
             <style>
                 .showcase {
-                    z-index: -1;
+                    z-index: 0;
                 }
                 .container {
                     position: absolute;
@@ -17,12 +17,10 @@
                     transform: translate(-50%,0);
                     width : 40%;
                     padding: 20px;
-
                 }
                 .footer {
                     display: none;
                 }
-
             </style>
         </head>
     </html>
