@@ -7,4 +7,6 @@ urlpatterns = [
     path('view/', views.view, name='view'),
     path('detail/<int:movie_id>/', views.select_movie_detail, name='select_movie_detail'),
     path('moviedetail/<int:movie_id>/', views.movie_detail, name='movie_detail'),
+    path('stream/', views.stream, name='stream'),
+    path('audio/', views.audio, name='audio'),
 ]
