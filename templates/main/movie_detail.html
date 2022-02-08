@@ -4,38 +4,40 @@
     <div class="container movie-details">
         <div class="container movie-detail-wrapper">
             <div class="row">
-                <div class="col-md left-box">
+                <div class="col-md left-box" style="margin-right: 5%;">
                     <h1>{{ movie.title }}</h1>
                     <p>개봉연도: {{ movie.openDt }}</p>
-                    <p>장르: {{ movie.genre }}</p>
+                    <p>장르: {{ genre }}</p>
                     <!-- <p>조회수: {{ views_cnt }}</p> -->
-                    {% if movie.star == 0 %}
-                    <p>평점: 등록된 평점이 없습니다.</p>
-                    {%else%}
-                    <p>평점: {{ movie.star }} / 5</p>
-                    {% endif %}
-                    {% if star_rate %}
-                    <div class="star-ratings-sprite"><span style="width:{{star_rate}}%" class="star-ratings-sprite-rating"></span></div>
-                    {% endif %}
+                    <div class="star-rate-container">
+                        {% if movie.star == 0 %}
+                        <p>평점: 등록된 평점이 없습니다.</p>
+                        {%else%}
+                        <p>평점: {{ movie.star }} / 5</p>
+                        {% endif %}
+                        {% if star_rate %}
+                        <div class="star-ratings-sprite"><span style="width:{{star_rate}}%" class="star-ratings-sprite-rating"></span></div>
+                        {% endif %}
+                    </div>
+                    
                     <div class="like-content">
                         <button class="btn-secondary like-review" style="background: #ed2553; box-shadow: 0 10px 20px -8px rgb(240, 75, 113);">
                             <i class="fa fa-heart" aria-hidden="true"></i> 찜하기
                         </button>
                     </div>
-                    
-                    
                 </div>
-                <div class="col-md-6 text-center">
+
+                <div class="col-md-6 text-right" style="margin-left: 5%;">
                     <img src="https://tekken.s3.ap-northeast-2.amazonaws.com/movies/{{ movie.title }}.jpg" alt="{{ movie.title }}" class="img-movie-poster">
                 </div>
             </div>
         </div>
 
         <div class="chart-wrapper">
-            <div class="gender-chart">
+            <div class="gender-chart" style="height: 300px; width: 400px;">
                 <canvas id='gender-chart'></canvas>
             </div>
-            <div class="generation-chart">
+            <div class="generation-chart" style="height: 300px; width: 400px;">
                 <canvas id='generation-chart'></canvas>
             </div>
         </div>
@@ -48,7 +50,17 @@
                     <div class="col-md-12">
                         <div class="media">
                             <div class="media-body">
-                                <h5 class="mt-0"> {{ review.content }} </h5>
+                                <div class="review-content-container">
+                                    <h5 class="mt-0"> {{ review.content }} </h5>
+                                    {% if review.author == request.user %}
+                                    <div class="btn-review-delete">
+                                        <a href="#" data-bs-toggle="modal" data-bs-target="#reveiwDeleteModal">
+                                            <span class="delete badge bg-danger">삭제</span>
+                                        </a>
+                                        <input type="hidden" id="review-id" value="{{review.id}}" >
+                                    </div>                               
+                                    {% endif %}
+                                </div>                                
                                 <div class="fa fa-star-container" style="float: right;">
                                     <span class="fa fa-star {% if review.star > 0 %}checked{% endif %}"></span>
                                     <span class="fa fa-star {% if review.star > 1 %}checked{% endif %}"></span>
@@ -56,87 +68,86 @@
                                     <span class="fa fa-star {% if review.star > 3 %}checked{% endif %}"></span>
                                     <span class="fa fa-star {% if review.star > 4 %}checked{% endif %}"></span>
                                 </div>
-                                <span> {{ review.author.username }} </span>
-                                <span> - {{ review.created_date }}</span>
+                                <span class="review-author"> {{ review.author.username }} </span>
+                                <span class="review-created-date"> - {{ review.created_date }}</span>
                             </div>
                             
                             
-                            {% if review.author == request.user %}
-                                <div style="float: right">
-                                    <a href="#" data-bs-toggle="modal" data-bs-target="#reveiwDeleteModal">
-                                        <span class="delete badge bg-danger">삭제</span>
-                                    </a>
-                                    <input type="hidden" id="review-id" value="{{review.id}}" >
-                                </div>                               
-                            {% endif %}
+                            
                         </div>
                     </div>
                 </div>
                 <hr>
-                
+        
             {% endfor %}
             {% else %}
                 <p class='movie-help-p'>아직 등록된 리뷰가 없습니다.</p>
             {% endif %}                                  
-                       
+        </div>           
                         
-            
-            <form class="review-form" action="{% url 'review:review_create' movie.id %}" method="POST">
-                {% csrf_token %}
-                <div class="form-group">
-                    <textarea name="review-content" rows="3" placeholder="리뷰를 작성해주세요."></textarea>
-                    <div class="rating rating2">
-                        <div class="rating">                                                                   
-                            <input name='review-star' id="e5" type="radio" value="5"></a><label for="e5">★</label>                           
-                            <input name='review-star' id="e4" type="radio" value="4"></a><label for="e4">★</label>
-                            <input name='review-star' id="e3" type="radio" value="3"></a><label for="e3">★</label>
-                            <input name='review-star' id="e2" type="radio" value="2"></a><label for="e2">★</label>
-                            <input name='review-star' id="e1" type="radio" value="1"></a><label for="e1">★</label>
-                        </div>
+            <div class="review-container">
+                <form class="review-form" action="{% url 'review:review_create' movie.id %}" method="POST">
+                    {% csrf_token %}
+                    <h2>리뷰를 작성해주세요!</h2>
+                    <div class="rating">                                                                   
+                        <input name='review-star' id="e5" type="radio" value="5"></a><label for="e5">★</label>                           
+                        <input name='review-star' id="e4" type="radio" value="4"></a><label for="e4">★</label>
+                        <input name='review-star' id="e3" type="radio" value="3"></a><label for="e3">★</label>
+                        <input name='review-star' id="e2" type="radio" value="2"></a><label for="e2">★</label>
+                        <input name='review-star' id="e1" type="radio" value="1"></a><label for="e1">★</label>
+                    </div>
+                    
+                    <div class="form-group">                        
+                        <textarea class="form-control" style="resize: none;" rows="3" placeholder="Your Reivew" name="review-content" id="review"></textarea>
+                    </div>
+                    <div class="review-submit-btn" >
+                        <button type="submit" class="btn btn-danger">작성</button>
+                    </div>
+                       
+                </form>
+                
+
+            </div>
+            <hr>
+            <div class="recommend-movies-container" >
+                <div class="recommend-movies">
+                    <h2>회원님을 위한 추천영화</h2>
+                    <div class="remv_wrapper">
+                        <section id="remv_section1">
+                            <a href="#remv_section2" class="remv_arrow__btn">‹</a>
+                            {% for remv_movie in recommend_list|slice:":5" %}
+                                <div class="remv_item">
+                                    <img src="https://tekken.s3.ap-northeast-2.amazonaws.com/movies/{{ remv_movie.title }}.jpg"
+                                        alt="{{ remv_movie.title }}" title="{{ remv_movie.title }}" id="{{ remv_movie.id }}"
+                                        onclick="select_movie_modal(this.title, this.id); view({{ user.id }},{{ remv_movie.id }},{{ remv_movie.genre }});">
+                                </div>
+                            {% endfor %}
+                            <a href="#remv_section2" class="remv_arrow__btn">›</a>
+                        </section>
+                        <section id="remv_section2">
+                            <a href="#remv_section1" class="remv_arrow__btn">‹</a>
+                            {% for remv_movie in recommend_list|slice:"5:10" %}
+                                <div class="remv_item">
+                                    <img src="https://tekken.s3.ap-northeast-2.amazonaws.com/movies/{{ remv_movie.title }}.jpg"
+                                        alt="{{ remv_movie.title }}" title="{{ remv_movie.title }}" id="{{ remv_movie.id }}"
+                                        onclick="select_movie_modal(this.title, this.id); view({{ user.id }},{{ remv_movie.id }},{{ remv_movie.genre }});">
+                                </div>
+                            {% endfor %}
+                            <a href="#remv_section1" class="remv_arrow__btn">›</a>
+                        </section>
                     </div>
                 </div>
-                                             
-                <button type="submit" class="btn-primary">작성</button>                                
-            </form>
-        </div>
+            </div> 
     </div>
 
-    <div class="recommend-movies">
-        <p>추천 영화</p>
-        <div class="remv_wrapper">
-            <section id="remv_section1">
-                <a href="#remv_section2" class="remv_arrow__btn">‹</a>
-                {% for remv_movie in recommend_list|slice:":5" %}
-                    <div class="remv_item">
-                        <img src="https://tekken.s3.ap-northeast-2.amazonaws.com/movies/{{ remv_movie.title }}.jpg"
-                             alt="{{ remv_movie.title }}" title="{{ remv_movie.title }}" id="{{ remv_movie.id }}"
-                             onclick="select_movie_modal(this.title, this.id); view({{ user.id }},{{ remv_movie.id }},{{ remv_movie.genre }});">
-                    </div>
-                {% endfor %}
-                <a href="#remv_section2" class="remv_arrow__btn">›</a>
-            </section>
-            <section id="remv_section2">
-                <a href="#remv_section1" class="remv_arrow__btn">‹</a>
-                {% for remv_movie in recommend_list|slice:"5:10" %}
-                    <div class="remv_item">
-                        <img src="https://tekken.s3.ap-northeast-2.amazonaws.com/movies/{{ remv_movie.title }}.jpg"
-                             alt="{{ remv_movie.title }}" title="{{ remv_movie.title }}" id="{{ remv_movie.id }}"
-                             onclick="select_movie_modal(this.title, this.id); view({{ user.id }},{{ remv_movie.id }},{{ remv_movie.genre }});">
-                    </div>
-                {% endfor %}
-                <a href="#remv_section1" class="remv_arrow__btn">›</a>
-            </section>
-        </div>
-    </div>
+    
+
 
     <!-- 리뷰 삭제 Modal -->
     <div class="modal fade" id="reveiwDeleteModal" tabindex="-1" aria-labelledby="reveiwDeleteModalLabel" aria-hidden="true">
         <div class="modal-dialog">
         <div class="modal-content">
-            <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">리뷰 삭제</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
+            
             <div class="modal-body">
             <p>리뷰를 삭제하시겠습니까?</p>
             </div>
