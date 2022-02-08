@@ -176,7 +176,7 @@ def movie_detail(request, movie_id):
 
         generation_count = [gen_10, gen_20, gen_30, gen_40]
         generation_rate = [round((gen_cnt / total_user_count) * 100, 1) for gen_cnt in generation_count]
-
+        print(generation_rate)
 
         # 평점표시
         star_rate = (movie.star * 100) / 5
