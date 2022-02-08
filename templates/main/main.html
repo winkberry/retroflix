@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'main_base.html' %}
 {% block content %}
     <html>
     <head>
@@ -146,10 +146,14 @@
     </head>
 
     <body>
+
+  
+<!-- 
     <div class="video-box">
+
         <video id="hohwan" src="https://fuck-sparta.s3.ap-northeast-2.amazonaws.com/video1.mp4" loop="loop" autoplay muted controls>
         </video>
-    </div>
+    </div> -->
 
 
     <h1 id="myList">가장 인기있는 컨텐츠 Top 10</h1>
@@ -309,7 +313,7 @@
                 'height': ($(".showcase").height() + 'px')
             });
         });
-        /* $('.item img').mouseenter(function () {
+         $('.item img').mouseenter(function () {
 
             console.log($(this).offset().top)
             console.log($(this).offset().left)
@@ -320,7 +324,7 @@
             })
             $('#hidden-video video')[0].load().src = "https://fuck-sparta.s3.ap-northeast-2.amazonaws.com/video1.mp4"
             $('#hidden-video video')[0].src = "https://fuck-sparta.s3.ap-northeast-2.amazonaws.com/video1.mp4"
-        }); */
+        }); 
 
     </script>
 

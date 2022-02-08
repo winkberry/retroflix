@@ -6,11 +6,18 @@ import datetime
 import pandas as pd
 import numpy as np
 from sklearn.metrics.pairwise import cosine_similarity
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse, StreamingHttpResponse
 from django.core import serializers
 from decimal import Decimal, getcontext
 from django.core.paginator import Paginator
 from django.contrib.auth.decorators import login_required
+
+# Streaming 관련 패키지 임포트
+import os
+import mimetypes
+from wsgiref.util import FileWrapper
+from django.http.response import StreamingHttpResponse
+from .streaming import RangeFileWrapper, range_re
 
 ratings = pd.read_csv('movie/ratings.csv')
 movies = pd.read_csv('movie/movie_data.csv')
@@ -23,6 +30,7 @@ movie_ratings = pd.merge(ratings, movies, on='movieid')
 
 genre_idx = ['가족', '공포(호러)', '다큐멘터리', '드라마', '멜로/로맨스', '뮤지컬', '미스터리', '범죄', '사극', '서부극(웨스턴)', '성인물(에로)', '스릴러', '애니메이션',
              '액션', '어드벤처', '전쟁', '코미디', '판타지', 'SF', '']
+
 
 @login_required
 def main(request):
@@ -106,6 +114,7 @@ def main(request):
                       {'top10_list': top10_list, 'age_list': age_list, 'genre1_list': genre1_list,
                        'genre2_list': genre2_list, 'movie_result_list': movie_result_list, 'most_rank': most_rank})
 
+
 @login_required
 def select_movie_detail(request, movie_id):
     if request.method == 'GET':
@@ -119,10 +128,10 @@ def select_movie_detail(request, movie_id):
         print(movie_find.title)
         print(genre_idx[movie_find.genre])
         print(movie_find.star)
-       
+
         movie = serializers.serialize('json', [movie_find])
         data = {'movie': movie,
-                'genre': genre_idx[movie_find.genre],                
+                'genre': genre_idx[movie_find.genre],
                 }
         return JsonResponse(data, safe=False)
 
@@ -181,6 +190,7 @@ def movie_detail(request, movie_id):
 
         generation_count = [gen_10, gen_20, gen_30, gen_40]
         generation_rate = [round((gen_cnt / total_user_count) * 100, 1) for gen_cnt in generation_count]
+        print(generation_rate)
 
         # 평점표시
         star_rate = (movie.star * 100) / 5
@@ -208,6 +218,7 @@ def movie_detail(request, movie_id):
         }
     return render(request, 'main/movie_detail.html', context)
 
+
 @login_required
 def view(request):
     if request.method == "POST":
@@ -233,15 +244,67 @@ def movie(request):
         movie_list = []
         for i in top_10:
             movie_list.append(Movie.objects.get(id=i))
-        return render(request, 'main/movie.html', {'movie_list': movie_list, 'name':'인기'})
+        return render(request, 'main/movie.html', {'movie_list': movie_list, 'name': '인기'})
 
 
 def movie_genre(request, genre_id):
     movie_list = list(Movie.objects.filter(genre=genre_id))
     name = genre_idx[genre_id]
-    return render(request, 'main/movie.html', {'movie_list': movie_list, 'name':name})
+    return render(request, 'main/movie.html', {'movie_list': movie_list, 'name': name})
 
 
+######################## Video/Audio StreamingHttpResponse로 스트리밍하기 ###############
+
+
+def stream(request):
+    range_header = request.META.get('HTTP_RANGE', '').strip()
+    range_match = range_re.match(range_header)
+    size = os.path.getsize('movie/video1.mp4')
+    content_type, encoding = mimetypes.guess_type('movie/video1.mp4')
+    content_type = content_type or 'application/octet-stream'
+    if range_match:
+        first_byte, last_byte = range_match.groups()
+        first_byte = int(first_byte) if first_byte else 0
+        last_byte = int(last_byte) if last_byte else size - 1
+        if last_byte >= size:
+            last_byte = size - 1
+        length = last_byte - first_byte + 1
+        resp = StreamingHttpResponse(RangeFileWrapper(open('movie/video1.mp4', 'rb'), offset=first_byte, length=length),
+                                     status=206, content_type=content_type)
+        resp['Content-Length'] = str(length)
+        resp['Content-Range'] = 'bytes %s-%s/%s' % (first_byte, last_byte, size)
+    else:
+        resp = StreamingHttpResponse(FileWrapper(open('movie/video1.mp4', 'rb')), content_type=content_type)
+        resp['Content-Length'] = str(size)
+    resp['Accept-Ranges'] = 'bytes'
+    return resp
+
+
+def audio(request):
+    range_header = request.META.get('HTTP_RANGE', '').strip()
+    range_match = range_re.match(range_header)
+    size = os.path.getsize('movie/main.mp4')
+    content_type, encoding = mimetypes.guess_type('movie/main.mp4')
+    content_type = content_type or 'application/octet-stream'
+    if range_match:
+        first_byte, last_byte = range_match.groups()
+        first_byte = int(first_byte) if first_byte else 0
+        last_byte = int(last_byte) if last_byte else size - 1
+        if last_byte >= size:
+            last_byte = size - 1
+        length = last_byte - first_byte + 1
+        resp = StreamingHttpResponse(RangeFileWrapper(open('movie/main.mp4', 'rb'), offset=first_byte, length=length),
+                                     status=206, content_type=content_type)
+        resp['Content-Length'] = str(length)
+        resp['Content-Range'] = 'bytes %s-%s/%s' % (first_byte, last_byte, size)
+    else:
+        resp = StreamingHttpResponse(FileWrapper(open('movie/main.mp4', 'rb')), content_type=content_type)
+        resp['Content-Length'] = str(size)
+    resp['Accept-Ranges'] = 'bytes'
+    return resp
+
+
+##################################################################################################
 
 @login_required
 def search(request):
@@ -257,4 +320,5 @@ def search(request):
     movies = qs.filter(**filter_args)
     paginater = Paginator(movies, 12)
     movies = paginater.get_page(page_num)
+
     return render(request, 'main/search.html', {'genres': genre_idx, 'movies': movies, 'kw': kw})

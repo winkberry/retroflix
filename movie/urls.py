@@ -9,5 +9,7 @@ urlpatterns = [
     path('moviedetail/<int:movie_id>/', views.movie_detail, name='movie_detail'),
     path('movie/', views.movie, name='movie'),
     path('movie/<int:genre_id>/', views.movie_genre, name='movie_genre'),
-    path('search/',views.search, name='search')
+    path('stream/', views.stream, name='stream'),
+    path('audio/', views.audio, name='audio'),
+    path('search/',views.search, name='search'),
 ]
