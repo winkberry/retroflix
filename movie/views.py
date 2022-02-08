@@ -163,7 +163,6 @@ def select_movie_detail(request, movie_id):
 
         # print(recommend_list)
         movie = serializers.serialize('json', [movie_find])
-        
         data = {'movie': movie,
                 # 'recommend_list': recommend_list,
                 # 'reviews': reviews,

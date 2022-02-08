@@ -18,8 +18,16 @@
                     <div class="star-ratings-sprite"><span style="width:{{star_rate}}%" class="star-ratings-sprite-rating"></span></div>
                     {% endif %}
                     <div class="like-content">
-                        <button class="btn-secondary like-review" style="background: #ed2553; box-shadow: 0 10px 20px -8px rgb(240, 75, 113);">
-                            <i class="fa fa-heart" aria-hidden="true"></i> 찜하기
+                        <button class="btn-secondary like-review" data-movie_pk="{{ movie.pk }}">
+
+                            <i class="fa fa-heart" aria-hidden="true"></i>
+                            {% if movie in user.favorite_movies.all %}
+                                찜한 영화
+                            {% else %}
+                                찜하기
+                            {% endif %}
+
+
                         </button>
                     </div>
                     
@@ -269,13 +277,31 @@ $(document).ready(function(){
                 }
             });
         }
+    function like_movie(e){
 
-    $(".like-review").on('click', function(){
-        $(this).html('<i class="fa fa-heart" aria-hidden="true"></i> 찜한 영화');
-        $(this).children('.fa-heart').addClass('animate-like');
+        $(e.target).children('.fa-heart').addClass('animate-like');
+        movie_pk = e.target.dataset['movie_pk']
+        $.ajax({
+                type: 'GET',
+                url: `{% url 'user:like_or_donlike' %}`,
+                headers: {'X-CSRFTOKEN': '{{ csrf_token }}'},
+                data: {
+                    'movie_pk':movie_pk
+                },
+                success: function (response){
+                    if (response.remove){
+                        alert('찜 목록에서 제거하였습니다. 🎬')
+                        $(e.target).html('<i class="fa fa-heart" aria-hidden="true"></i> 찜하기');
+                    }
+                    else if (response.add){
+                        alert('찜 목록에 추가하였습니다. 🎬')
+                        $(e.target).html('<i class="fa fa-heart" aria-hidden="true"></i> 찜한 영화');
+                    }
+                }
+            });
 
-        
-    })
+    }
+    $(".like-review").on('click', like_movie)
     
    
 
