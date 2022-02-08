@@ -271,151 +271,19 @@
             <a href="#section10" class="arrow__btn">›</a>
         </section>
     </div>
-    {% include "./detail.html" %}
+    {% include 'main/detail.html' %}
     <!-- <div id="hidden-video" >
         <video src="" muted autoplay ></video>
     </div> -->
 {% endblock %}
 
 {% block script %}
-    <script>
-        const open = () => {
-            document.querySelector(".detail-modal").classList.remove("hidden");
-        }
-        //모달창 닫기 함수 - 히든 클래스를 활성화
-        const close = () => {
-            document.querySelector(".detail-modal").classList.add("hidden");
-        }
-        document.querySelector(".detail-modal-open-btn").addEventListener("click", open);
-        document.querySelector(".modal_close_btn").addEventListener("click", close);
-        document.querySelector(".bg").addEventListener("click", close);
-    </script>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
+
+
     <script>
-        function select_movie_modal(value, id) {
-            document.querySelector(".detail-modal").classList.remove("hidden");
-            let mv_title = value;
-            let mv_id = id;
-            $.ajax({
-                type: 'GET',
-                url: `/detail/${mv_id}/`,
-                success: function (response) {
-                    console.log(response['movie'])
-                    // console.log(response['recommend_list'])
-                    // console.log(response['reviews'])
-                    // console.log(response['gender_rate'])
-                    // console.log(response['generation_rate'])
-                    const genderRate = response['gender_rate']
-                    const generationRate = response['gender_rate']
 
-                    let movie = JSON.parse(response['movie']);
-
-                    let title = movie[0]['fields']['title']
-                    let genre = response['genre']
-                    let openDt = movie[0]['fields']['openDt']
-                    let star = movie[0]['fields']['star']
-
-                    let temp_html = `
-                    <div class="model_movie_wrapper">
-                        <img src="https://tekken.s3.ap-northeast-2.amazonaws.com/movies/${title}.jpg">
-                        <div class="modal_movie_info">
-                            <div id="movie-title"><h1>${title}</h1></div>
-                            <div><h3>${genre}</h3></div>
-                            <div><h3>${openDt}</h3></div>
-                            <div><h3>평점 : ${star} / 5</h3></div>
-                            <div><button class="btn btn-outline-secondary"
-                                onclick="location.href='/moviedetail/${mv_id}/'">상세 정보</button>
-                            </div>
-                            <div><button class="modal_close_btn btn btn-outline-secondary">닫기</button></div>
-
-                        </div>
-                            <input type='hidden' id='movie-id' value=${mv_id}>
-                     </div>
-
-                    `
-                    $('#temp_detail').html(temp_html)
-
-
-
-                    document.querySelector(".modal_close_btn").addEventListener("click", close);
-                    // let reviews = response['reviews']
-
-                    // for (let i = 0; i <= response['reviews'].length; i++){
-                    //     let content = response['reviews'][i]['content']
-                    //     let star = response['reviews'][i]['star']
-                    //     let author = response['reviews'][i]['author_id']
-                    //     let createdDate = response['reviews'][i]['created_date']
-                    //     let review_html = `
-                    //         <h5 class="mt-0"> ${content} </h5>
-
-                    //             <span> ${author} </span>
-                    //             <span> - ${createdDate}</span>
-
-                    //     `
-                    //     $('.media-body').append(review_html)
-                    // }
-                    // const generationCtx = $("#generation-chart");
-                    // const generationChart = new Chart(generationCtx, {
-                    //     type: 'bar',
-                    //     data: generationData,
-                    //     options: {
-                    //         scales: {
-                    //         y: {
-                    //             beginAtZero: true
-                    //         }
-                    //         }
-                    //     },
-                    // })
-                    // const generationData = {
-                    //     labels: ['10대', '20대', '30대', '40대 이상'],
-                    //     datasets: [{
-                    //         label: '연령별 통계',
-                    //         data: generationRate,
-                    //         backgroundColor: [
-                    //         'rgba(255, 99, 132, 0.2)',
-                    //         'rgba(255, 159, 64, 0.2)',
-                    //         'rgba(255, 205, 86, 0.2)',
-                    //         'rgba(75, 192, 192, 0.2)',
-                    //         ],
-                    //         borderColor: [
-                    //         'rgb(255, 99, 132)',
-                    //         'rgb(255, 159, 64)',
-                    //         'rgb(255, 205, 86)',
-                    //         'rgb(75, 192, 192)',
-                    //         ],
-                    //         borderWidth: 1
-                    //     }]
-                    // };
-                    // const genderCtx = $("#generation-chart");
-                    // const genderChart = new Chart(genderCtx, {
-                    //     type: 'pie',
-                    //     data: genderData,
-                    // })
-                    // const genderData = {
-                    //     labels: ['남성', '여성'],
-                    //     datasets: [{
-                    //         label: '성별 통계',
-                    //         data: genderRate,
-                    //         backgroundColor: [
-                    //         'rgba(255, 99, 132, 0.2)',
-                    //         'rgba(255, 159, 64, 0.2)',
-                    //         'rgba(255, 205, 86, 0.2)',
-                    //         'rgba(75, 192, 192, 0.2)',
-                    //         ],
-                    //         borderColor: [
-                    //         'rgb(255, 99, 132)',
-                    //         'rgb(255, 159, 64)',
-                    //         'rgb(255, 205, 86)',
-                    //         'rgb(75, 192, 192)',
-                    //         ],
-                    //         borderWidth: 1
-                    //     }]
-                    // };
-
-
-                }
-            });
-        }
 
         // function postReview(){
         //     let movie_id = $('#movie-id').val()
@@ -427,7 +295,7 @@
         //     $.ajax({
         //         type: 'POST',
         //         url: `/detail/${movie_id}/reviews/create/`,
-        //         headers: {'X-CSRFTOKEN': '{{ csrf_token }}'},
+        {#//         headers: {'X-CSRFTOKEN': '{{ csrf_token }}'},#}
         //         datatype: 'json',
         //         data: review_data,
 
