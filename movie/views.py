@@ -9,6 +9,8 @@ from sklearn.metrics.pairwise import cosine_similarity
 from django.http import JsonResponse
 from django.core import serializers
 from decimal import Decimal, getcontext
+from django.core.paginator import Paginator
+
 
 ratings = pd.read_csv('movie/ratings.csv')
 movies = pd.read_csv('movie/movie_data.csv')
@@ -257,3 +259,21 @@ def view(request):
         views = Views.objects.create(user_id=user_id, movie_id=movie_id, genre=genre)
         views.save()
         return JsonResponse({'msg': 'views 저장!'})
+
+def search(request):
+    page_num = request.GET.get('page')
+
+    kw = request.GET.get('keyword','')
+    genre_idx = ['가족', '공포(호러)', '다큐멘터리', '드라마', '멜로/로맨스', '뮤지컬', '미스터리', '범죄', '사극', '서부극(웨스턴)', '성인물(에로)', '스릴러',
+                 '애니메이션',
+                 '액션', '어드벤처', '전쟁', '코미디', '판타지', 'SF']
+    qs = Movie.objects.filter()
+    filter_args = {}
+    if kw in genre_idx:
+        filter_args['genre'] = genre_idx.index(kw)
+    else:
+        filter_args['title__startswith'] = kw
+    movies = qs.filter(**filter_args)
+    paginater = Paginator(movies,12)
+    movies = paginater.get_page(page_num)
+    return render(request, 'main/search.html',{'genres':genre_idx,'movies':movies,'kw':kw } )

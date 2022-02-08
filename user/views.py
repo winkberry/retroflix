@@ -391,4 +391,3 @@ def like_or_donlike(request):
         user.favorite_movies.add(movie)
         user.save()
         return JsonResponse({'add': 'ok'})
-gg
