@@ -67,12 +67,10 @@ def main(request):
         genre1_list = list(Movie.objects.filter(genre=rank[0][0]))
         genre2_list = list(Movie.objects.filter(genre=rank[1][0]))
 
-
         # -------------------비슷한 유저로 추천 해줌----------------------
 
         # 유저 기반 협업 필터링
         # user별로 영화에 부여한 rating 값을 볼 수 있도록 pivot table 사용
-
 
         title_user = movie_ratings.pivot_table('rating', index='userId', columns='title')
         # 평점을 부여안한 영화는 그냥 0이라고 부여
@@ -86,7 +84,6 @@ def main(request):
 
         # 1번 유저와 비슷한 유저를 내림차순으로 정렬한 후에, 상위 10개만 뽑음
         ############### 현재 유저와 가장 비슷한 유저를 뽑는다 ################
-
 
         # user = user_based_collab['현재 로그인한 유저의 id번호'].sort_values 하셔야 합니다
         user = user_based_collab[current_user].sort_values(ascending=False)[:10].index[1]
@@ -173,11 +170,17 @@ def select_movie_detail(request, movie_id):
 
 
 def movie_detail(request, movie_id):
-    movie = get_object_or_404(Movie, id = movie_id)
+    movie = get_object_or_404(Movie, id=movie_id)
 
     total_reviews = movie.reviews.all()
     total_user_count = total_reviews.count()
     male_user_count = total_reviews.filter(author__gender__iexact='male').count()
+    ###영화 조회수####
+    views_list = list(Views.objects.all().values())
+    views_cnt = 0
+    for i in views_list:
+        if i['movie_id'] == movie_id:
+            views_cnt += 1
 
     #### 영화와 비슷한 영화 추천 정보 #####
 
@@ -195,13 +198,12 @@ def movie_detail(request, movie_id):
     print(recommend_list)
 
     # 소수점 자리 표현
-    
 
     # 리뷰 성별 비율
     if total_user_count > 0:
         male_gender_rate = (male_user_count / total_user_count) * 100
         female_gender_rate = 100 - male_gender_rate
-        gender_rate = [round(male_gender_rate),round(female_gender_rate)]
+        gender_rate = [round(male_gender_rate), round(female_gender_rate)]
 
         # 리뷰 연령별 비율  
         # user_age = list(map(lambda x : cal_age(x.author.birthday), total_user))
@@ -221,7 +223,6 @@ def movie_detail(request, movie_id):
         generation_count = [gen_10, gen_20, gen_30, gen_40]
         generation_rate = [round((gen_cnt / total_user_count) * 100, 1) for gen_cnt in generation_count]
 
-
         # 평점표시
         star_rate = (movie.star * 100) / 5
         print(star_rate)
@@ -231,7 +232,7 @@ def movie_detail(request, movie_id):
         context = {
             'movie': movie,
             'gender_rate': gender_rate,
-            'generation_rate' : generation_rate,
+            'generation_rate': generation_rate,
             'recommend_list': recommend_list,
             'star_rate': star_rate,
         }
@@ -239,11 +240,11 @@ def movie_detail(request, movie_id):
     else:
         context = {
             'movie': movie,
-            'recommend_list': recommend_list,     
+            'recommend_list': recommend_list,
+            'views_cnt': views_cnt
         }
-    
+
     return render(request, 'main/movie_detail.html', context)
-    
 
 
 def view(request):
@@ -254,3 +255,13 @@ def view(request):
         views = Views.objects.create(user_id=user_id, movie_id=movie_id, genre=genre)
         views.save()
         return JsonResponse({'msg': 'views 저장!'})
+
+
+def movie(request):
+    return render(request, 'main/movie.html')
+
+
+def movie_genre(request, genre_id):
+    movie_list = list(Movie.objects.filter(genre=genre_id))
+    print(movie_list)
+    return render(request, 'main/movie.html', {'movie_list': movie_list})
