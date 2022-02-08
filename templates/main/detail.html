@@ -1,0 +1,190 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <style>
+        .detail-modal {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1;
+        }
+
+        .detail-modal .bg {
+            position: fixed;
+            z-index: 3;
+            width: 100%;
+            height: 100%;
+        }
+
+        .modalBox {
+            overflow: scroll;
+            top: 5%;
+            position: fixed;
+            width: 45%;
+            height: 90%;
+            z-index: 2;
+            background-color: black;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 5px;
+            border-radius: 8%;
+        }
+
+
+        .modal_close_btn {
+            z-index: 5;
+            display: block;
+            width: 30%;
+            margin-bottom: 2%;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .remv_wrapper {
+            display: grid;
+            grid-template-columns: repeat(3, 100%);
+            overflow: hidden;
+            scroll-behavior: smooth;
+        }
+
+        .remv_wrapper section {
+            width: 100%;
+            position: relative;
+            display: grid;
+            grid-template-columns: repeat(5, auto);
+            margin: 20px 0;
+        }
+
+        .remv_wrapper section .item {
+            width: 200px;
+            margin-left: 15%;
+            padding: 0 2px;
+            transition: 1.0s all;
+        }
+
+        .remv_wrapper section .remv_item a {
+            width: 200px;
+            margin-left: 5%;
+            padding: 0 2px;
+            transition: 2.0s all;
+            position: initial;
+        }
+
+        .remv_wrapper section .remv_item:hover {
+            margin: 0 40px;
+            transform: scale(1.2);
+        }
+
+        .remv_wrapper section .remv_item:hover a {
+            width: 200px;
+            margin-left: 5%;
+            padding: 0 2px;
+            transition: 0.5s all;
+            position: initial;
+        }
+
+        .remv_wrapper section a {
+            position: absolute;
+            color: #fff;
+            text-decoration: none;
+            font-size: 6em;
+            background: black;
+            width: 80px;
+            padding: 20px;
+            text-align: center;
+            z-index: 1;
+        }
+
+        .remv_wrapper section a:nth-of-type(1) {
+            padding-left: 0;
+            top: 15%;
+            bottom: 0;
+            left: 0;
+            background: linear-gradient(-90deg, rgba(0, 0, 0, 0) 0%, black 100%);
+        }
+
+        .remv_wrapper section a:nth-of-type(2) {
+            padding-right: 0;
+            top: 15%;
+            bottom: 0;
+            right: 0;
+            background: linear-gradient(90deg, rgba(0, 0, 0, 0) 0%, black 100%);
+        }
+
+    </style>
+
+</head>
+<body>
+
+<button class="detail-modal-open-btn">모달</button>
+
+<div class='detail-modal hidden'>
+    <div class="bg">
+    </div>
+    <div class="modalBox">
+
+        <div class="wrapper_modalBox">
+            <div id="temp_detail">
+                
+            </div>
+
+     
+<!--         
+        <form class="review-form" method="POST">
+            
+            <div class="form-group">
+                <textarea id = "review-content" name="review-content" rows="3" placeholder="리뷰를 작성해주세요."></textarea>
+            </div>
+            <div class="form-group">
+                <div class="rating rating2">
+                    <div class="rating">                                                                   
+                        <input name='review-star' id="e5" type="radio" value="5"></a><label for="e5">★</label>                           
+                        <input name='review-star' id="e4" type="radio" value="4"></a><label for="e4">★</label>
+                        <input name='review-star' id="e3" type="radio" value="3"></a><label for="e3">★</label>
+                        <input name='review-star' id="e2" type="radio" value="2"></a><label for="e2">★</label>
+                        <input name='review-star' id="e1" type="radio" value="1"></a><label for="e1">★</label>
+                    </div>
+                </div>
+
+            </div>                               
+            <button type="button" class="btn-primary" onclick="postReview()">작성</button>                                
+        </form> -->
+            <!-- Review 폼 -->
+               
+            <!-- 추천영화 -->
+        <div class="btn-wrapper">
+            
+                     
+        </div>   
+            
+        </div>
+    </div>
+</div>
+
+
+<script>
+    const open = () => {
+        document.querySelector(".detail-modal").classList.remove("hidden");
+    }
+    //모달창 닫기 함수 - 히든 클래스를 활성화
+    const close = () => {
+        document.querySelector(".detail-modal").classList.add("hidden");
+    }
+
+    document.querySelector(".detail-modal-open-btn").addEventListener("click", open);
+    document.querySelector(".modal_close_btn").addEventListener("click", close);
+    document.querySelector(".bg").addEventListener("click", close);
+
+</script>
+
+
+</body>
+</html>

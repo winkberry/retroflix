@@ -8,6 +8,7 @@ import numpy as np
 from sklearn.metrics.pairwise import cosine_similarity
 from django.http import JsonResponse
 from django.core import serializers
+from decimal import Decimal, getcontext
 
 ratings = pd.read_csv('movie/ratings.csv')
 movies = pd.read_csv('movie/movie_data.csv')
@@ -128,7 +129,7 @@ def select_movie_detail(request, movie_id):
         #     female_gender_rate = 100 - male_gender_rate
         #     gender_rate = [male_gender_rate, female_gender_rate]
 
-        #     # 리뷰 연령별 비율
+        #     # 리뷰 연령별 비율  
         #     # user_age = list(map(lambda x : cal_age(x.author.birthday), total_user))
         #     user_age = [cal_age(review.author.birthday) for review in total_reviews]
         #     gen_10 = gen_20 = gen_30 = gen_40 = 0
@@ -153,21 +154,21 @@ def select_movie_detail(request, movie_id):
         item_based_collab = cosine_similarity(user_title, user_title)
         item_based_collab = pd.DataFrame(item_based_collab, index=user_title.index, columns=user_title.index)
 
-        # 현재영화와 비슷하게 유저들로부터 평점을 부여받은 영화들은?
-        # recommend_movies = item_based_collba[넘겨받은 영화의 제목 넣는 부분].sort_values(ascending=False)[1:11].index
-        recommend_movies = item_based_collab[movie_find.title].sort_values(ascending=False)[1:11].index
+        # # 현재영화와 비슷하게 유저들로부터 평점을 부여받은 영화들은?
+        # # recommend_movies = item_based_collba[넘겨받은 영화의 제목 넣는 부분].sort_values(ascending=False)[1:11].index
+        # recommend_movies = item_based_collab[movie_find.title].sort_values(ascending=False)[1:11].index
 
-        # 추천 영화를 리스트로 변경 해주는 부분
-        recommend_list = [i for i in recommend_movies]
+        # # 추천 영화를 리스트로 변경 해주는 부분
+        # recommend_list = [i for i in recommend_movies]
 
-        print(recommend_list)
+        # print(recommend_list)
         movie = serializers.serialize('json', [movie_find])
-
+        
         data = {'movie': movie,
                 # 'recommend_list': recommend_list,
                 # 'reviews': reviews,
                 # 'gender_rate': gender_rate,
-                # 'generation_rate' : generation_rate
+                # 'generation_rate' : generation_rate 
                 }
         return JsonResponse(data, safe=False)
 
@@ -191,17 +192,19 @@ def movie_detail(request, movie_id):
     recommend_movies = item_based_collab[movie.title].sort_values(ascending=False)[1:11].index
 
     # 추천 영화를 리스트로 변경 해주는 부분
-    recommend_list = [i for i in recommend_movies]
+    recommend_list = [Movie.objects.filter(title=movie)[0] for movie in recommend_movies]
+    print(recommend_list)
 
+    # 소수점 자리 표현
 
 
     # 리뷰 성별 비율
     if total_user_count > 0:
         male_gender_rate = (male_user_count / total_user_count) * 100
         female_gender_rate = 100 - male_gender_rate
-        gender_rate = [male_gender_rate, female_gender_rate]
+        gender_rate = [round(male_gender_rate),round(female_gender_rate)]
 
-        # 리뷰 연령별 비율
+        # 리뷰 연령별 비율  
         # user_age = list(map(lambda x : cal_age(x.author.birthday), total_user))
         user_age = [cal_age(review.author.birthday) for review in total_reviews]
         gen_10 = gen_20 = gen_30 = gen_40 = 0
@@ -217,12 +220,14 @@ def movie_detail(request, movie_id):
                 gen_10 += 1
 
         generation_count = [gen_10, gen_20, gen_30, gen_40]
-        generation_rate = [(gen_cnt / total_user_count) * 100 for gen_cnt in generation_count]
+        generation_rate = [round((gen_cnt / total_user_count) * 100, 1) for gen_cnt in generation_count]
 
 
         # 평점표시
         star_rate = (movie.star * 100) / 5
         print(star_rate)
+        print(generation_rate)
+        print(gender_rate)
 
         context = {
             'movie': movie,
@@ -235,11 +240,11 @@ def movie_detail(request, movie_id):
     else:
         context = {
             'movie': movie,
-            'recommend_list': recommend_list,
+            'recommend_list': recommend_list,     
         }
-
+    
     return render(request, 'main/movie_detail.html', context)
-
+    
 
 
 def view(request):

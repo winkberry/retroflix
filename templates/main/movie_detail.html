@@ -1,108 +1,6 @@
 {% extends 'base.html' %}
 {% block content %}
-    {% include "detail.html" %}
-<html>
-<head>
-    <style>
-            html {
-                scroll-behavior: smooth;
-            }
 
-            body {
-                margin: 0;
-                background-color: #000;
-            }
-
-            h1 {
-                padding-left: 20px;
-                font-size: 200%;
-                padding-top: 60px;
-                transition: 1.0s;
-            }
-
-            h1:hover {
-                font-size: 300%;
-            }
-
-            .wrapper {
-                display: grid;
-                grid-template-columns: repeat(3, 100%);
-                overflow: hidden;
-                scroll-behavior: smooth;
-            }
-
-            .wrapper section {
-                width: 100%;
-                position: relative;
-                display: grid;
-                grid-template-columns: repeat(5, auto);
-                margin: 20px 0;
-            }
-
-            .wrapper section .item {
-                width: 200px;
-                margin-left: 15%;
-                padding: 0 2px;
-                transition: 1.0s all;
-            }
-
-            .wrapper section .item a {
-                width: 200px;
-                margin-left: 5%;
-                padding: 0 2px;
-                transition: 2.0s all;
-                position: initial;
-            }
-
-            .wrapper section .remv_item:hover {
-                margin: 0 40px;
-                transform: scale(1.2);
-            }
-
-            .wrapper section .item:hover a {
-                width: 200px;
-                margin-left: 5%;
-                padding: 0 2px;
-                transition: 0.5s all;
-                position: initial;
-            }
-
-            .wrapper section a {
-                position: absolute;
-                color: #fff;
-                text-decoration: none;
-                font-size: 6em;
-                background: black;
-                width: 80px;
-                padding: 20px;
-                text-align: center;
-                z-index: 1;
-            }
-
-            .wrapper section a:nth-of-type(1) {
-                padding-left: 0;
-                top: 15%;
-                bottom: 0;
-                left: 0;
-                background: linear-gradient(-90deg, rgba(0, 0, 0, 0) 0%, black 100%);
-            }
-
-            .wrapper section a:nth-of-type(2) {
-                padding-right: 0;
-                top: 15%;
-                bottom: 0;
-                right: 0;
-                background: linear-gradient(90deg, rgba(0, 0, 0, 0) 0%, black 100%);
-            }
-
-            @media only screen and (max-width: 600px) {
-                a.arrow__btn {
-                    display: none;
-                }
-            }
-        </style>
-</head>
-<body>
     <div class="container movie-details">
         <div class="container movie-detail-wrapper">
             <div class="row">
@@ -117,12 +15,14 @@
                     <p>평점: {{ movie.star }} / 5</p>
                     {% endif %}
                     {% if star_rate %}
-                    <div class="star-ratings-css">
-                        <div class="star-ratings-css-top" style="width: {{star_rate}}%">
-                            <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
-                        <div class="star-ratings-css-bottom"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
-                    </div>
+                    <div class="star-ratings-sprite"><span style="width:{{star_rate}}%" class="star-ratings-sprite-rating"></span></div>
                     {% endif %}
+                    <div class="like-content">
+                        <button class="btn-secondary like-review" style="background: #ed2553; box-shadow: 0 10px 20px -8px rgb(240, 75, 113);">
+                            <i class="fa fa-heart" aria-hidden="true"></i> 찜하기
+                        </button>
+                    </div>
+
 
                 </div>
                 <div class="col-md-6 text-center">
@@ -142,8 +42,8 @@
 
         <div class="review-wrapper">
             {% if movie.reviews %}
-            {% for review in movie.reviews.all %}
-
+            {% for review in movie.reviews.all %}                
+                      
                 <div class="row">
                     <div class="col-md-12">
                         <div class="media">
@@ -159,35 +59,35 @@
                                 <span> {{ review.author.username }} </span>
                                 <span> - {{ review.created_date }}</span>
                             </div>
-
-
+                            
+                            
                             {% if review.author == request.user %}
                                 <div style="float: right">
                                     <a href="#" data-bs-toggle="modal" data-bs-target="#reveiwDeleteModal">
                                         <span class="delete badge bg-danger">삭제</span>
                                     </a>
                                     <input type="hidden" id="review-id" value="{{review.id}}" >
-                                </div>
+                                </div>                               
                             {% endif %}
                         </div>
                     </div>
                 </div>
                 <hr>
-
+                
             {% endfor %}
             {% else %}
                 <p class='movie-help-p'>아직 등록된 리뷰가 없습니다.</p>
-            {% endif %}
-
-
-
+            {% endif %}                                  
+                       
+                        
+            
             <form class="review-form" action="{% url 'review:review_create' movie.id %}" method="POST">
                 {% csrf_token %}
                 <div class="form-group">
                     <textarea name="review-content" rows="3" placeholder="리뷰를 작성해주세요."></textarea>
                     <div class="rating rating2">
-                        <div class="rating">
-                            <input name='review-star' id="e5" type="radio" value="5"></a><label for="e5">★</label>
+                        <div class="rating">                                                                   
+                            <input name='review-star' id="e5" type="radio" value="5"></a><label for="e5">★</label>                           
                             <input name='review-star' id="e4" type="radio" value="4"></a><label for="e4">★</label>
                             <input name='review-star' id="e3" type="radio" value="3"></a><label for="e3">★</label>
                             <input name='review-star' id="e2" type="radio" value="2"></a><label for="e2">★</label>
@@ -195,46 +95,44 @@
                         </div>
                     </div>
                 </div>
-
-                <button type="submit" class="btn-primary">작성</button>
+                                             
+                <button type="submit" class="btn-primary">작성</button>                                
             </form>
         </div>
-
-        <div>
-            <p>추천 영화</p>
-            <div class="remv_wrapper">
-                <section id="remv_section1">
-                    <a href="#remv_section2" class="remv_arrow__btn">‹</a>
-                    {% for remv_movie in recommend_list|slice:":5" %}
-                        <div class="remv_item">
-                            <img src="https://tekken.s3.ap-northeast-2.amazonaws.com/movies/{{ remv_movie.title }}.jpg"
-                                 alt="{{ remv_movie.title }}" title="{{ remv_movie.title }}" id="{{ remv_movie.id }}"
-                                 onclick="select_movie_modal(this.title, this.id); view({{ user.id }},{{ remv_movie.id }},{{ remv_movie.genre }});">
-                        </div>
-                    {% endfor %}
-                    <a href="#remv_section2" class="remv_arrow__btn">›</a>
-                </section>
-                <section id="remv_section2">
-                    <a href="#remv_section1" class="remv_arrow__btn">‹</a>
-                    {% for remv_movie in recommend_list|slice:"5:10" %}
-                        <div class="remv_item">
-                            <img src="https://tekken.s3.ap-northeast-2.amazonaws.com/movies/{{ remv_movie.title }}.jpg"
-                                 alt="{{ remv_movie.title }}" title="{{ remv_movie.title }}" id="{{ remv_movie.id }}"
-                                 onclick="select_movie_modal(this.title, this.id); view({{ user.id }},{{ remv_movie.id }},{{ remv_movie.genre }});">
-                        </div>
-                    {% endfor %}
-                    <a href="#remv_section1" class="remv_arrow__btn">›</a>
-                </section>
-            </div>
-        </div>
-
     </div>
 
-    <!-- Modal -->
-    <div class="modal fade" id="reveiwDeleteModal" tabindex="-1" aria-labelledby="reveiwDeleteModalLabel"
-         aria-hidden="true">
+    <div class="recommend-movies">
+        <p>추천 영화</p>
+        <div class="remv_wrapper">
+            <section id="remv_section1">
+                <a href="#remv_section2" class="remv_arrow__btn">‹</a>
+                {% for remv_movie in recommend_list|slice:":5" %}
+                    <div class="remv_item">
+                        <img src="https://tekken.s3.ap-northeast-2.amazonaws.com/movies/{{ remv_movie.title }}.jpg"
+                             alt="{{ remv_movie.title }}" title="{{ remv_movie.title }}" id="{{ remv_movie.id }}"
+                             onclick="select_movie_modal(this.title, this.id); view({{ user.id }},{{ remv_movie.id }},{{ remv_movie.genre }});">
+                    </div>
+                {% endfor %}
+                <a href="#remv_section2" class="remv_arrow__btn">›</a>
+            </section>
+            <section id="remv_section2">
+                <a href="#remv_section1" class="remv_arrow__btn">‹</a>
+                {% for remv_movie in recommend_list|slice:"5:10" %}
+                    <div class="remv_item">
+                        <img src="https://tekken.s3.ap-northeast-2.amazonaws.com/movies/{{ remv_movie.title }}.jpg"
+                             alt="{{ remv_movie.title }}" title="{{ remv_movie.title }}" id="{{ remv_movie.id }}"
+                             onclick="select_movie_modal(this.title, this.id); view({{ user.id }},{{ remv_movie.id }},{{ remv_movie.genre }});">
+                    </div>
+                {% endfor %}
+                <a href="#remv_section1" class="remv_arrow__btn">›</a>
+            </section>
+        </div>
+    </div>
+
+    <!-- 리뷰 삭제 Modal -->
+    <div class="modal fade" id="reveiwDeleteModal" tabindex="-1" aria-labelledby="reveiwDeleteModalLabel" aria-hidden="true">
         <div class="modal-dialog">
-            <div class="modal-content">
+        <div class="modal-content">
             <div class="modal-header">
             <h5 class="modal-title" id="exampleModalLabel">리뷰 삭제</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -250,20 +148,44 @@
         </div>
     </div>
 
+    {% include 'main/detail.html' %}
+
+
 {% endblock %}
 
 
 {% block script %}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js" ></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
 
 
 
 <script>
-    const generationCtx = $("#generation-chart");
+    {% if generation_rate %}
+    const generationCtx = document.getElementById('generation-chart').getContext('2d');
     const generationChart = new Chart(generationCtx, {
         type: 'bar',
-        data: generationData,
+        data: {
+        labels: ['10대', '20대', '30대', '40대 이상'],
+        datasets: [{
+            label: '연령별 통계',
+            data: {{ generation_rate  }},
+            backgroundColor: [
+            'rgba(255, 99, 132, 0.2)',
+            'rgba(255, 159, 64, 0.2)',
+            'rgba(255, 205, 86, 0.2)',
+            'rgba(75, 192, 192, 0.2)',           
+            ],
+            borderColor: [
+            'rgb(255, 99, 132)',
+            'rgb(255, 159, 64)',
+            'rgb(255, 205, 86)',
+            'rgb(75, 192, 192)',            
+            ],
+            borderWidth: 1
+        }]
+    },
         options: {
             scales: {
             y: {
@@ -273,54 +195,39 @@
         },
 
     })
-    const generationData = {
-        labels: ['10대', '20대', '30대', '40대 이상'],
-        datasets: [{
-            label: '연령별 통계',
-            data: {% if generation_rate %}{{ generation_rate | safe }}{% endif %},
-            backgroundColor: [
-            'rgba(255, 99, 132, 0.2)',
-            'rgba(255, 159, 64, 0.2)',
-            'rgba(255, 205, 86, 0.2)',
-            'rgba(75, 192, 192, 0.2)',
-            ],
-            borderColor: [
-            'rgb(255, 99, 132)',
-            'rgb(255, 159, 64)',
-            'rgb(255, 205, 86)',
-            'rgb(75, 192, 192)',
-            ],
-            borderWidth: 1
-        }]
-    };
+    {% endif %}
 
-    const genderCtx = $("#generation-chart");
+    {% if gender_rate %}
+    const genderCtx = document.getElementById('gender-chart').getContext('2d');
     const genderChart = new Chart(genderCtx, {
         type: 'pie',
-        data: genderData,
-    })
-
-    const genderData = {
+        data: {
         labels: ['남성', '여성'],
         datasets: [{
             label: '성별 통계',
-            data: {% if gender_rate %}{{ gender_rate | safe }}{% endif %},
+            data: {{ gender_rate }},
             backgroundColor: [
             'rgba(255, 99, 132, 0.2)',
             'rgba(255, 159, 64, 0.2)',
             'rgba(255, 205, 86, 0.2)',
-            'rgba(75, 192, 192, 0.2)',
+            'rgba(75, 192, 192, 0.2)',           
             ],
             borderColor: [
             'rgb(255, 99, 132)',
             'rgb(255, 159, 64)',
             'rgb(255, 205, 86)',
-            'rgb(75, 192, 192)',
+            'rgb(75, 192, 192)',            
             ],
             borderWidth: 1
         }]
-    };
+    },
+    })
+    {% endif %}
 
+
+
+
+    
 
 
 
@@ -333,42 +240,48 @@ $(document).ready(function(){
 
         $("#review-delete-btn").on('click', function() {
             $.ajax({
-            type: 'POST',
+            type: 'POST',            
             headers: {'X-CSRFTOKEN': '{{ csrf_token }}'},
             url: `/moviedetail/reviews/${review_id}/delete/`,
             dataType: 'json',
-            data : {'review_id':review_id},
+            data : {'review_id':review_id},                        
             success: function(response){
                 if (response['msg']){
                     window.location.reload();
                 }
             }
-
+            
         })
     })
-})
-</script>
 
-<script>
     function view(user_id, mv_id, genre) {
-    $.ajax({
-        type: 'POST',
-        url: `{% url 'view' %}`,
-        headers: {'X-CSRFTOKEN': '{{ csrf_token }}'},
-        datatype: 'json',
-        data: {
-            'user_id': user_id,
-            'movie_id': mv_id,
-            'genre': genre
-        },
-        success: function (response) {
+            $.ajax({
+                type: 'POST',
+                url: `{% url 'view' %}`,
+                headers: {'X-CSRFTOKEN': '{{ csrf_token }}'},
+                datatype: 'json',
+                data: {
+                    'user_id' : user_id,
+                    'movie_id': mv_id,
+                    'genre': genre
+                },
+                success: function (response){
+                }
+            });
         }
 
-    });
-}
+    $(".like-review").on('click', function(){
+        $(this).html('<i class="fa fa-heart" aria-hidden="true"></i> 찜한 영화');
+        $(this).children('.fa-heart').addClass('animate-like');
+
+
+    })
+
+
+
+})
+
+
 </script>
 
-</body>
-
-</html>
 {% endblock %}
