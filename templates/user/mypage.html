@@ -8,7 +8,7 @@
 
                 }
                 .showcase {
-                    z-index: -1;
+                    z-index: 0;
                 }
                 .my-page-container {
                     width: 60%;
@@ -35,7 +35,7 @@
                 }
                 .my-page-img img {
                     border-radius: 20px;
-                    width: 70%;
+                    width: 50%;
                 }
                 .my-page-info {
                     border-left: 2px dashed gainsboro;
@@ -126,7 +126,8 @@
         <div class="my-page-wrapper">
             <div class="my-page-img">
                 <h1 class="my-page-h1">{{ user.username }}</h1>
-                <img src="{{user.profile_img}}" />
+                <img src="{{user.profile_img}}"/>
+                <a href=/logout class="btn btn-rounded">로그아웃</a>
             </div>
 
             <div class="my-page-info">
