@@ -111,6 +111,9 @@ def review_delete(request, review_id):
         review = get_object_or_404(Review, id=review_id)
         movie = get_object_or_404(Movie, id=review.movie.id)
         review.delete()
-        movie.star = round(movie.reviews.all().aggregate(Avg('star')).get('star__avg'), 2)
+        if movie.reviews.all().count() > 0:
+            movie.star = round(movie.reviews.all().aggregate(Avg('star')).get('star__avg'), 2)
+        else:
+            movie.star = 0
         movie.save()
         return JsonResponse({'msg': 'done'})

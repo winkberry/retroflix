@@ -9,6 +9,7 @@ from sklearn.metrics.pairwise import cosine_similarity
 from django.http import JsonResponse
 from django.core import serializers
 from decimal import Decimal, getcontext
+from django.core.paginator import Paginator
 
 ratings = pd.read_csv('movie/ratings.csv')
 movies = pd.read_csv('movie/movie_data.csv')
@@ -161,6 +162,7 @@ def select_movie_detail(request, movie_id):
         # print(recommend_list)
         movie = serializers.serialize('json', [movie_find])
         data = {'movie': movie,
+                'genre': genre_idx[movie_find.genre],
                 # 'recommend_list': recommend_list,
                 # 'reviews': reviews,
                 # 'gender_rate': gender_rate,
@@ -231,19 +233,22 @@ def movie_detail(request, movie_id):
 
         context = {
             'movie': movie,
+            'genre': genre_idx[movie.genre],
             'gender_rate': gender_rate,
             'generation_rate': generation_rate,
             'recommend_list': recommend_list,
             'star_rate': star_rate,
+            'views_cnt': views_cnt,
         }
 
     else:
         context = {
             'movie': movie,
             'recommend_list': recommend_list,
-            'views_cnt': views_cnt
+            'genre': genre_idx[movie.genre],
+            'recommend_list': recommend_list,
+            'views_cnt': views_cnt,
         }
-
     return render(request, 'main/movie_detail.html', context)
 
 
@@ -258,10 +263,39 @@ def view(request):
 
 
 def movie(request):
-    return render(request, 'main/movie.html')
+    views_list = list(Views.objects.all().values())
+    if request.method == 'GET':
+        top_list = []
+        for i in views_list:
+            name = i['movie_id']
+            top_list.append(name)
+        rank = Counter(top_list).most_common()
+        top_10 = []
+        for i in rank:
+            top_10.append(i[0])
+        movie_list = []
+        for i in top_10:
+            movie_list.append(Movie.objects.get(id=i))
+        return render(request, 'main/movie.html', {'movie_list': movie_list, 'name':'인기'})
 
 
 def movie_genre(request, genre_id):
     movie_list = list(Movie.objects.filter(genre=genre_id))
-    print(movie_list)
-    return render(request, 'main/movie.html', {'movie_list': movie_list})
+    name = genre_idx[genre_id]
+    return render(request, 'main/movie.html', {'movie_list': movie_list, 'name':name})
+
+
+def search(request):
+    page_num = request.GET.get('page')
+
+    kw = request.GET.get('keyword', '')
+    qs = Movie.objects.filter()
+    filter_args = {}
+    if kw in genre_idx:
+        filter_args['genre'] = genre_idx.index(kw)
+    else:
+        filter_args['title__startswith'] = kw
+    movies = qs.filter(**filter_args)
+    paginater = Paginator(movies, 12)
+    movies = paginater.get_page(page_num)
+    return render(request, 'main/search.html', {'genres': genre_idx, 'movies': movies, 'kw': kw})

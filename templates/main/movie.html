@@ -210,20 +210,11 @@
         </div>
     </div>
 
-{#    <section class="main-container">#}
-{#        <h1 id="myList">test!!!!</h1>#}
-{#        <div class="box">#}
-{#            {% for movie in movie_list %}#}
-{#            <img src="https://tekken.s3.ap-northeast-2.amazonaws.com/movies/{{ movie.title }}.jpg"#}
-{#                         alt="{{ movie.title }}" title="{{ movie.title }}" id = "{{movie.id}}" onclick="select_movie_modal(this.title, this.id); view({{ user.id }},{{ movie.id }},{{ movie.genre }});">#}
-{#            {% endfor %}#}
-{#        </div>#}
-{##}
-{#    </section>#}
+
 
     <section class="main-container" >
     <div class="location" id="home">
-        <h1 id="home">Popular on Netflix</h1>
+        <h1 id="home">{{ name }} 영화</h1>
         <div class="box">
             {% for movie in movie_list %}
                 <img src="https://tekken.s3.ap-northeast-2.amazonaws.com/movies/{{ movie.title }}.jpg"
@@ -232,9 +223,27 @@
             {% endfor %}
         </div>
     </div>
-
     </section>
-
     </html>
+    {% include 'main/detail.html' %}
+{% endblock %}
 
+{% block script %}
+    <script>
+        function view(user_id, mv_id, genre) {
+            $.ajax({
+                type: 'POST',
+                url: `{% url 'view' %}`,
+                headers: {'X-CSRFTOKEN': '{{ csrf_token }}'},
+                datatype: 'json',
+                data: {
+                    'user_id' : user_id,
+                    'movie_id': mv_id,
+                    'genre': genre
+                },
+                success: function (response){
+                }
+            });
+        }
+    </script>
 {% endblock %}

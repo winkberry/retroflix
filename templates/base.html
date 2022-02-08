@@ -18,27 +18,20 @@
     {% load static %}
     <script src="{% static 'retro.js' %}"></script>
     <script src="{% static 'rating.js' %}"></script>
-    <script src="{% static 'remv.js' %}"></script>
     <script src="{% static 'modal.js' %}"></script>
     <link rel='stylesheet' href="{% static 'retro.css' %}">
     <link rel='stylesheet' href="{% static 'rating.css' %}">
     <link rel='stylesheet' href="{% static 'detail2.css' %}">
-    <style>
-        .my-navbar{
-            z-index: 5;
-            padding: 1%;
 
-        }
-    </style>
-        
 </head>
 <body>
 <header class="showcase">
-    <nav class="navbar navbar-expand-lg navbar-white my-navbar">
+    <nav class="navbar navbar-expand-lg navbar-white my-navbar" style="z-index: 5; padding: 1%;">
         <div class="container-fluid">
-            <a class="navbar-brand" href="/main">
-                <img style="width: 200px;" src="https://tekken.s3.ap-northeast-2.amazonaws.com/logo.png" alt=""/></a>
+                <a class="navbar-brand" href="/main">
+            <img style="width: 200px;" src="https://tekken.s3.ap-northeast-2.amazonaws.com/logo.png" alt=""/></a>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="/main" style="color: white">Home</a>
@@ -46,17 +39,20 @@
                     <li class="nav-item">
                         <a class="nav-link" href="/movie" style="color: white">영화</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#" style="color: white">찜한영화</a>
-                    </li>
                 </ul>
+
+                <div>
+                    <form action="/search/" method="get">
+                        <input type="text" name="keyword" placeholder="검색"></input>
+                    </form>
+                </div>
                 <div class="d-flex">
                     {% if user.is_authenticated %}
                     <a href="/mypage" style="margin-left: 30px">
                         <img src="{{ user.profile_img }}" style="width: 50px; height: 50px; border-radius: 10px">
                     </a>
                     {% else %}
-                    <a href=/sign-in class="btn btn-rounded">로그인</a>
+                    <a href=/sign-in class="btn btn-rounded" style="margin-left: 1%">로그인</a>
                     {% endif %}
 
                 </div>
@@ -101,10 +97,7 @@
     </div>
 
 </footer>
-
 {% block script %}
 {% endblock %}
-
 </body>
-
 </html>
