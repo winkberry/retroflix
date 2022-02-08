@@ -298,30 +298,30 @@
                 }
             });
         }
-        /* >(document).ready(function (){
-                    $("#hohwan").css({
-                        'height': ($(".showcase").height() + 'px')
-                    });
-                })
-                $(window).resize(function() {
-                    console.log('hi')
-                    $("#hohwan").css({
-                        'height': ($(".showcase").height() + 'px')
-                    });
-                });
-                $('.item img').mouseenter(function () {
-
-                            console.log($(this).offset().top)
-                            console.log($(this).offset().left)
-                            $('#hidden-video').css({
-                                display : 'block',
-                                top : $(this).offset().top -50,
-                                left : $(this).offset().left -70
-                            })
-{#$('#hidden-video video')[0].load().src = "https://fuck-sparta.s3.ap-northeast-2.amazonaws.com/video1.mp4"#}
-                        $('#hidden-video video')[0].src = "https://fuck-sparta.s3.ap-northeast-2.amazonaws.com/video1.mp4"
+        $(document).ready(function (){
+            $("#hohwan").css({
+                'height': ($(".showcase").height() + 'px')
             });
-            */
+        })
+        $(window).resize(function() {
+            console.log('hi')
+            $("#hohwan").css({
+                'height': ($(".showcase").height() + 'px')
+            });
+        });
+        /* $('.item img').mouseenter(function () {
+
+            console.log($(this).offset().top)
+            console.log($(this).offset().left)
+            $('#hidden-video').css({
+                display : 'block',
+                top : $(this).offset().top -50,
+                left : $(this).offset().left -70
+            })
+            $('#hidden-video video')[0].load().src = "https://fuck-sparta.s3.ap-northeast-2.amazonaws.com/video1.mp4"
+            $('#hidden-video video')[0].src = "https://fuck-sparta.s3.ap-northeast-2.amazonaws.com/video1.mp4"
+        }); */
+
     </script>
 
 {% endblock %}
