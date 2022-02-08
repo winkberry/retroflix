@@ -117,6 +117,8 @@
             </style>
         </head>
     </html>
+    
+
     {% if err %}
         <script>
             alert("{{ err }}")
@@ -199,21 +201,44 @@
         </div>
         <div class="my-favorite-movies">
 
-            {% for i in movie_list %}
-                <div class="movie">
-                    <a><img src="https://tekken.s3.ap-northeast-2.amazonaws.com/movies/{{ i.title }}.jpg" style="width: 200px; height: 250px"></a>
-                    <p>{{ i.title }}</p>
-                </div>
-            {% endfor %}
+            
+            <div class="remv_wrapper">
+                <section id="remv_section1">
+                    <a href="#remv_section2" class="remv_arrow__btn">‹</a>
+                    {% for remv_movie in movie_list|slice:":5" %}
+                        <div class="remv_item">
+                            <img src="https://tekken.s3.ap-northeast-2.amazonaws.com/movies/{{ remv_movie.title }}.jpg"
+                                alt="{{ remv_movie.title }}" title="{{ remv_movie.title }}" id="{{ remv_movie.id }}"
+                                onclick="select_movie_modal(this.title, this.id); view({{ user.id }},{{ remv_movie.id }},{{ remv_movie.genre }});">
+                        </div>
+                    {% endfor %}
+                    <a href="#remv_section2" class="remv_arrow__btn">›</a>
+                </section>
+                <section id="remv_section2">
+                    <a href="#remv_section1" class="remv_arrow__btn">‹</a>
+                    {% for remv_movie in movie_list|slice:"5:10" %}
+                        <div class="remv_item">
+                            <img src="https://tekken.s3.ap-northeast-2.amazonaws.com/movies/{{ remv_movie.title }}.jpg"
+                                alt="{{ remv_movie.title }}" title="{{ remv_movie.title }}" id="{{ remv_movie.id }}"
+                                onclick="select_movie_modal(this.title, this.id); view({{ user.id }},{{ remv_movie.id }},{{ remv_movie.genre }});">
+                        </div>
+                    {% endfor %}
+                    <a href="#remv_section1" class="remv_arrow__btn">›</a>
+                </section>
+            </div>
+           
         </div>
 
     </div>
+
+    {% include 'main/detail.html' %}
 
 
 
 {% endblock %}
 
 {% block script %}
+
     <script>
         const toChangeImg = document.querySelector('.to-change-img')
         const toChangePw = document.querySelector('.to-change-pw')
@@ -281,5 +306,26 @@
             toChangeGender.removeEventListener('click', backTo5)
         }
         toChangeGender.addEventListener('click',change5)
+
+        
+
+        function view(user_id, mv_id, genre) {
+            $.ajax({
+                type: 'POST',
+                url: `{% url 'view' %}`,
+                headers: {'X-CSRFTOKEN': '{{ csrf_token }}'},
+                datatype: 'json',
+                data: {
+                    'user_id' : user_id,
+                    'movie_id': mv_id,
+                    'genre': genre
+                },
+                success: function (response){
+                }
+            });
+        }
+
+
+
     </script>
 {% endblock %}
