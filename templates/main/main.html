@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'main_base.html' %}
 {% block content %}
     <html>
     <head>
@@ -111,7 +111,7 @@
                     display: none;
                 }
             }
-            /* .video-box {
+            .video-box {
                 position: absolute;
                 left: 0;
                 top: 0;
@@ -142,15 +142,20 @@
                 width: 330px;
                 border-radius: 30px;
             }
-            */
+
         </style>
     </head>
 
     <body>
-    <!-- <div class="video-box">
+
+  
+<!-- 
+    <div class="video-box">
+
         <video id="hohwan" src="https://fuck-sparta.s3.ap-northeast-2.amazonaws.com/video1.mp4" loop="loop" autoplay muted controls>
         </video>
     </div> -->
+
 
     <h1 id="myList">가장 인기있는 컨텐츠 Top 10</h1>
     <div class="wrapper">
@@ -170,7 +175,6 @@
                 <div class="item">
                    <img src="https://tekken.s3.ap-northeast-2.amazonaws.com/movies/{{ movie.title }}.jpg"
                             alt="{{ movie.title }}" title="{{ movie.title }}" id = "{{movie.id}}" onclick="select_movie_modal(this.title, this.id); view({{ user.id }},{{ movie.id }},{{ movie.genre }});">
-
                 </div>
             {% endfor %}
             <a href="#section1" class="arrow__btn">›</a>
@@ -273,40 +277,17 @@
         </section>
     </div>
     {% include 'main/detail.html' %}
-    <!-- <div id="hidden-video" >
-        <video src="" muted autoplay ></video>
-    </div> -->
+{#    <div id="hidden-video" >#}
+{#        <video src="" muted autoplay ></video>#}
+{#    </div>#}
 {% endblock %}
 
 {% block script %}
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
-
-
     <script>
 
-
-        // function postReview(){
-        //     let movie_id = $('#movie-id').val()
-        //     let movie_title = $('#movie-title').val()
-        //     let review_data = {
-        //         'review-content' : $("#review-content").val(),
-        //         'review-star' : $("input[name='review-star']:checked").val()
-        //     }
-        //     $.ajax({
-        //         type: 'POST',
-        //         url: `/detail/${movie_id}/reviews/create/`,
-        {#//         headers: {'X-CSRFTOKEN': '{{ csrf_token }}'},#}
-        //         datatype: 'json',
-        //         data: review_data,
-
-        //         success: function(response){
-        //             alert(response['result']);
-        //             $(".review-form")[0].reset()
-        //             select_movie_modal(movie_title,movie_id);
-        //         }
-        //     })
-        // }
+        
         function view(user_id, mv_id, genre) {
             $.ajax({
                 type: 'POST',
@@ -322,30 +303,30 @@
                 }
             });
         }
-        /* $(document).ready(function (){
-                    $("#hohwan").css({
-                        'height': ($(".showcase").height() + 'px')
-                    });
-                })
-                $(window).resize(function() {
-                    console.log('hi')
-                    $("#hohwan").css({
-                        'height': ($(".showcase").height() + 'px')
-                    });
-                });
-                $('.item img').mouseenter(function () {
-
-                            console.log($(this).offset().top)
-                            console.log($(this).offset().left)
-                            $('#hidden-video').css({
-                                display : 'block',
-                                top : $(this).offset().top -50,
-                                left : $(this).offset().left -70
-                            })
-{#$('#hidden-video video')[0].load().src = "https://fuck-sparta.s3.ap-northeast-2.amazonaws.com/video1.mp4"#}
-                        $('#hidden-video video')[0].src = "https://fuck-sparta.s3.ap-northeast-2.amazonaws.com/video1.mp4"
+        $(document).ready(function (){
+            $("#hohwan").css({
+                'height': ($(".showcase").height() + 'px')
             });
-            */
+        })
+        $(window).resize(function() {
+            console.log('hi')
+            $("#hohwan").css({
+                'height': ($(".showcase").height() + 'px')
+            });
+        });
+         $('.item img').mouseenter(function () {
+
+            console.log($(this).offset().top)
+            console.log($(this).offset().left)
+            $('#hidden-video').css({
+                display : 'block',
+                top : $(this).offset().top -50,
+                left : $(this).offset().left -70
+            })
+            $('#hidden-video video')[0].load().src = "https://fuck-sparta.s3.ap-northeast-2.amazonaws.com/video1.mp4"
+            $('#hidden-video video')[0].src = "https://fuck-sparta.s3.ap-northeast-2.amazonaws.com/video1.mp4"
+        }); 
+
     </script>
 
 {% endblock %}

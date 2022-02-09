@@ -1,5 +1,22 @@
 {% extends 'base.html' %}
 {% block content %}
+    <html>
+        <head>
+            <style>
+                .footer {
+                    display: none;
+                }
+
+                .movie-details {
+                    z-index: 1;
+                    position: absolute;
+                    top: 20%;
+                    left: 15%;
+                    padding-bottom: 10%;
+                }
+            </style>
+        </head>
+    </html>
 
     <div class="container movie-details">
         <div class="container movie-detail-wrapper">
@@ -8,7 +25,7 @@
                     <h1>{{ movie.title }}</h1>
                     <p>개봉연도: {{ movie.openDt }}</p>
                     <p>장르: {{ genre }}</p>
-                    <!-- <p>조회수: {{ views_cnt }}</p> -->
+                    <p>조회수: {{ views_cnt }}</p>
                     <div class="star-rate-container">
                         {% if movie.star == 0 %}
                         <p>평점: 등록된 평점이 없습니다.</p>
@@ -205,12 +222,16 @@
             borderWidth: 1
         }]
     },
-        options: {
-            scales: {
-            y: {
-                beginAtZero: true
-            }
-            }
+    options:
+     { scales: 
+        { yAxes:
+             [{ display: true, 
+                ticks: 
+                { beginAtZero: true, 
+                  max: 100, 
+                  min: 0,
+                  stepSize: 20 } }] 
+            }, 
         },
 
     })

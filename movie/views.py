@@ -6,9 +6,18 @@ import datetime
 import pandas as pd
 import numpy as np
 from sklearn.metrics.pairwise import cosine_similarity
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse, StreamingHttpResponse
 from django.core import serializers
 from decimal import Decimal, getcontext
+from django.core.paginator import Paginator
+from django.contrib.auth.decorators import login_required
+
+# Streaming 관련 패키지 임포트
+import os
+import mimetypes
+from wsgiref.util import FileWrapper
+from django.http.response import StreamingHttpResponse
+from .streaming import RangeFileWrapper, range_re
 
 ratings = pd.read_csv('movie/ratings.csv')
 movies = pd.read_csv('movie/movie_data.csv')
@@ -23,6 +32,7 @@ genre_idx = ['가족', '공포(호러)', '다큐멘터리', '드라마', '멜로
              '액션', '어드벤처', '전쟁', '코미디', '판타지', 'SF', '']
 
 
+@login_required
 def main(request):
     views_list = list(Views.objects.all().values())
     if request.method == 'GET':
@@ -57,22 +67,24 @@ def main(request):
 
         # ---------- genre --------------
         top_list = []
-
         for i in views_list:
-            name = i['genre']
-            top_list.append(name)
+            if i['user_id'] == request.user.id:
+                name = i['genre']
+                top_list.append(name)
+        if not top_list:
+            for i in views_list:
+                name = i['genre']
+                top_list.append(name)
         rank = Counter(top_list).most_common(2)
         print('genre rank:  ', rank)
         most_rank = [genre_idx[rank[0][0]], genre_idx[rank[1][0]]]
         genre1_list = list(Movie.objects.filter(genre=rank[0][0]))
         genre2_list = list(Movie.objects.filter(genre=rank[1][0]))
 
-
         # -------------------비슷한 유저로 추천 해줌----------------------
 
         # 유저 기반 협업 필터링
         # user별로 영화에 부여한 rating 값을 볼 수 있도록 pivot table 사용
-
 
         title_user = movie_ratings.pivot_table('rating', index='userId', columns='title')
         # 평점을 부여안한 영화는 그냥 0이라고 부여
@@ -86,7 +98,6 @@ def main(request):
 
         # 1번 유저와 비슷한 유저를 내림차순으로 정렬한 후에, 상위 10개만 뽑음
         ############### 현재 유저와 가장 비슷한 유저를 뽑는다 ################
-
 
         # user = user_based_collab['현재 로그인한 유저의 id번호'].sort_values 하셔야 합니다
         user = user_based_collab[current_user].sort_values(ascending=False)[:10].index[1]
@@ -104,6 +115,7 @@ def main(request):
                        'genre2_list': genre2_list, 'movie_result_list': movie_result_list, 'most_rank': most_rank})
 
 
+@login_required
 def select_movie_detail(request, movie_id):
     if request.method == 'GET':
         abc = request.user.id
@@ -117,68 +129,26 @@ def select_movie_detail(request, movie_id):
         print(genre_idx[movie_find.genre])
         print(movie_find.star)
 
-        # ###### 리뷰 ######
-        # reviews = list(Review.objects.filter(movie=movie_find).order_by('-created_date').values())
-        # total_reviews = movie_find.reviews.all()
-        # total_user_count = total_reviews.count()
-        # male_user_count = total_reviews.filter(author__gender__iexact='male').count()
-
-        # # 리뷰 성별 비율
-        # if total_user_count > 0:
-        #     male_gender_rate = (male_user_count / total_user_count) * 100
-        #     female_gender_rate = 100 - male_gender_rate
-        #     gender_rate = [male_gender_rate, female_gender_rate]
-
-        #     # 리뷰 연령별 비율  
-        #     # user_age = list(map(lambda x : cal_age(x.author.birthday), total_user))
-        #     user_age = [cal_age(review.author.birthday) for review in total_reviews]
-        #     gen_10 = gen_20 = gen_30 = gen_40 = 0
-
-        #     for age in user_age:
-        #         if age >= 40:
-        #             gen_40 += 1
-        #         elif age >= 30:
-        #             gen_30 += 1
-        #         elif age >= 20:
-        #             gen_20 += 1
-        #         else:
-        #             gen_10 += 1
-
-        #     generation_count = [gen_10, gen_20, gen_30, gen_40]
-        #     generation_rate = [(gen_cnt / total_user_count) * 100 for gen_cnt in generation_count]
-
-        #### 영화와 비슷한 영화 추천 정보 #####
-
-        # user_title = movie_ratings.pivot_table('rating', index='title', columns='userId')
-        # user_title = user_title.fillna(0)
-        # item_based_collab = cosine_similarity(user_title, user_title)
-        # item_based_collab = pd.DataFrame(item_based_collab, index=user_title.index, columns=user_title.index)
-
-        # # 현재영화와 비슷하게 유저들로부터 평점을 부여받은 영화들은?
-        # # recommend_movies = item_based_collba[넘겨받은 영화의 제목 넣는 부분].sort_values(ascending=False)[1:11].index
-        # recommend_movies = item_based_collab[movie_find.title].sort_values(ascending=False)[1:11].index
-
-        # # 추천 영화를 리스트로 변경 해주는 부분
-        # recommend_list = [i for i in recommend_movies]
-
-        # print(recommend_list)
         movie = serializers.serialize('json', [movie_find])
         data = {'movie': movie,
                 'genre': genre_idx[movie_find.genre],
-                # 'recommend_list': recommend_list,
-                # 'reviews': reviews,
-                # 'gender_rate': gender_rate,
-                # 'generation_rate' : generation_rate 
                 }
         return JsonResponse(data, safe=False)
 
 
+@login_required
 def movie_detail(request, movie_id):
-    movie = get_object_or_404(Movie, id = movie_id)
+    movie = get_object_or_404(Movie, id=movie_id)
 
     total_reviews = movie.reviews.all()
     total_user_count = total_reviews.count()
     male_user_count = total_reviews.filter(author__gender__iexact='male').count()
+    ###영화 조회수####
+    views_list = list(Views.objects.all().values())
+    views_cnt = 0
+    for i in views_list:
+        if i['movie_id'] == movie_id:
+            views_cnt += 1
 
     #### 영화와 비슷한 영화 추천 정보 #####
 
@@ -196,13 +166,12 @@ def movie_detail(request, movie_id):
     print(recommend_list)
 
     # 소수점 자리 표현
-    
 
     # 리뷰 성별 비율
     if total_user_count > 0:
         male_gender_rate = (male_user_count / total_user_count) * 100
         female_gender_rate = 100 - male_gender_rate
-        gender_rate = [round(male_gender_rate),round(female_gender_rate)]
+        gender_rate = [round(male_gender_rate), round(female_gender_rate)]
 
         # 리뷰 연령별 비율  
         # user_age = list(map(lambda x : cal_age(x.author.birthday), total_user))
@@ -221,7 +190,7 @@ def movie_detail(request, movie_id):
 
         generation_count = [gen_10, gen_20, gen_30, gen_40]
         generation_rate = [round((gen_cnt / total_user_count) * 100, 1) for gen_cnt in generation_count]
-
+        print(generation_rate)
 
         # 평점표시
         star_rate = (movie.star * 100) / 5
@@ -233,22 +202,24 @@ def movie_detail(request, movie_id):
             'movie': movie,
             'genre': genre_idx[movie.genre],
             'gender_rate': gender_rate,
-            'generation_rate' : generation_rate,
+            'generation_rate': generation_rate,
             'recommend_list': recommend_list,
             'star_rate': star_rate,
+            'views_cnt': views_cnt,
         }
 
     else:
         context = {
             'movie': movie,
+            'recommend_list': recommend_list,
             'genre': genre_idx[movie.genre],
             'recommend_list': recommend_list,
+            'views_cnt': views_cnt,
         }
-    
     return render(request, 'main/movie_detail.html', context)
-    
 
 
+@login_required
 def view(request):
     if request.method == "POST":
         user_id = request.POST.get('user_id')
@@ -257,3 +228,97 @@ def view(request):
         views = Views.objects.create(user_id=user_id, movie_id=movie_id, genre=genre)
         views.save()
         return JsonResponse({'msg': 'views 저장!'})
+
+
+def movie(request):
+    views_list = list(Views.objects.all().values())
+    if request.method == 'GET':
+        top_list = []
+        for i in views_list:
+            name = i['movie_id']
+            top_list.append(name)
+        rank = Counter(top_list).most_common()
+        top_10 = []
+        for i in rank:
+            top_10.append(i[0])
+        movie_list = []
+        for i in top_10:
+            movie_list.append(Movie.objects.get(id=i))
+        return render(request, 'main/movie.html', {'movie_list': movie_list, 'name': '인기'})
+
+
+def movie_genre(request, genre_id):
+    movie_list = list(Movie.objects.filter(genre=genre_id))
+    name = genre_idx[genre_id]
+    return render(request, 'main/movie.html', {'movie_list': movie_list, 'name': name})
+
+
+######################## Video/Audio StreamingHttpResponse로 스트리밍하기 ###############
+
+
+def stream(request):
+    range_header = request.META.get('HTTP_RANGE', '').strip()
+    range_match = range_re.match(range_header)
+    size = os.path.getsize('movie/video1.mp4')
+    content_type, encoding = mimetypes.guess_type('movie/video1.mp4')
+    content_type = content_type or 'application/octet-stream'
+    if range_match:
+        first_byte, last_byte = range_match.groups()
+        first_byte = int(first_byte) if first_byte else 0
+        last_byte = int(last_byte) if last_byte else size - 1
+        if last_byte >= size:
+            last_byte = size - 1
+        length = last_byte - first_byte + 1
+        resp = StreamingHttpResponse(RangeFileWrapper(open('movie/video1.mp4', 'rb'), offset=first_byte, length=length),
+                                     status=206, content_type=content_type)
+        resp['Content-Length'] = str(length)
+        resp['Content-Range'] = 'bytes %s-%s/%s' % (first_byte, last_byte, size)
+    else:
+        resp = StreamingHttpResponse(FileWrapper(open('movie/video1.mp4', 'rb')), content_type=content_type)
+        resp['Content-Length'] = str(size)
+    resp['Accept-Ranges'] = 'bytes'
+    return resp
+
+
+def audio(request):
+    range_header = request.META.get('HTTP_RANGE', '').strip()
+    range_match = range_re.match(range_header)
+    size = os.path.getsize('movie/main.mp4')
+    content_type, encoding = mimetypes.guess_type('movie/main.mp4')
+    content_type = content_type or 'application/octet-stream'
+    if range_match:
+        first_byte, last_byte = range_match.groups()
+        first_byte = int(first_byte) if first_byte else 0
+        last_byte = int(last_byte) if last_byte else size - 1
+        if last_byte >= size:
+            last_byte = size - 1
+        length = last_byte - first_byte + 1
+        resp = StreamingHttpResponse(RangeFileWrapper(open('movie/main.mp4', 'rb'), offset=first_byte, length=length),
+                                     status=206, content_type=content_type)
+        resp['Content-Length'] = str(length)
+        resp['Content-Range'] = 'bytes %s-%s/%s' % (first_byte, last_byte, size)
+    else:
+        resp = StreamingHttpResponse(FileWrapper(open('movie/main.mp4', 'rb')), content_type=content_type)
+        resp['Content-Length'] = str(size)
+    resp['Accept-Ranges'] = 'bytes'
+    return resp
+
+
+##################################################################################################
+
+@login_required
+def search(request):
+    page_num = request.GET.get('page')
+
+    kw = request.GET.get('keyword', '')
+    qs = Movie.objects.filter()
+    filter_args = {}
+    if kw in genre_idx:
+        filter_args['genre'] = genre_idx.index(kw)
+    else:
+        filter_args['title__startswith'] = kw
+    movies = qs.filter(**filter_args)
+    paginater = Paginator(movies, 12)
+    movies = paginater.get_page(page_num)
+
+    return render(request, 'main/search.html', {'genres': genre_idx, 'movies': movies, 'kw': kw})
